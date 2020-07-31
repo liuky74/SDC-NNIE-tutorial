@@ -66,6 +66,7 @@ public:
         if (m_read_idx == m_write_idx) {
             ret = QUEUE_EMPTY;
         } else {
+            DEBUG_LOG("m_read_idx: %i",m_read_idx);
             read_idx = m_read_idx;
             for (idx = 0; idx < num; idx++) {
                 ptr = m_buff + read_idx * m_item_size;
@@ -87,9 +88,9 @@ public:
 class VideoService {
 private:
     int m_fd_video=-1; //sdc的视频服务句柄
+    long long m_frame_idx=-1;//用于保存取出数据的帧序号
     uint32_t m_yuv_channel_id=0; //yuv视频通道id
     ArrayQueue *m_video_queue; //缓存视频数据的队列
-    int m_duration_num =1; //预处理时控制每次读取多少帧的数据
     int m_stop_reading=0;
 
 
@@ -266,7 +267,8 @@ public:
         return PAS;
     }
 
-    int release_yuv(SDC_YUV_DATA_S *data) {   //请求头
+    int release_yuv(SDC_YUV_DATA_S *data) {
+        /*释放数据,sdc有一套自己的内存管理方法,对于sdc自己调用的内存,必须申请sdc去释放.*/
         SDC_COMMON_HEAD_S head;
         head.version = SDC_VERSION;
         head.url = SDC_URL_YUV_DATA;
@@ -295,6 +297,7 @@ public:
         /*编写申请头*/
         SDC_COMMON_HEAD_S *common_head = (SDC_COMMON_HEAD_S *) buf;
         while(!m_stop_reading){
+            usleep(1000);
             ret = read(m_fd_video, buf, sizeof(buf));
             if (ret < 0) {
                 DEBUG_LOG("WARN:read yuv channel data from camara fail.response:%d,url:%d,code:%d, method:%d",
@@ -315,11 +318,11 @@ public:
                         yuv_data = (SDC_YUV_DATA_S *) (buf + common_head->head_length);
                         /*将数据放入队列中*/
                         for (idx = 0; idx < yuv_data_num; idx++) {
-                            ret = m_video_queue->put(yuv_data+idx);
+                            ret = m_video_queue->put(&yuv_data[idx]);
                             /*放入失败时(比如队列已满)则直接释放sdc上的内存*/
                             if (ret < 0) {
                                 DEBUG_LOG("WARN:save yuv_data in queue failed, release data and continue.");
-                                release_yuv(yuv_data + idx);
+                                release_yuv(&yuv_data[idx]);
                             }
                         }
                     } else {
@@ -331,67 +334,23 @@ public:
                     DEBUG_LOG("get respost url is not SDC_URL_YUV_DATA");
                 }
             }
-            usleep(1000);
         }
         DEBUG_LOG("INFO: Reading stopped.");
         return NULL ;
     }
-
-    int preprocess() {
-        /*将从摄像头中读取的YUV_420SP格式的数据转为RGB,并处理为想要的格式*/
-        int idx,idx_diff;
-        /*frame_idx用于保存当前循环取出的视频帧序号,old_frame_idx用于保存上一次循环的视频帧序号
-         * 两者的差值就是无法重用内存的数据*/
-        long long frame_idx=0,old_frame_idx=-1;
-        SDC_YUV_DATA_S yuv_data[m_duration_num];
-        SDC_YUV_FRAME_S yuv_rgb[m_duration_num];
-        VW_YUV_FRAME_S rgb_img_s[m_duration_num];
+    int get_data_from_queue(SDC_YUV_DATA_S* yuv_data,int duration_num){
+        /*将保存在queue中的YUV_420SP格式的数据取出,并放入指针指向的内存空间中
+         * yuv_data 用于保存数据的指针
+         * duration_num 需要连续取多少帧,注意yuv_data的内从空间必须大于duration_num*sizeof(SDC_YUV_DATA_S)
+         * */
         int ret;
-        while (!m_stop_reading) {
-            /*获取duration_num帧数据保存在yuv_data中,同时保存帧编号frame_idx*/
-            ret = m_video_queue->get(&yuv_data,m_duration_num,&frame_idx);
-            if (ret == PAS) {
-                if(old_frame_idx==-1){//第一次启动时不存在能够重用的数据
-                    old_frame_idx = frame_idx;
-                }
-                idx_diff = int(frame_idx - old_frame_idx);
-                old_frame_idx = frame_idx;
-                //释放不需要重用的sdc内存
-                for(idx = 0;idx<idx_diff;idx++){
-                    ret = SDC_TransYUV2RGBRelease(fd_algorithm,&yuv_rgb[idx]);
-                    if (ret < 0) {
-                        printf("ERR: SDC_TransYUV2RGBRelease failed, ret is: %i.\n",ret);
-                    }
-                }
-                //将可以重用的数据前移
-                for(idx = idx_diff;idx<m_duration_num;idx++){
-                    yuv_rgb[idx - idx_diff] = yuv_rgb[idx];
-                }
-
-                // 将新获取的数据转为RGB模式并存入
-                for (idx = (m_duration_num-idx_diff); idx < m_duration_num; idx++) {
-                    ret = SDC_TransYUV2RGB(services_s->fd_algorithm, &yuv_data[idx].frame, &yuv_rgb[idx]);
-                    if (ret < 0) {
-                        printf("ERR: SDC_TransYUV2RGB failed.\n");
-                    }
-                }
-                // 将12帧进行地址映射
-                for (int i = 0; i < m_duration_num; i++) {
-                    SDC_Struct2RGB(&yuv_rgb[i], &rgb_img_s[i]);
-                }
-                //原始YUV420SP数据释放
-                ret = vi_release_yuv(services_s->fd_video, &yuv_data[0]);
-                if (ret < 0) {
-                    printf("ERR: vi_release_yuv failed.\n");
-                }
-
-            } else printf("WARN: queue_get failed, ret is: %i\n", ret);
-
-            usleep(5000);
+        ret = m_video_queue->get(yuv_data,duration_num,&m_frame_idx);
+        /*取数据是有可能失败的,比如队列中为空时,但是队列为空并不表示程序出错*/
+        if (ret == QUEUE_EMPTY) {
+            DEBUG_LOG("WARN: queue is empty, get data from queue failed,ret is: %i",ret);
         }
+        return ret;
     }
-
-
 
 };
 
@@ -400,18 +359,33 @@ int main() {
     ArrayQueue array_queue(25, sizeof(SDC_YUV_DATA_S));
     /* 构造函数会执行 注册服务 + 申请yuv_channel id + 导入队列*/
     VideoService video_service(&array_queue);
-
     //设定视频通道的参数
-    video_service.set_yuv_channel_param(640, 480, 12);
+    video_service.set_yuv_channel_param(640, 480, 25);
     //订阅数据
-    video_service.subscribe_video(30);
-    //将订阅的数据保存到数组队列中
+    video_service.subscribe_video(25);
+    //使用线程将订阅的数据不停的保存到数组队列中
     std::thread video_thread(&VideoService::read_camera_data_run,&video_service);
+    //取出数据并释放
+    int duration_num=1;//每次只取一帧数据
+    SDC_YUV_DATA_S yuv_data[duration_num];
+    int loop_condition=1,ret;
 
+    while(loop_condition){
+        ret=video_service.get_data_from_queue(yuv_data,duration_num);
+        /*如果能正常取出数据,则打印数据的内存地址*/
+        if (ret==PAS){
+            DEBUG_LOG("addr_virt: %lu",yuv_data[0].frame.addr_virt);
+            /*释放数据的内存空间,注意因为我们只取了一帧数据所以释放时是单个元素释放*/
+            video_service.release_yuv(&yuv_data[0]);
+        }
+        //我们一秒取25帧,也就是40000微妙一帧,为了更好的观测到队列为空时的返回值,所以延迟30000微妙
+        usleep(30000);
+
+    }
 
     while (1){
         sleep(5);
     }
 
-    printf("hello\n");
+    printf("End\n");
 }
