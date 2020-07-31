@@ -1,1 +1,0 @@
-/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-g++  -g   CMakeFiles/NNIE_tutorial.dir/main.cpp.o  -o NNIE_tutorial -lpthread -lm -ldl 
