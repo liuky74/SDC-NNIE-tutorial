@@ -62,19 +62,19 @@ public:
         int ret = PAS;
         int idx, read_idx;
         void *ptr;
-        if (m_read_idx == m_write_idx) {
+        if ((m_read_idx == m_write_idx) || (m_write_idx + m_capacity - m_read_idx) % m_capacity < num) {
             ret = QUEUE_EMPTY;
         } else {
-            DEBUG_LOG("m_read_idx: %i",m_read_idx);
+            DEBUG_LOG("m_read_idx: %i", m_read_idx);
             read_idx = m_read_idx;
             for (idx = 0; idx < num; idx++) {
                 ptr = m_buff + read_idx * m_item_size;
-                memcpy(item, ptr, m_item_size);
+                memcpy((char*)item+idx*m_item_size, ptr, m_item_size);
                 read_idx = (m_capacity + read_idx + 1) % m_capacity;
             }
             /*在连续取数据的情况下read指针也只+1*/
             m_read_idx = (m_capacity + m_read_idx + 1) % m_capacity;
-            if (data_idx!=NULL){
+            if (data_idx != NULL) {
                 *data_idx = m_data_idx;
             }
         }
