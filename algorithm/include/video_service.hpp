@@ -20,6 +20,8 @@ private:
 public:
     explicit VideoService(ArrayQueue *video_queue);
 
+    int get_fd();
+
     void stop_reading();
 
     int service_register();

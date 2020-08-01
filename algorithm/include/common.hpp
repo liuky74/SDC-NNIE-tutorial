@@ -18,6 +18,7 @@
 
 #include <stdio.h>
 #include <fcntl.h>
+#include <cstdlib>
 
 
 #endif //NNIE_TUTORIAL_COMMON_HPP

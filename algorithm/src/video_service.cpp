@@ -19,8 +19,16 @@ VideoService::VideoService(ArrayQueue *video_queue) {
     m_frame_idx=-1;//用于保存取出数据的帧序号
     m_yuv_channel_id=0; //yuv视频通道id
     m_stop_reading=0;
-    service_register();
-    get_yuv_channel_id();
+    if(service_register()<0){
+        exit(0);
+    };
+    if(get_yuv_channel_id()<0){
+        exit(0);
+    };
+}
+
+int VideoService::get_fd() {
+    return m_fd_video;
 }
 
 int VideoService::service_register() {

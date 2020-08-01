@@ -31,6 +31,7 @@ typedef unsigned long long		UINT64;
 */
 #define SDC_URL_YUV_CHANNEL 	0x00//通道URL
 #define SDC_URL_YUV_DATA		0x01//数据URL
+#define SDC_URL_YUV_TRAN        0x03//转换URL
 
 #define SDC_HEAD_YUV_CACHED_COUNT_MAX 	0x01
 
