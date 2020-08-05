@@ -244,7 +244,7 @@ extern "C" {
 #define HISI_MAX_SENSOR_NUM             2
 
 /* For VI */
-/* number of channle and device on Part_1 input unit of chip
+/* number of channle and device on video input unit of chip
  * Note! VI_MAX_CHN_NUM is NOT equal to VI_MAX_DEV_NUM
  * multiplied by VI_MAX_CHN_NUM, because all VI devices
  * can't work at mode of 4 channles at the same time.

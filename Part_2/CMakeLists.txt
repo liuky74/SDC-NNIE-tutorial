@@ -12,8 +12,7 @@ file(GLOB SRCS
         src/utils_service.cpp
         src/algorithm_service.cpp
         src/array_queue.cpp
-#        src/chapter2_main.cpp
-        src/chapter3_main.cpp
+        src/main.cpp
         src/video_service.cpp
         )
 

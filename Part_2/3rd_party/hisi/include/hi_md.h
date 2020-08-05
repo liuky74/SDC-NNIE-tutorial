@@ -27,7 +27,7 @@ extern "C" {
 #endif
 #endif
 /*
-* Definition md Part_2 mode
+* Definition md algorithm mode
 */
 typedef enum hiMD_ALG_MODE_E {
     MD_ALG_MODE_BG = 0x0,  /* Base on background image */
@@ -39,7 +39,7 @@ typedef enum hiMD_ALG_MODE_E {
 * Definition of md attribute
 */
 typedef struct hiMD_ATTR_S {
-    MD_ALG_MODE_E enAlgMode;         /* Md Part_2 mode */
+    MD_ALG_MODE_E enAlgMode;         /* Md algorithm mode */
     IVE_SAD_MODE_E enSadMode;        /* Sad mode */
     IVE_SAD_OUT_CTRL_E enSadOutCtrl; /* Sad output ctrl */
     HI_U32 u32Width;                 /* Image width */

@@ -32,7 +32,7 @@ Function List :
 
 typedef enum {
     OUTPUT_MODE_CSI            = 0x0,              /* csi mode */
-    OUTPUT_MODE_DSI_VIDEO      = 0x1,              /* dsi Part_1 mode */
+    OUTPUT_MODE_DSI_VIDEO      = 0x1,              /* dsi video mode */
     OUTPUT_MODE_DSI_CMD        = 0x2,              /* dsi command mode */
 
     OUTPUT_MODE_BUTT

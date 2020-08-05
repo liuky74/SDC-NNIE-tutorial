@@ -89,7 +89,7 @@ typedef struct hiPCIV_PIC_ATTR_S {
     HI_U32          u32Width;        /*  pciture width of pciv channel  */
     HI_U32          u32Height;       /*  picture height of pciv channel  */
     HI_U32          u32Stride[3];    /*  pciture stride of pciv channel  */
-    VIDEO_FIELD_E   u32Field;        /*  Part_1 frame field type of pciv channel  */
+    VIDEO_FIELD_E   u32Field;        /*  video frame field type of pciv channel  */
     PIXEL_FORMAT_E  enPixelFormat;   /*  pixel format of pciture of pciv channel  */
     DYNAMIC_RANGE_E enDynamicRange;  /*   */
     COMPRESS_MODE_E enCompressMode;  /*   */
@@ -106,14 +106,14 @@ typedef struct hiPCIV_ATTR_S {
     PCIV_REMOTE_OBJ_S   stRemoteObj;                  /*  remote pciv object  */
 } PCIV_ATTR_S;
 
-/*  max count of Part_1 buffer block for pci window  */
+/*  max count of video buffer block for pci window  */
 #define PCIV_MAX_VBCOUNT 8
 
-/*  mpp Part_1 buffer config for pci window  */
+/*  mpp video buffer config for pci window  */
 typedef struct hiPCIV_WINVBCFG_S {
-    HI_U32 u32PoolCount;                   /*  total number of Part_1 buffer pool   */
-    HI_U32 u32BlkSize[PCIV_MAX_VBCOUNT];  /*  size of Part_1 buffer pool  */
-    HI_U32 u32BlkCount[PCIV_MAX_VBCOUNT]; /*  number of Part_1 buffer pool  */
+    HI_U32 u32PoolCount;                   /*  total number of video buffer pool   */
+    HI_U32 u32BlkSize[PCIV_MAX_VBCOUNT];  /*  size of video buffer pool  */
+    HI_U32 u32BlkCount[PCIV_MAX_VBCOUNT]; /*  number of video buffer pool  */
 } PCIV_WINVBCFG_S;
 
 typedef struct hiPCIV_BASEWINDOW_S {

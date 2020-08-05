@@ -286,23 +286,23 @@ typedef enum hiHDMI_EXT_COLORIMETRY_E {
 
 /* see EIA-CEA-861-D/F */
 typedef enum hiHDMI_RGB_QUAN_RAGE_E {
-    HDMI_RGB_QUANTIZATION_DEFAULT_RANGE,    /* Defaulr range, it depends on the Part_1 format */
-    HDMI_RGB_QUANTIZATION_LIMITED_RANGE,    /* Limited quantization range of 220 levels when receiving a CE Part_1 format */
-    HDMI_RGB_QUANTIZATION_FULL_RANGE,       /* Full quantization range of 256 levels when receiving an IT Part_1 format */
+    HDMI_RGB_QUANTIZATION_DEFAULT_RANGE,    /* Defaulr range, it depends on the video format */
+    HDMI_RGB_QUANTIZATION_LIMITED_RANGE,    /* Limited quantization range of 220 levels when receiving a CE video format */
+    HDMI_RGB_QUANTIZATION_FULL_RANGE,       /* Full quantization range of 256 levels when receiving an IT video format */
     HDMI_RGB_QUANTIZATION_FULL_RESERVED
 } HI_HDMI_RGB_QUAN_RAGE_E;
 
 /* see EIA-CEA-861-D/F */
 typedef enum hiHDMI_YCC_QUAN_RAGE_E {
-    HDMI_YCC_QUANTIZATION_LIMITED_RANGE,    /* Limited quantization range of 220 levels when receiving a CE Part_1 format */
-    HDMI_YCC_QUANTIZATION_FULL_RANGE,       /* Full quantization range of 256 levels when receiving an IT Part_1 format */
+    HDMI_YCC_QUANTIZATION_LIMITED_RANGE,    /* Limited quantization range of 220 levels when receiving a CE video format */
+    HDMI_YCC_QUANTIZATION_FULL_RANGE,       /* Full quantization range of 256 levels when receiving an IT video format */
     HDMI_YCC_QUANTIZATION_RESERVED_2,
     HDMI_YCC_QUANTIZATION_RESERVED_3
 } HI_HDMI_YCC_QUAN_RAGE_E;
 
 typedef enum hiHDMI_QUANTIZATION_E {
-    HDMI_QUANTIZATION_LIMITED_RANGE,    /* Limited quantization range of 220 levels when receiving a CE Part_1 format */
-    HDMI_QUANTIZATION_FULL_RANGE,       /* Full quantization range of 256 levels when receiving an IT Part_1 format */
+    HDMI_QUANTIZATION_LIMITED_RANGE,    /* Limited quantization range of 220 levels when receiving a CE video format */
+    HDMI_QUANTIZATION_FULL_RANGE,       /* Full quantization range of 256 levels when receiving an IT video format */
     HDMI_QUANTIZATION_BUTT
 } HI_HDMI_QUANTIZATION_E;
 
@@ -374,8 +374,8 @@ typedef enum hiHDMI_AUDIO_SPEAKER_E {
 
 typedef enum hiHDMI_FORCE_ACTION_E {
     HI_HDMI_FORCE_NULL,                     /* Standard mode */
-    HI_HDMI_FORCE_HDMI,                     /* Forcibly output Part_1 in HDMI mode */
-    HI_HDMI_FORCE_DVI,                      /* Forcibly output Part_1 in DVI mode */
+    HI_HDMI_FORCE_HDMI,                     /* Forcibly output video in HDMI mode */
+    HI_HDMI_FORCE_DVI,                      /* Forcibly output video in DVI mode */
     HI_HDMI_INIT_BOOT_CONFIG                /* Test Only */
 } HI_HDMI_FORCE_ACTION_E;
 
@@ -505,11 +505,11 @@ typedef struct hiHDMI_SINK_CAPABILITY_S {
 
     HI_BOOL             bI_Latency_Fields_Present;                                        /* Delay flag bit. */
     HI_BOOL             bLatency_Fields_Present;                                          /* whether Video_Latency and Audio_Latency fields are present */
-    HI_BOOL             bHDMI_Video_Present;                                              /* Special Part_1 format */
+    HI_BOOL             bHDMI_Video_Present;                                              /* Special video format */
     HI_U8               u8Video_Latency;                                                  /* Video delay */
     HI_U8               u8Audio_Latency;                                                  /* Audio delay */
-    HI_U8               u8Interlaced_Video_Latency;                                       /* Video delay in interlaced Part_1 mode */
-    HI_U8               u8Interlaced_Audio_Latency;                                       /* Audio delay in interlaced Part_1 mode */
+    HI_U8               u8Interlaced_Video_Latency;                                       /* Video delay in interlaced video mode */
+    HI_U8               u8Interlaced_Audio_Latency;                                       /* Audio delay in interlaced video mode */
     HI_BOOL             bSupportY420DC30Bit;                                              /* Whether to support the YUV420 deep-color 30-bit mode. */
     HI_BOOL             bSupportY420DC36Bit;                                              /* Whether to support the YUV420 deep-color 36-bit mode. */
     HI_BOOL             bSupportY420DC48Bit;                                              /* Whether to support the YUV420 deep-color 48-bit mode. */
@@ -525,12 +525,12 @@ typedef struct hiHDMI_SINK_CAPABILITY_S {
 } HI_HDMI_SINK_CAPABILITY_S;
 
 typedef struct hiHDMI_ATTR_S {
-    HI_BOOL                 bEnableHdmi;         /* Whether to forcibly output the Part_1 over the HDMI. */
+    HI_BOOL                 bEnableHdmi;         /* Whether to forcibly output the video over the HDMI. */
 
-    HI_BOOL                 bEnableVideo;        /* Whether to output Part_1.The value must be HI_TRUE.If the value is HI_FALSE, the HDMI is forcibly set to HI_TRUE. */
-    HI_HDMI_VIDEO_FMT_E     enVideoFmt;          /* Video norm. This value of the Part_1 norm must be consistent with the norm of the Part_1 output. */
-    HI_HDMI_VIDEO_MODE_E    enVidInMode;         /* HDMI input Part_1 input mode.VIDEO_MODE_YCBCR444,VIDEO_MODE_YCBCR422,VIDEO_MODE_YCBCR420,VIDEO_MODE_RGB444 */
-    HI_HDMI_VIDEO_MODE_E    enVidOutMode;        /* HDMI output Part_1 output mode.VIDEO_MODE_YCBCR444,VIDEO_MODE_YCBCR422,VIDEO_MODE_YCBCR420,VIDEO_MODE_RGB444 */
+    HI_BOOL                 bEnableVideo;        /* Whether to output video.The value must be HI_TRUE.If the value is HI_FALSE, the HDMI is forcibly set to HI_TRUE. */
+    HI_HDMI_VIDEO_FMT_E     enVideoFmt;          /* Video norm. This value of the video norm must be consistent with the norm of the video output. */
+    HI_HDMI_VIDEO_MODE_E    enVidInMode;         /* HDMI input video input mode.VIDEO_MODE_YCBCR444,VIDEO_MODE_YCBCR422,VIDEO_MODE_YCBCR420,VIDEO_MODE_RGB444 */
+    HI_HDMI_VIDEO_MODE_E    enVidOutMode;        /* HDMI output video output mode.VIDEO_MODE_YCBCR444,VIDEO_MODE_YCBCR422,VIDEO_MODE_YCBCR420,VIDEO_MODE_RGB444 */
     HI_HDMI_QUANTIZATION_E  enOutCscQuantization; /* CSC output quantization range HDMI_QUANTIZATION_RANGE_LIMITED, HDMI_QUANTIZATION_RANGE_FULL>* */
     HI_HDMI_DEEP_COLOR_E    enDeepColorMode;     /* DeepColor output mode.It is HI_HDMI_DEEP_COLOR_24BIT by default. */
     HI_BOOL                 bxvYCCMode;          /* Whether to enable the xvYCC output mode.It is HI_FALSE by default. */
@@ -554,7 +554,7 @@ typedef struct hiHDMI_ATTR_S {
 
     HI_BOOL                 b3DEnable;           /* Whether to enable 3D mode. 0: disabled 1: enabled */
     HI_U8                   u83DParam;           /* 3D Parameter. The default value is 9. */
-    HI_HDMI_FORCE_ACTION_E  enDefaultMode;       /* When get capability fail,HDMI forcily(priority) judgments output Part_1 mode.Default is HI_HDMI_FORCE_HDMI. */
+    HI_HDMI_FORCE_ACTION_E  enDefaultMode;       /* When get capability fail,HDMI forcily(priority) judgments output video mode.Default is HI_HDMI_FORCE_HDMI. */
     HI_BOOL                 bAuthMode;           /* Whether to enable auth mode. 0: disabled 1: enabled */
     HI_BOOL                 bEnableVidModeAdapt; /* Enable flag of vedio mode & DVI adapting case of user setting incorrect,default:HI_TRUE.When user have no any adapting strategy,suggestion HI_TRUE */
     HI_BOOL                 bEnableDeepClrAdapt; /* Enable flag of deep color mode adapting case of user setting incorrect,default: HI_FALSE.When user have no any adapting strategy,suggestion HI_TRUE */
@@ -715,7 +715,7 @@ typedef struct hiUNF_HDMI_INFOFRAME_S {
 #define CEC_OPCODE_IMAGE_VIEW_ON                  0X04  /* Image View On> Sent by a source device to the TV whenever it enters the active state (alternatively it may send <Text View On>). */
 #define CEC_OPCODE_TEXT_VIEW_ON                   0X0D  /* Text View On> As <Image View On>, but should also remove any text, menus and PIP windows from the TV's display. */
 /* Routing Control Feature */
-#define CEC_OPCODE_INACTIVE_SOURCE                0X9D  /* Inactive Source> Used by the currently active source to inform the TV that it has no Part_1 to be presented to the user, or is going into standby as the result of a local user command on the device. */
+#define CEC_OPCODE_INACTIVE_SOURCE                0X9D  /* Inactive Source> Used by the currently active source to inform the TV that it has no video to be presented to the user, or is going into standby as the result of a local user command on the device. */
 #define CEC_OPCODE_REQUEST_ACTIVE_SOURCE          0X85  /* Request Active Source> Used by a new device to discover the status of the system. */
 #define CEC_OPCODE_ROUTING_CHANGE                 0X80  /* Routing Change> Sent by a CEC Switch when it is manually switched to inform all other devices on the network that the active route below the switch has changed. */
 #define CEC_OPCODE_ROUTING_INFORMATION            0X81  /* Routing Information> Sent by a CEC Switch to indicate the active route below the switch. */

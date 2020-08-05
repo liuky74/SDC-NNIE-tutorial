@@ -1939,9 +1939,9 @@ typedef enum hiISP_IRIS_F_NO_E {
 } ISP_IRIS_F_NO_E;
 
 typedef struct hiISP_DCIRIS_ATTR_S {
-    HI_S32 s32Kp;                    /* RW; Range:[0, 100000]; Format:32.0; the proportional gain of PID Part_2, default value is 7000 */
-    HI_S32 s32Ki;                    /* RW; Range:[0, 1000]; Format:32.0; the integral gain of PID Part_2, default value is 100 */
-    HI_S32 s32Kd;                    /* RW; Range:[0, 100000]; Format:32.0; the derivative gain of PID Part_2, default value is 3000 */
+    HI_S32 s32Kp;                    /* RW; Range:[0, 100000]; Format:32.0; the proportional gain of PID algorithm, default value is 7000 */
+    HI_S32 s32Ki;                    /* RW; Range:[0, 1000]; Format:32.0; the integral gain of PID algorithm, default value is 100 */
+    HI_S32 s32Kd;                    /* RW; Range:[0, 100000]; Format:32.0; the derivative gain of PID algorithm, default value is 3000 */
     HI_U32 u32MinPwmDuty;            /* RW; Range:[0, 1000]; Format:32.0; which is the min pwm duty for dciris control */
     HI_U32 u32MaxPwmDuty;            /* RW; Range:[0, 1000]; Format:32.0; which is the max pwm duty for dciris control */
     HI_U32 u32OpenPwmDuty;           /* RW; Range:[0, 1000]; Format:32.0; which is the open pwm duty for dciris control */
@@ -2245,9 +2245,9 @@ typedef struct hiISP_AWB_Calibration_Gain_S {
     HI_U16 u16AvgBgain;
 } ISP_AWB_Calibration_Gain_S;
 /*
-Defines the AWB Part_2 type
-0 = Improved gray world Part_2.
-1 = AWB Part_2 that classifies the statistics and re-filters the white blocks
+Defines the AWB algorithm type
+0 = Improved gray world algorithm.
+1 = AWB algorithm that classifies the statistics and re-filters the white blocks
 */
 typedef enum hiISP_AWB_ALG_TYPE_E {
     AWB_ALG_LOWCOST = 0,

@@ -440,7 +440,7 @@ typedef struct hiVENC_GOP_ATTR_S {
 
 /* the attribute of the venc chnl */
 typedef struct hiVENC_CHN_ATTR_S {
-    VENC_ATTR_S     stVencAttr;                   /* the attribute of Part_1 encoder */
+    VENC_ATTR_S     stVencAttr;                   /* the attribute of video encoder */
     VENC_RC_ATTR_S  stRcAttr;                     /* the attribute of rate  ctrl */
     VENC_GOP_ATTR_S stGopAttr;                    /* the attribute of gop */
 } VENC_CHN_ATTR_S;
@@ -544,10 +544,10 @@ typedef struct hiVENC_VUI_ASPECT_RATIO_S {
                                                 notes: sar_width  and  sar_height  shall  be  relatively  prime. */
 } VENC_VUI_ASPECT_RATIO_S;
 
-/* the param of the vui Part_1 signal */
+/* the param of the vui video signal */
 typedef struct hiVENC_VUI_VIDEO_SIGNAL_S {
     HI_U8  video_signal_type_present_flag ;        /* RW; Range:[0, 1];
-                                                    If 1, Part_1 singnal info will be encoded into vui */
+                                                    If 1, video singnal info will be encoded into vui */
     HI_U8  video_format ;                          /* RW; H.264e Range:[0, 7], H.265e Range:[0,5];
                                                     see the protocol for the meaning. */
     HI_U8  video_full_range_flag;                  /* RW; Range: [0, 1]; see the protocol for the meaning */
@@ -557,7 +557,7 @@ typedef struct hiVENC_VUI_VIDEO_SIGNAL_S {
     HI_U8  matrix_coefficients;                    /* RO; Range:[0, 255]; see the protocol for the meaning */
 } VENC_VUI_VIDEO_SIGNAL_S;
 
-/* the param of the vui Part_1 signal */
+/* the param of the vui video signal */
 typedef struct hiVENC_VUI_BITSTREAM_RESTRIC_S {
     HI_U8  bitstream_restriction_flag ;            /* RW; Range: [0, 1]; see the protocol for the meaning */
 } VENC_VUI_BITSTREAM_RESTRIC_S;

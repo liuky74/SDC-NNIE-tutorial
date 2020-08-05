@@ -196,7 +196,7 @@ typedef enum hiVIDEO_FIELD_E {
 } VIDEO_FIELD_E;
 
 typedef enum hiVIDEO_FORMAT_E {
-    VIDEO_FORMAT_LINEAR = 0,       /* nature Part_1 line */
+    VIDEO_FORMAT_LINEAR = 0,       /* nature video line */
     VIDEO_FORMAT_TILE_64x16,       /* tile cell: 64pixel x 16line */
     VIDEO_FORMAT_TILE_16x8,        /* tile cell: 16pixel x 8line */
     VIDEO_FORMAT_LINEAR_DISCRETE,  /* The data bits are aligned in bytes */

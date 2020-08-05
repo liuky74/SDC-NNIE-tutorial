@@ -1,6 +1,6 @@
 /*
 * Copyright (c) Hisilicon Technologies Co., Ltd. 2012-2019. All rights reserved.
-* Description:Common defination Of Part_1 decode
+* Description:Common defination Of video decode
 * Author: Hisilicon multimedia software group
 * Create: 2016/07/15
 */
@@ -39,7 +39,7 @@ typedef struct hiVDEC_ATTR_VIDEO_S {
 } VDEC_ATTR_VIDEO_S;
 
 typedef struct hiVDEC_CHN_ATTR_S {
-    PAYLOAD_TYPE_E enType; /* RW; Part_1 type to be decoded   */
+    PAYLOAD_TYPE_E enType; /* RW; video type to be decoded   */
     VIDEO_MODE_E enMode; /* RW; send by stream or by frame */
     HI_U32 u32PicWidth; /* RW; max pic width */
     HI_U32 u32PicHeight; /* RW; max pic height */
@@ -47,7 +47,7 @@ typedef struct hiVDEC_CHN_ATTR_S {
     HI_U32 u32FrameBufSize; /* RW; frame buffer size(Byte) */
     HI_U32 u32FrameBufCnt;
     union {
-        VDEC_ATTR_VIDEO_S stVdecVideoAttr; /* structure with Part_1 ( h264/h265) */
+        VDEC_ATTR_VIDEO_S stVdecVideoAttr; /* structure with video ( h264/h265) */
     };
 } VDEC_CHN_ATTR_S;
 
@@ -80,7 +80,7 @@ typedef struct hi_VDEC_DECODE_ERROR_S {
 } VDEC_DECODE_ERROR_S;
 
 typedef struct hiVDEC_CHN_STATUS_S {
-    PAYLOAD_TYPE_E enType; /* R; Part_1 type to be decoded */
+    PAYLOAD_TYPE_E enType; /* R; video type to be decoded */
     HI_U32 u32LeftStreamBytes; /* R; left stream bytes waiting for decode */
     HI_U32 u32LeftStreamFrames; /* R; left frames waiting for decode,only valid for VIDEO_MODE_FRAME */
     HI_U32 u32LeftPics; /* R; pics waiting for output */
@@ -113,7 +113,7 @@ typedef struct hiVDEC_PARAM_VIDEO_S {
     VIDEO_OUTPUT_ORDER_E enOutputOrder; /* RW; */
     /* frames output order ,0: the same with display order , 1: the same width decoder order */
     COMPRESS_MODE_E enCompressMode; /* RW; compress mode */
-    VIDEO_FORMAT_E enVideoFormat; /* RW; Part_1 format */
+    VIDEO_FORMAT_E enVideoFormat; /* RW; video format */
 } VDEC_PARAM_VIDEO_S;
 
 typedef struct hiVDEC_PARAM_PICTURE_S {
@@ -125,10 +125,10 @@ typedef struct hiVDEC_PARAM_PICTURE_S {
 } VDEC_PARAM_PICTURE_S;
 
 typedef struct hiVDEC_CHN_PARAM_S {
-    PAYLOAD_TYPE_E enType; /* RW; Part_1 type to be decoded   */
+    PAYLOAD_TYPE_E enType; /* RW; video type to be decoded   */
     HI_U32 u32DisplayFrameNum; /* RW, Range: [0, 16]; display frame num */
     union {
-        VDEC_PARAM_VIDEO_S stVdecVideoParam; /* structure with Part_1 ( h265/h264) */
+        VDEC_PARAM_VIDEO_S stVdecVideoParam; /* structure with video ( h265/h264) */
         VDEC_PARAM_PICTURE_S stVdecPictureParam; /* structure with picture (jpeg/mjpeg ) */
     };
 } VDEC_CHN_PARAM_S;
@@ -147,7 +147,7 @@ typedef struct hiH265_PRTCL_PARAM_S {
 } H265_PRTCL_PARAM_S;
 
 typedef struct hiVDEC_PRTCL_PARAM_S {
-    PAYLOAD_TYPE_E enType; /* RW; Part_1 type to be decoded, only h264 and h265 supported */
+    PAYLOAD_TYPE_E enType; /* RW; video type to be decoded, only h264 and h265 supported */
     union {
         H264_PRTCL_PARAM_S stH264PrtclParam; /* protocol param structure for h264 */
         H265_PRTCL_PARAM_S stH265PrtclParam; /* protocol param structure for h265 */

@@ -67,7 +67,7 @@ typedef enum hiEN_VI_ERR_CODE_E {
     ERR_VI_FAILED_NOTDISABLE,           /* device not disable */
     ERR_VI_FAILED_CHNOTDISABLE,         /* channel not disable */
     ERR_VI_CFG_TIMEOUT,                 /* config timeout */
-    ERR_VI_NORM_UNMATCH,                /* Part_1 norm of ADC and VIU is unmatch */
+    ERR_VI_NORM_UNMATCH,                /* video norm of ADC and VIU is unmatch */
     ERR_VI_INVALID_WAYID,               /* invlalid way ID */
     ERR_VI_INVALID_PHYCHNID,            /* invalid phychn id */
     ERR_VI_FAILED_NOTBIND,              /* device or channel not bind */
@@ -103,7 +103,7 @@ typedef enum hiEN_VI_ERR_CODE_E {
 #define HI_ERR_VI_PIPE_EXIST          HI_DEF_ERR(HI_ID_VI, EN_ERR_LEVEL_ERROR, EN_ERR_EXIST)
 #define HI_ERR_VI_PIPE_UNEXIST        HI_DEF_ERR(HI_ID_VI, EN_ERR_LEVEL_ERROR, EN_ERR_UNEXIST)
 
-/* interface mode of Part_1 input */
+/* interface mode of video input */
 typedef enum hiVI_INTF_MODE_E {
     VI_MODE_BT656 = 0,              /* ITU-R BT.656 YUV4:2:2 */
     VI_MODE_BT656_PACKED_YUV,       /* ITU-R BT.656 packed YUV4:2:2 */
@@ -458,7 +458,7 @@ typedef struct hiVI_PIPE_ATTR_S {
     HI_BOOL               bSharpenEn;             /* RW;Range:[0, 1];Sharpen enable */
     FRAME_RATE_CTRL_S     stFrameRate;            /* RW;Frame rate */
     HI_BOOL               bDiscardProPic;         /* RW;Range:[0, 1];when professional mode snap, whether to discard
-                                                long exposure picture in the Part_1 pipe. */
+                                                long exposure picture in the video pipe. */
 } VI_PIPE_ATTR_S;
 
 typedef enum hiVI_STITCH_ISP_CFG_MODE_E {
@@ -696,7 +696,7 @@ typedef struct hiVI_CHN_ATTR_S {
 /* The status of pipe */
 typedef struct hiVI_PIPE_STATUS_S {
     HI_BOOL bEnable;                        /* RO;Whether this pipe is enabled */
-    HI_U32  u32IntCnt;                      /* RO;The Part_1 frame interrupt count */
+    HI_U32  u32IntCnt;                      /* RO;The video frame interrupt count */
     HI_U32  u32FrameRate;                   /* RO;Current frame rate */
     HI_U32  u32LostFrame;                   /* RO;Lost frame count */
     HI_U32  u32VbFail;                      /* RO;Video buffer malloc failure */

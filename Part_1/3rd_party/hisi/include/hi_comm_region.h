@@ -25,9 +25,9 @@ extern "C" {
 typedef HI_U32 RGN_HANDLE;
 typedef HI_U32 RGN_HANDLEGROUP;
 
-/* type of Part_1 regions */
+/* type of video regions */
 typedef enum hiRGN_TYPE_E {
-    OVERLAY_RGN = 0, /* Part_1 overlay region */
+    OVERLAY_RGN = 0, /* video overlay region */
     COVER_RGN,
     COVEREX_RGN,
     OVERLAYEX_RGN,
@@ -36,8 +36,8 @@ typedef enum hiRGN_TYPE_E {
 } RGN_TYPE_E;
 
 typedef enum hiINVERT_COLOR_MODE_E {
-    LESSTHAN_LUM_THRESH = 0, /* the lum of the Part_1 is less than the lum threshold which is set by u32LumThresh  */
-    MORETHAN_LUM_THRESH,     /* the lum of the Part_1 is more than the lum threshold which is set by u32LumThresh  */
+    LESSTHAN_LUM_THRESH = 0, /* the lum of the video is less than the lum threshold which is set by u32LumThresh  */
+    MORETHAN_LUM_THRESH,     /* the lum of the video is more than the lum threshold which is set by u32LumThresh  */
     INVERT_COLOR_BUTT
 } INVERT_COLOR_MODE_E;
 

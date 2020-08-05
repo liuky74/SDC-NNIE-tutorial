@@ -1456,9 +1456,9 @@ typedef ISP_IRIS_TYPE_E hi_isp_iris_type;
 typedef ISP_IRIS_F_NO_E hi_isp_iris_f_no;
 
 typedef struct {
-    hi_s32 kp;                      /* RW; Range:[0, 100000]; Format:32.0; the proportional gain of PID Part_2, default value is 7000 */
-    hi_s32 ki;                      /* RW; Range:[0, 1000]; Format:32.0; the integral gain of PID Part_2, default value is 100 */
-    hi_s32 kd;                      /* RW; Range:[0, 100000]; Format:32.0; the derivative gain of PID Part_2, default value is 3000 */
+    hi_s32 kp;                      /* RW; Range:[0, 100000]; Format:32.0; the proportional gain of PID algorithm, default value is 7000 */
+    hi_s32 ki;                      /* RW; Range:[0, 1000]; Format:32.0; the integral gain of PID algorithm, default value is 100 */
+    hi_s32 kd;                      /* RW; Range:[0, 100000]; Format:32.0; the derivative gain of PID algorithm, default value is 3000 */
     hi_u32 min_pwm_duty;            /* RW; Range:[0, 1000]; Format:32.0; which is the min pwm duty for dciris control */
     hi_u32 max_pwm_duty;            /* RW; Range:[0, 1000]; Format:32.0; which is the max pwm duty for dciris control */
     hi_u32 open_pwm_duty;           /* RW; Range:[0, 1000]; Format:32.0; which is the open pwm duty for dciris control */

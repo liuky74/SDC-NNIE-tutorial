@@ -1,6 +1,6 @@
 /*
 * Copyright (c) Hisilicon Technologies Co., Ltd. 2012-2019. All rights reserved.
-* Description: Common defination of Part_1 output
+* Description: Common defination of video output
 * Author: Hisilicon multimedia software group
 * Create: 2016/11/09
 */
@@ -162,7 +162,7 @@ typedef enum hiEN_VOU_ERR_CODE_E {
 #define HI_ERR_VO_GFX_NOT_UNBIND       HI_DEF_ERR(HI_ID_VO, EN_ERR_LEVEL_ERROR, ERR_GFX_NOT_UNBIND)
 #define HI_ERR_VO_GFX_INVALID_ID       HI_DEF_ERR(HI_ID_VO, EN_ERR_LEVEL_ERROR, ERR_GFX_INVALID_ID)
 
-/* VO Part_1 output interface type */
+/* VO video output interface type */
 #define VO_INTF_CVBS                   (0x01L << 0)
 #define VO_INTF_YPBPR                  (0x01L << 1)
 #define VO_INTF_VGA                    (0x01L << 2)
@@ -269,7 +269,7 @@ typedef enum hiVO_CSC_MATRIX_E {
 
 typedef struct hiVO_CHN_ATTR_S {
     HI_U32 u32Priority; /* Video out overlay pri sd */
-    RECT_S stRect; /* Rectangle of Part_1 output channel */
+    RECT_S stRect; /* Rectangle of video output channel */
     HI_BOOL bDeflicker; /* Deflicker or not sd */
 } VO_CHN_ATTR_S;
 
@@ -331,7 +331,7 @@ typedef enum hiVO_WBC_MODE_E {
     VO_WBC_MODE_NORMAL = 0, /* In this mode, wbc will capture frames according to dev frame rate
                                 and wbc frame rate */
     VO_WBC_MODE_DROP_REPEAT, /* In this mode, wbc will drop dev repeat frame, and capture the real frame
-                                according to Part_1 layer's display rate and wbc frame rate */
+                                according to video layer's display rate and wbc frame rate */
     VO_WBC_MODE_PROG_TO_INTL, /* In this mode, wbc will drop dev repeat frame which repeats more than 3 times,
                                 and change two progressive frames to one interlace frame */
     VO_WBC_MODE_BUTT,
@@ -339,7 +339,7 @@ typedef enum hiVO_WBC_MODE_E {
 
 typedef enum hiVO_WBC_SOURCE_TYPE_E {
     VO_WBC_SOURCE_DEV = 0x0, /* WBC source is device */
-    VO_WBC_SOURCE_VIDEO = 0x1, /* WBC source is Part_1 layer */
+    VO_WBC_SOURCE_VIDEO = 0x1, /* WBC source is video layer */
     VO_WBC_SOURCE_GRAPHIC = 0x2, /* WBC source is graphic layer. Warning: not supported */
     VO_WBC_SOURCE_BUTT
 } VO_WBC_SOURCE_TYPE_E;
@@ -357,9 +357,9 @@ typedef enum hiVO_PART_MODE_E {
 
 typedef struct hiVO_VIDEO_LAYER_ATTR_S {
     RECT_S stDispRect; /* RW; Display resolution */
-    SIZE_S stImageSize; /* RW; Canvas size of the Part_1 layer */
+    SIZE_S stImageSize; /* RW; Canvas size of the video layer */
     HI_U32 u32DispFrmRt; /* RW; Display frame rate */
-    PIXEL_FORMAT_E enPixFormat; /* RW; Pixel format of the Part_1 layer */
+    PIXEL_FORMAT_E enPixFormat; /* RW; Pixel format of the video layer */
     HI_BOOL bDoubleFrame; /* RW; Whether to double frames */
     HI_BOOL bClusterMode; /* RW; Whether to take Cluster way to use memory */
     DYNAMIC_RANGE_E enDstDynamicRange; /* RW; Video Layer output dynamic range type */

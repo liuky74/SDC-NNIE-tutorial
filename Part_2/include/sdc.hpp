@@ -23,14 +23,14 @@ typedef signed long long		INT64;
 typedef unsigned long long		UINT64;
 
 /**
-* Part_1.iaas.sdc服务的数据结构定义
+* video.iaas.sdc服务的数据结构定义
 */
 
 /* YUV Channel的数据格式定义*/
 #define SDC_URL_YUV_CHANNEL 	0x00//通道URL
 #define SDC_URL_YUV_DATA		0x01//数据URL
 #define SDC_URL_YUV_TRAN        0x03//转换URL
-/*---Part_2.iaas.sdc---*/
+/*---algorithm.iaas.sdc---*/
 #define SDC_URL_NNIE_MODEL 0x00
 #define SDC_URL_NNIE_FORWARD 0x01
 #define SDC_URL_NNIE_FORWARD_BBOX 0x02

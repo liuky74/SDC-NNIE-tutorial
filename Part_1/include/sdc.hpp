@@ -23,7 +23,7 @@ typedef signed long long		INT64;
 typedef unsigned long long		UINT64;
 
 /**
-* Part_1.iaas.sdc服务的数据结构定义
+* video.iaas.sdc服务的数据结构定义
 */
 
 /**

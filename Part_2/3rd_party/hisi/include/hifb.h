@@ -400,7 +400,7 @@ typedef struct
 struct hifb_info
 {
     struct fb_vtable_s vtable; /* FB interfaces */
-    struct fb_videoinfo_s vinfo;    /* This structure descrides the overall Part_1 controller */
+    struct fb_videoinfo_s vinfo;    /* This structure descrides the overall video controller */
     struct fb_overlayinfo_s oinfo;  /* This structure descrides one overlay */
 #ifdef CONFIG_FB_CMAP
     struct fb_cmap_s cmap; /* Current camp */

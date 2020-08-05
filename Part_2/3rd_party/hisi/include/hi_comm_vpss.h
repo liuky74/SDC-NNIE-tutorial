@@ -348,8 +348,8 @@ typedef struct hiVPSS_NRX_PARAM_AUTO_V1_S {
 /* Only used for Hi3519AV100 */
 typedef struct hiVPSS_NRX_PARAM_V1_S {
     OPERATION_MODE_E           enOptMode;           /* RW;Adaptive NR */
-    VPSS_NRX_PARAM_MANUAL_V1_S stNRXManual;         /* RW;NRX V1 param for manual Part_1 */
-    VPSS_NRX_PARAM_AUTO_V1_S   stNRXAuto;           /* RW;NRX V1 param for auto Part_1 */
+    VPSS_NRX_PARAM_MANUAL_V1_S stNRXManual;         /* RW;NRX V1 param for manual video */
+    VPSS_NRX_PARAM_AUTO_V1_S   stNRXAuto;           /* RW;NRX V1 param for auto video */
 } VPSS_NRX_PARAM_V1_S;
 
 /* Only used for Hi3516CV500/Hi3516AV300/Hi3516DV300/Hi3556V200/Hi3559V200 */
@@ -504,8 +504,8 @@ typedef struct hiVPSS_NRX_PARAM_AUTO_V2_S {
 /* Only used for Hi3516CV500/Hi3516AV300/Hi3516DV300/Hi3556V200/Hi3559V200 */
 typedef struct hiVPSS_NRX_PARAM_V2_S {
     OPERATION_MODE_E           enOptMode;           /* RW;Adaptive NR */
-    VPSS_NRX_PARAM_MANUAL_V2_S stNRXManual;         /* RW;NRX V2 param for manual Part_1 */
-    VPSS_NRX_PARAM_AUTO_V2_S   stNRXAuto;           /* RW;NRX V2 param for auto Part_1 */
+    VPSS_NRX_PARAM_MANUAL_V2_S stNRXManual;         /* RW;NRX V2 param for manual video */
+    VPSS_NRX_PARAM_AUTO_V2_S   stNRXAuto;           /* RW;NRX V2 param for auto video */
 } VPSS_NRX_PARAM_V2_S;
 
 /* Only used for Hi3516EV200 */
@@ -642,8 +642,8 @@ typedef struct hiVPSS_NRX_PARAM_AUTO_V3_S {
 /* Only used for Hi3516EV200 */
 typedef struct hiVPSS_NRX_PARAM_V3_S {
     OPERATION_MODE_E           enOptMode;           /* RW;Adaptive NR */
-    VPSS_NRX_PARAM_MANUAL_V3_S stNRXManual;         /* RW;NRX V3 param for manual Part_1 */
-    VPSS_NRX_PARAM_AUTO_V3_S   stNRXAuto;           /* RW;NRX V3 param for auto Part_1 */
+    VPSS_NRX_PARAM_MANUAL_V3_S stNRXManual;         /* RW;NRX V3 param for manual video */
+    VPSS_NRX_PARAM_AUTO_V3_S   stNRXAuto;           /* RW;NRX V3 param for auto video */
 } VPSS_NRX_PARAM_V3_S;
 
 /* Not support for Hi3559AV100 */

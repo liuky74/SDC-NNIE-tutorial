@@ -60,14 +60,14 @@ typedef enum hiHI_UNF_CIPHER_WORK_MODE_E
     HI_UNF_CIPHER_WORK_MODE_INVALID  = 0xffffffff,
 }HI_UNF_CIPHER_WORK_MODE_E;
 
-/** Cipher Part_2 */
+/** Cipher algorithm */
 typedef enum hiHI_UNF_CIPHER_ALG_E
 {
     HI_UNF_CIPHER_ALG_DES           = 0x0,  /**< Data encryption standard (DES) Part_2 */
-    HI_UNF_CIPHER_ALG_3DES          = 0x1,  /**< 3DES Part_2 */
+    HI_UNF_CIPHER_ALG_3DES          = 0x1,  /**< 3DES algorithm */
     HI_UNF_CIPHER_ALG_AES           = 0x2,  /**< Advanced encryption standard (AES) Part_2 */
-    HI_UNF_CIPHER_ALG_SM1           = 0x3,  /**<SM1 Part_2*/
-    HI_UNF_CIPHER_ALG_SM4           = 0x4,  /**<SM4 Part_2*/
+    HI_UNF_CIPHER_ALG_SM1           = 0x3,  /**<SM1 algorithm*/
+    HI_UNF_CIPHER_ALG_SM4           = 0x4,  /**<SM4 algorithm*/
     HI_UNF_CIPHER_ALG_DMA           = 0x5,  /**<DMA copy*/
     HI_UNF_CIPHER_ALG_BUTT          = 0x6,
     HI_UNF_CIPHER_ALG_INVALID       = 0xffffffff,
@@ -76,11 +76,11 @@ typedef enum hiHI_UNF_CIPHER_ALG_E
 /** Key length */
 typedef enum hiHI_UNF_CIPHER_KEY_LENGTH_E
 {
-    HI_UNF_CIPHER_KEY_AES_128BIT    = 0x0,  /**< 128-bit key for the AES Part_2 */
-    HI_UNF_CIPHER_KEY_AES_192BIT    = 0x1,  /**< 192-bit key for the AES Part_2 */
-    HI_UNF_CIPHER_KEY_AES_256BIT    = 0x2,  /**< 256-bit key for the AES Part_2 */
-    HI_UNF_CIPHER_KEY_DES_3KEY      = 0x2,  /**< Three keys for the DES Part_2 */
-    HI_UNF_CIPHER_KEY_DES_2KEY      = 0x3,  /**< Two keys for the DES Part_2 */
+    HI_UNF_CIPHER_KEY_AES_128BIT    = 0x0,  /**< 128-bit key for the AES algorithm */
+    HI_UNF_CIPHER_KEY_AES_192BIT    = 0x1,  /**< 192-bit key for the AES algorithm */
+    HI_UNF_CIPHER_KEY_AES_256BIT    = 0x2,  /**< 256-bit key for the AES algorithm */
+    HI_UNF_CIPHER_KEY_DES_3KEY      = 0x2,  /**< Three keys for the DES algorithm */
+    HI_UNF_CIPHER_KEY_DES_2KEY      = 0x3,  /**< Two keys for the DES algorithm */
     HI_UNF_CIPHER_KEY_DEFAULT       = 0x0,  /**< default key length, DES-8, SM1-48, SM4-16 */
     HI_UNF_CIPHER_KEY_INVALID       = 0xffffffff,
 }HI_UNF_CIPHER_KEY_LENGTH_E;
@@ -154,7 +154,7 @@ typedef struct hiHI_UNF_CIPHER_CTRL_S
     HI_U32 u32IV[4];                                /**< Initialization vector (IV) */
     HI_BOOL bKeyByCA;                               /**< Encryption using advanced conditional access (CA) or decryption using keys */
     HI_UNF_CIPHER_CA_TYPE_E enCaType;               /**< Select keyladder type when using advanced CA */
-    HI_UNF_CIPHER_ALG_E enAlg;                      /**< Cipher Part_2 */
+    HI_UNF_CIPHER_ALG_E enAlg;                      /**< Cipher algorithm */
     HI_UNF_CIPHER_BIT_WIDTH_E enBitWidth;           /**< Bit width for encryption or decryption */
     HI_UNF_CIPHER_WORK_MODE_E enWorkMode;           /**< Operating mode */
     HI_UNF_CIPHER_KEY_LENGTH_E enKeyLen;            /**< Key length */
@@ -226,10 +226,10 @@ typedef struct hiHI_UNF_CIPHER_CTRL_SM4_S
 /** Expand Structure of the cipher control information */
 typedef struct hiHI_UNF_CIPHER_CTRL_EX_S
 {
-    HI_UNF_CIPHER_ALG_E enAlg;                      /**< Cipher Part_2 */
+    HI_UNF_CIPHER_ALG_E enAlg;                      /**< Cipher algorithm */
     HI_UNF_CIPHER_WORK_MODE_E enWorkMode;           /**< Operating mode */
     HI_BOOL bKeyByCA;                               /**< Encryption using advanced conditional access (CA) or decryption using keys */
-    /**< Parameter for special Part_2
+    /**< Parameter for special algorithm
         for AES, the pointer should point to HI_UNF_CIPHER_CTRL_AES_S;
         for AES_CCM or AES_GCM, the pointer should point to HI_UNF_CIPHER_CTRL_AES_CCM_GCM_S;
         for DES, the pointer should point to HI_UNF_CIPHER_CTRL_DES_S;

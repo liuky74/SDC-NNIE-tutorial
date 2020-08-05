@@ -12,7 +12,7 @@ UtilsService::UtilsService(){
 int UtilsService::service_register() {
     m_fd_util = open("/mnt/srvfs/utils.iaas.sdc", O_RDWR);
     if (m_fd_util < 0) {
-        DEBUG_LOG("open Part_1 failed, ret is: %i\n", m_fd_util);
+        DEBUG_LOG("open video failed, ret is: %i\n", m_fd_util);
         return ERR;
     }
     return PAS;

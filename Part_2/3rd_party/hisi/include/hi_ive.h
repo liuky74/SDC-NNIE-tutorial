@@ -68,8 +68,8 @@ typedef struct hiIVE_FILTER_CTRL_S {
 * Modified by Tan Bing, 2013-7-22.
 */
 typedef enum hiIVE_CSC_MODE_E {
-    IVE_CSC_MODE_VIDEO_BT601_YUV2RGB = 0x0, /* CSC: YUV2RGB, Part_1 transfer mode, RGB value range [16, 235] */
-    IVE_CSC_MODE_VIDEO_BT709_YUV2RGB = 0x1, /* CSC: YUV2RGB, Part_1 transfer mode, RGB value range [16, 235] */
+    IVE_CSC_MODE_VIDEO_BT601_YUV2RGB = 0x0, /* CSC: YUV2RGB, video transfer mode, RGB value range [16, 235] */
+    IVE_CSC_MODE_VIDEO_BT709_YUV2RGB = 0x1, /* CSC: YUV2RGB, video transfer mode, RGB value range [16, 235] */
     IVE_CSC_MODE_PIC_BT601_YUV2RGB = 0x2,   /* CSC: YUV2RGB, picture transfer mode, RGB value range [0, 255] */
     IVE_CSC_MODE_PIC_BT709_YUV2RGB = 0x3,   /* CSC: YUV2RGB, picture transfer mode, RGB value range [0, 255] */
 
@@ -79,8 +79,8 @@ typedef enum hiIVE_CSC_MODE_E {
     IVE_CSC_MODE_PIC_BT601_YUV2LAB = 0x6, /* CSC: YUV2LAB, picture transfer mode, Lab value range [0, 255] */
     IVE_CSC_MODE_PIC_BT709_YUV2LAB = 0x7, /* CSC: YUV2LAB, picture transfer mode, Lab value range [0, 255] */
 
-    IVE_CSC_MODE_VIDEO_BT601_RGB2YUV = 0x8, /* CSC: RGB2YUV, Part_1 transfer mode, YUV value range [0, 255] */
-    IVE_CSC_MODE_VIDEO_BT709_RGB2YUV = 0x9, /* CSC: RGB2YUV, Part_1 transfer mode, YUV value range [0, 255] */
+    IVE_CSC_MODE_VIDEO_BT601_RGB2YUV = 0x8, /* CSC: RGB2YUV, video transfer mode, YUV value range [0, 255] */
+    IVE_CSC_MODE_VIDEO_BT709_RGB2YUV = 0x9, /* CSC: RGB2YUV, video transfer mode, YUV value range [0, 255] */
     IVE_CSC_MODE_PIC_BT601_RGB2YUV = 0xa,   /* CSC: RGB2YUV, picture transfer mode, Y:[16, 235],U\V:[16, 240] */
     IVE_CSC_MODE_PIC_BT709_RGB2YUV = 0xb,   /* CSC: RGB2YUV, picture transfer mode, Y:[16, 235],U\V:[16, 240] */
 

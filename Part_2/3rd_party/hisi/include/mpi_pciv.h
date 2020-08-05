@@ -63,7 +63,7 @@ HI_S32 HI_MPI_PCIV_GetAttr(PCIV_CHN pcivChn, PCIV_ATTR_S *pPcivAttr);
 
 
 /*****************************************************************************
- Description     : Start to send or receive Part_1 frame
+ Description     : Start to send or receive video frame
  Input           : pcivChn    ** The pciv channel id
  Output          : None
  Return Value    : HI_SUCCESS if success.
@@ -74,7 +74,7 @@ HI_S32 HI_MPI_PCIV_GetAttr(PCIV_CHN pcivChn, PCIV_ATTR_S *pPcivAttr);
 HI_S32 HI_MPI_PCIV_Start(PCIV_CHN pcivChn);
 
 /*****************************************************************************
- Description     : Stop send or receive Part_1 frame
+ Description     : Stop send or receive video frame
  Input           : pcivChn    ** The pciv channel id
  Output          : None
  Return Value    : HI_SUCCESS if success.

@@ -119,13 +119,14 @@ int AlgorithmService::SDC_load_model(const char *model_file_name,unsigned int lo
         iov[1].iov_base = &mmz_addr;/*保存有模型文件内容的SDC内存地址*/
 
     } else{
+        /*除了模式1以外其余的都报错*/
         DEBUG_LOG("ERR: wrong load_mode");
         return ERR;
     }
 
 /*---4 写入请求,将SDC内存中的模型文件解析为NNIE网络结构并加载到SDC中-----------------------------------------------------*/
     ret = writev(m_fd_algorithm,iov,2);
-    if (ret < 0) DEBUG_LOG("ERR:creat nnie,write to Part_2.iaas.sdc fail: %m");
+    if (ret < 0) DEBUG_LOG("ERR:creat nnie,write to algorithm.iaas.sdc fail: %m");
     /*读取加载后的返回值,保存在rsp_s中*/
     ret = read(m_fd_algorithm, &rsp_s, sizeof(rsp_s));
     /*错误检查*/
@@ -141,7 +142,7 @@ int AlgorithmService::SDC_load_model(const char *model_file_name,unsigned int lo
     }
     if (ret < 0 || rsp_s.head.code != SDC_CODE_200 || rsp_s.head.content_length <= 0)
     {
-        DEBUG_LOG("ERR: get nnie create response, read from Part_2.iaas.sdc fail,s32Ret:%d, code=%d,length=%d",
+        DEBUG_LOG("ERR: get nnie create response, read from algorithm.iaas.sdc fail,s32Ret:%d, code=%d,length=%d",
                 ret, rsp_s.head.code, rsp_s.head.content_length);
     }
     else
@@ -155,9 +156,10 @@ int AlgorithmService::SDC_load_model(const char *model_file_name,unsigned int lo
 }
 
 int AlgorithmService::service_register() {
-    m_fd_algorithm = open("/mnt/srvfs/Part_2.iaas.sdc", O_RDWR);
+    /*服务注册*/
+    m_fd_algorithm = open("/mnt/srvfs/algorithm.iaas.sdc", O_RDWR);
     if (m_fd_algorithm < 0) {
-        DEBUG_LOG("open Part_1 failed, ret is: %i\n", m_fd_algorithm);
+        DEBUG_LOG("open video failed, ret is: %i\n", m_fd_algorithm);
         return ERR;
     }
     return PAS;

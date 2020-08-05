@@ -1,9 +1,9 @@
 /*
 * Copyright (c) Hisilicon Technologies Co., Ltd. 2012-2019. All rights reserved.
-* Description: Common defination of Part_1 output
+* Description: Common defination of video output
 * Author: Hisilicon multimedia software group
 * Create: 2017/07/04
-* Function List: VO device interface, Part_1 layer interface, graphic layer interface,
+* Function List: VO device interface, video layer interface, graphic layer interface,
                  channel interface, wbc interface.
 */
 #ifndef __MPI_VO_H__

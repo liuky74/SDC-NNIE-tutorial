@@ -105,9 +105,9 @@ public:
     }
 
     int service_register() {
-        m_fd_video = open("/mnt/srvfs/Part_1.iaas.sdc", O_RDWR);
+        m_fd_video = open("/mnt/srvfs/video.iaas.sdc", O_RDWR);
         if (m_fd_video < 0) {
-            DEBUG_LOG("open Part_1 failed, ret is: %i\n", m_fd_video);
+            DEBUG_LOG("open video failed, ret is: %i\n", m_fd_video);
             return ERR;
         }
         return PAS;
@@ -165,7 +165,7 @@ public:
                 && (yuv_channel_info->nResolutionModitfy == 1)/*可以修改分辨率*/
                     ) {
                 m_yuv_channel_id = yuv_channel_info->param.channel;
-                DEBUG_LOG("INFO:Get yuv Part_1 channel id：%d\n", yuv_channel_info->param.channel);
+                DEBUG_LOG("INFO:Get yuv video channel id：%d\n", yuv_channel_info->param.channel);
                 return PAS;
             }
         }
