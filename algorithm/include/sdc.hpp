@@ -26,12 +26,17 @@ typedef unsigned long long		UINT64;
 * video.iaas.sdc服务的数据结构定义
 */
 
-/**
-* YUV Channel的数据格式定义
-*/
+/* YUV Channel的数据格式定义*/
 #define SDC_URL_YUV_CHANNEL 	0x00//通道URL
 #define SDC_URL_YUV_DATA		0x01//数据URL
 #define SDC_URL_YUV_TRAN        0x03//转换URL
+/*---algorithm.iaas.sdc---*/
+#define SDC_URL_NNIE_MODEL 0x00
+#define SDC_URL_NNIE_FORWARD 0x01
+#define SDC_URL_NNIE_FORWARD_BBOX 0x02
+/*---utils.iaas.sdc*/
+#define SDC_URL_MMZ	101
+
 
 #define SDC_HEAD_YUV_CACHED_COUNT_MAX 	0x01
 
@@ -50,6 +55,11 @@ typedef unsigned long long		UINT64;
 #define SDC_CODE_403	403
 #define SDC_CODE_500	500 //服务内部错误
 #define SDC_CODE_509	500 //缓冲区阻塞
+
+
+#define MAX_MODULE_PATH 100
+
+
 
 typedef struct
 {
@@ -157,5 +167,14 @@ typedef struct
     UINT32 uFrmSize;
 
 } VW_YUV_FRAME_S;
+
+typedef struct
+{
+    uint64_t addr_phy;
+    uint64_t addr_virt;
+    uint32_t size;
+    uint32_t reserve;
+    uint32_t cookie[4];
+} SDC_MMZ_ALLOC_S;
 
 #endif //NNIE_TUTORIAL_SDC_HPP

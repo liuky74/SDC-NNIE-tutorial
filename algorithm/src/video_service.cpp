@@ -45,7 +45,7 @@ int VideoService::get_yuv_channel_id() {
     int ret, idx;
     /*申请一段空间用于保存通讯请求的内容,一条请求中包含数个部分:
      * 请求头(SDC_COMMON_HEAD_S),扩展请求头(SDC_EXTEND_HEAD_S),请求内容(CONTENT)*/
-    char buf[4096] = {0};
+    char buf[1024] = {0};
     /*声明一个请求头结构体指针*/
     SDC_COMMON_HEAD_S *common_head;
     /*声明一个请求内容结构体指针,这里是用于保存yuv channel相关的信息*/
@@ -118,7 +118,7 @@ int VideoService::set_yuv_channel_param(uint32_t width, uint32_t height, uint32_
     yuv_channel_param.channel = m_yuv_channel_id;
     /*编写通讯请求*/
     int ret;
-    char buf[4096];
+    char buf[1024];
     SDC_COMMON_HEAD_S *common_head;
     common_head = (SDC_COMMON_HEAD_S *) buf;
     common_head->version = SDC_VERSION;
@@ -217,7 +217,7 @@ int VideoService::release_yuv(SDC_YUV_DATA_S *data) {
 void* VideoService::read_camera_data_run(){
     m_stop_reading=0;
     int ret,idx,yuv_data_num;
-    char buf[4096];
+    char buf[1024];
     /*摄像头不会直接返回图像的具体数值,而是将保存了图像内容的内存地址以SDC_YUV_DATA_S的格式返回*/
     SDC_YUV_DATA_S *yuv_data;
     /*编写申请头*/

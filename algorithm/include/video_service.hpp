@@ -9,6 +9,16 @@
 #include "sdc.hpp"
 #include "array_queue.hpp"
 
+#include <hi_comm_svp.h>
+#include <hi_nnie.h>
+
+typedef struct
+{
+    SVP_NNIE_MODEL_S    stModel;
+    SVP_MEM_INFO_S      stModelBuf;//store Model file
+}SVP_NNIE_MODEL_WITH_FILE_S;
+
+
 class VideoService {
 private:
     int m_fd_video; //sdc的视频服务句柄

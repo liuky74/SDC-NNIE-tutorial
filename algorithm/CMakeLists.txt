@@ -8,7 +8,14 @@ set(CMAKE_C_COMPILER /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gn
 include_directories(3rd_party/hisi/include)
 include_directories(include)
 
-file(GLOB SRCS src/*.cpp)
+file(GLOB SRCS
+        src/utils_service.cpp
+        src/algorithm_service.cpp
+        src/array_queue.cpp
+#        src/chapter2_main.cpp
+        src/chapter3_main.cpp
+        src/video_service.cpp
+        )
 
 add_executable(NNIE_tutorial ${SRCS})
 

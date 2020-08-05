@@ -1,3 +1,7 @@
+/*Chapter 3:项目结构化与YUV图像格式的转换
+ * author: TchaikovskyBear
+ * 2020-08-02
+ * */
 #include <iostream>
 #include <unistd.h>
 #include <thread>
