@@ -1,0 +1,799 @@
+The system is: Linux - 5.3.0-61-generic - x86_64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-gcc 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+
+The C compiler identification is GNU, found in "/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/3.14.7/CompilerIdC/a.out"
+
+Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+Compiler: /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-g++ 
+Build flags: 
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
+
+The CXX compiler identification is GNU, found in "/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/3.14.7/CompilerIdCXX/a.out"
+
+Determining if the C compiler works passed with the following output:
+Change Dir: /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_2cd60/fast 
+/usr/bin/make -f CMakeFiles/cmTC_2cd60.dir/build.make CMakeFiles/cmTC_2cd60.dir/build
+make[1]: 进入目录“/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp”
+Building C object CMakeFiles/cmTC_2cd60.dir/testCCompiler.c.o
+/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-gcc    -o CMakeFiles/cmTC_2cd60.dir/testCCompiler.c.o   -c /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_2cd60
+/usr/local/cmake-3.14.7/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2cd60.dir/link.txt --verbose=1
+/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-gcc      CMakeFiles/cmTC_2cd60.dir/testCCompiler.c.o  -o cmTC_2cd60 
+make[1]: 离开目录“/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp”
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_2b497/fast 
+/usr/bin/make -f CMakeFiles/cmTC_2b497.dir/build.make CMakeFiles/cmTC_2b497.dir/build
+make[1]: Entering directory '/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_2b497.dir/CMakeCCompilerABI.c.o
+/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-gcc   -v -o CMakeFiles/cmTC_2b497.dir/CMakeCCompilerABI.c.o   -c /usr/local/cmake-3.14.7/share/cmake-3.14/Modules/CMakeCCompilerABI.c
+Using built-in specs.
+COLLECT_GCC=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-gcc
+Target: aarch64-linux-gnu
+Configured with: '/home/tcwg-buildslave/workspace/tcwg-make-release_0/snapshots/gcc.git~linaro-7.5-2019.12/configure' SHELL=/bin/bash --with-mpc=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-mpfr=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gmp=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gnu-as --with-gnu-ld --disable-libmudflap --enable-lto --enable-shared --without-included-gettext --enable-nls --with-system-zlib --disable-sjlj-exceptions --enable-gnu-unique-object --enable-linker-build-id --disable-libstdcxx-pch --enable-c99 --enable-clocale=gnu --enable-libstdcxx-debug --enable-long-long --with-cloog=no --with-ppl=no --with-isl=no --disable-multilib --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419 --with-arch=armv8-a --enable-threads=posix --enable-multiarch --enable-libstdcxx-time=yes --enable-gnu-indirect-function --with-build-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/sysroots/aarch64-linux-gnu --with-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu/aarch64-linux-gnu/libc --enable-checking=release --disable-bootstrap --enable-languages=c,c++,fortran,lto --build=x86_64-unknown-linux-gnu --host=x86_64-unknown-linux-gnu --target=aarch64-linux-gnu --prefix=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu
+Thread model: posix
+gcc version 7.5.0 (Linaro GCC 7.5-2019.12) 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_2b497.dir/CMakeCCompilerABI.c.o' '-c' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64'
+ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/cc1 -quiet -v -imultiarch aarch64-linux-gnu -iprefix /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/ -isysroot /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc /usr/local/cmake-3.14.7/share/cmake-3.14/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -march=armv8-a -mlittle-endian -mabi=lp64 -auxbase-strip CMakeFiles/cmTC_2b497.dir/CMakeCCompilerABI.c.o -version -o /tmp/ccXuSR5F.s
+GNU C11 (Linaro GCC 7.5-2019.12) version 7.5.0 (aarch64-linux-gnu)
+	compiled by GNU C version 4.8.4, GMP version 6.1.2, MPFR version 3.1.5, MPC version 1.0.3, isl version none
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring duplicate directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/7.5.0/include"
+ignoring nonexistent directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/local/include/aarch64-linux-gnu"
+ignoring nonexistent directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/local/include"
+ignoring duplicate directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/7.5.0/include-fixed"
+ignoring duplicate directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include"
+ignoring nonexistent directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include/aarch64-linux-gnu"
+#include "..." search starts here:
+#include <...> search starts here:
+ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/include
+ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/include-fixed
+ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include
+ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include
+End of search list.
+GNU C11 (Linaro GCC 7.5-2019.12) version 7.5.0 (aarch64-linux-gnu)
+	compiled by GNU C version 4.8.4, GMP version 6.1.2, MPFR version 3.1.5, MPC version 1.0.3, isl version none
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 5d0f5ce72c62ffb599b2a09a116fcf39
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_2b497.dir/CMakeCCompilerABI.c.o' '-c' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64'
+ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/bin/as -v -EL -march=armv8-a -mabi=lp64 -o CMakeFiles/cmTC_2b497.dir/CMakeCCompilerABI.c.o /tmp/ccXuSR5F.s
+GNU assembler version 2.28.2 (aarch64-linux-gnu) using BFD version (Linaro_Binutils-2019.12) 2.28.2.20170706
+COMPILER_PATH=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/bin/
+LIBRARY_PATH=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/../lib64/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/lib/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_2b497.dir/CMakeCCompilerABI.c.o' '-c' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64'
+Linking C executable cmTC_2b497
+/usr/local/cmake-3.14.7/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2b497.dir/link.txt --verbose=1
+/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-gcc     -v CMakeFiles/cmTC_2b497.dir/CMakeCCompilerABI.c.o  -o cmTC_2b497 
+Using built-in specs.
+COLLECT_GCC=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-gcc
+COLLECT_LTO_WRAPPER=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/lto-wrapper
+Target: aarch64-linux-gnu
+Configured with: '/home/tcwg-buildslave/workspace/tcwg-make-release_0/snapshots/gcc.git~linaro-7.5-2019.12/configure' SHELL=/bin/bash --with-mpc=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-mpfr=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gmp=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gnu-as --with-gnu-ld --disable-libmudflap --enable-lto --enable-shared --without-included-gettext --enable-nls --with-system-zlib --disable-sjlj-exceptions --enable-gnu-unique-object --enable-linker-build-id --disable-libstdcxx-pch --enable-c99 --enable-clocale=gnu --enable-libstdcxx-debug --enable-long-long --with-cloog=no --with-ppl=no --with-isl=no --disable-multilib --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419 --with-arch=armv8-a --enable-threads=posix --enable-multiarch --enable-libstdcxx-time=yes --enable-gnu-indirect-function --with-build-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/sysroots/aarch64-linux-gnu --with-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu/aarch64-linux-gnu/libc --enable-checking=release --disable-bootstrap --enable-languages=c,c++,fortran,lto --build=x86_64-unknown-linux-gnu --host=x86_64-unknown-linux-gnu --target=aarch64-linux-gnu --prefix=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu
+Thread model: posix
+gcc version 7.5.0 (Linaro GCC 7.5-2019.12) 
+COMPILER_PATH=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/bin/
+LIBRARY_PATH=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/../lib64/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/lib/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_2b497' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64'
+ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/collect2 -plugin /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/liblto_plugin.so -plugin-opt=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/lto-wrapper -plugin-opt=-fresolution=/tmp/ccvmaOnH.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc --build-id --eh-frame-hdr -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-835769 --fix-cortex-a53-843419 -o cmTC_2b497 /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crt1.o /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crti.o /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/crtbegin.o -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0 -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/../lib64 -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/lib -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib CMakeFiles/cmTC_2b497.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/crtend.o /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_2b497' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64'
+make[1]: Leaving directory '/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Parsed C implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/include]
+    add: [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/include-fixed]
+    add: [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include]
+    add: [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include]
+  end of search list found
+  collapse include dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/include] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/lib/gcc/aarch64-linux-gnu/7.5.0/include]
+  collapse include dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/include-fixed] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/lib/gcc/aarch64-linux-gnu/7.5.0/include-fixed]
+  collapse include dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/include]
+  collapse include dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/libc/usr/include]
+  implicit include dirs: [/home/liuky/HDD_1/soft/aarch-linux-gnu/lib/gcc/aarch64-linux-gnu/7.5.0/include;/home/liuky/HDD_1/soft/aarch-linux-gnu/lib/gcc/aarch64-linux-gnu/7.5.0/include-fixed;/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/include;/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/libc/usr/include]
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):/usr/bin/make cmTC_2b497/fast ]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_2b497.dir/build.make CMakeFiles/cmTC_2b497.dir/build]
+  ignore line: [make[1]: Entering directory '/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp']
+  ignore line: [Building C object CMakeFiles/cmTC_2b497.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-gcc   -v -o CMakeFiles/cmTC_2b497.dir/CMakeCCompilerABI.c.o   -c /usr/local/cmake-3.14.7/share/cmake-3.14/Modules/CMakeCCompilerABI.c]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-gcc]
+  ignore line: [Target: aarch64-linux-gnu]
+  ignore line: [Configured with: '/home/tcwg-buildslave/workspace/tcwg-make-release_0/snapshots/gcc.git~linaro-7.5-2019.12/configure' SHELL=/bin/bash --with-mpc=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-mpfr=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gmp=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gnu-as --with-gnu-ld --disable-libmudflap --enable-lto --enable-shared --without-included-gettext --enable-nls --with-system-zlib --disable-sjlj-exceptions --enable-gnu-unique-object --enable-linker-build-id --disable-libstdcxx-pch --enable-c99 --enable-clocale=gnu --enable-libstdcxx-debug --enable-long-long --with-cloog=no --with-ppl=no --with-isl=no --disable-multilib --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419 --with-arch=armv8-a --enable-threads=posix --enable-multiarch --enable-libstdcxx-time=yes --enable-gnu-indirect-function --with-build-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/sysroots/aarch64-linux-gnu --with-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu/aarch64-linux-gnu/libc --enable-checking=release --disable-bootstrap --enable-languages=c,c++,fortran,lto --build=x86_64-unknown-linux-gnu --host=x86_64-unknown-linux-gnu --target=aarch64-linux-gnu --prefix=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 7.5.0 (Linaro GCC 7.5-2019.12) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_2b497.dir/CMakeCCompilerABI.c.o' '-c' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64']
+  ignore line: [ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/cc1 -quiet -v -imultiarch aarch64-linux-gnu -iprefix /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/ -isysroot /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc /usr/local/cmake-3.14.7/share/cmake-3.14/Modules/CMakeCCompilerABI.c -quiet -dumpbase CMakeCCompilerABI.c -march=armv8-a -mlittle-endian -mabi=lp64 -auxbase-strip CMakeFiles/cmTC_2b497.dir/CMakeCCompilerABI.c.o -version -o /tmp/ccXuSR5F.s]
+  ignore line: [GNU C11 (Linaro GCC 7.5-2019.12) version 7.5.0 (aarch64-linux-gnu)]
+  ignore line: [	compiled by GNU C version 4.8.4, GMP version 6.1.2, MPFR version 3.1.5, MPC version 1.0.3, isl version none]
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring duplicate directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/7.5.0/include"]
+  ignore line: [ignoring nonexistent directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/local/include/aarch64-linux-gnu"]
+  ignore line: [ignoring nonexistent directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/local/include"]
+  ignore line: [ignoring duplicate directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/7.5.0/include-fixed"]
+  ignore line: [ignoring duplicate directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include"]
+  ignore line: [ignoring nonexistent directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include/aarch64-linux-gnu"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/include]
+  ignore line: [ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/include-fixed]
+  ignore line: [ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include]
+  ignore line: [ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C11 (Linaro GCC 7.5-2019.12) version 7.5.0 (aarch64-linux-gnu)]
+  ignore line: [	compiled by GNU C version 4.8.4, GMP version 6.1.2, MPFR version 3.1.5, MPC version 1.0.3, isl version none]
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: 5d0f5ce72c62ffb599b2a09a116fcf39]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_2b497.dir/CMakeCCompilerABI.c.o' '-c' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64']
+  ignore line: [ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/bin/as -v -EL -march=armv8-a -mabi=lp64 -o CMakeFiles/cmTC_2b497.dir/CMakeCCompilerABI.c.o /tmp/ccXuSR5F.s]
+  ignore line: [GNU assembler version 2.28.2 (aarch64-linux-gnu) using BFD version (Linaro_Binutils-2019.12) 2.28.2.20170706]
+  ignore line: [COMPILER_PATH=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/bin/]
+  ignore line: [LIBRARY_PATH=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/../lib64/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/lib/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_2b497.dir/CMakeCCompilerABI.c.o' '-c' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64']
+  ignore line: [Linking C executable cmTC_2b497]
+  ignore line: [/usr/local/cmake-3.14.7/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2b497.dir/link.txt --verbose=1]
+  ignore line: [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-gcc     -v CMakeFiles/cmTC_2b497.dir/CMakeCCompilerABI.c.o  -o cmTC_2b497 ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-gcc]
+  ignore line: [COLLECT_LTO_WRAPPER=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/lto-wrapper]
+  ignore line: [Target: aarch64-linux-gnu]
+  ignore line: [Configured with: '/home/tcwg-buildslave/workspace/tcwg-make-release_0/snapshots/gcc.git~linaro-7.5-2019.12/configure' SHELL=/bin/bash --with-mpc=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-mpfr=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gmp=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gnu-as --with-gnu-ld --disable-libmudflap --enable-lto --enable-shared --without-included-gettext --enable-nls --with-system-zlib --disable-sjlj-exceptions --enable-gnu-unique-object --enable-linker-build-id --disable-libstdcxx-pch --enable-c99 --enable-clocale=gnu --enable-libstdcxx-debug --enable-long-long --with-cloog=no --with-ppl=no --with-isl=no --disable-multilib --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419 --with-arch=armv8-a --enable-threads=posix --enable-multiarch --enable-libstdcxx-time=yes --enable-gnu-indirect-function --with-build-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/sysroots/aarch64-linux-gnu --with-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu/aarch64-linux-gnu/libc --enable-checking=release --disable-bootstrap --enable-languages=c,c++,fortran,lto --build=x86_64-unknown-linux-gnu --host=x86_64-unknown-linux-gnu --target=aarch64-linux-gnu --prefix=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 7.5.0 (Linaro GCC 7.5-2019.12) ]
+  ignore line: [COMPILER_PATH=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/bin/]
+  ignore line: [LIBRARY_PATH=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/../lib64/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/lib/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_2b497' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64']
+  link line: [ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/collect2 -plugin /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/liblto_plugin.so -plugin-opt=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/lto-wrapper -plugin-opt=-fresolution=/tmp/ccvmaOnH.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc --build-id --eh-frame-hdr -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-835769 --fix-cortex-a53-843419 -o cmTC_2b497 /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crt1.o /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crti.o /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/crtbegin.o -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0 -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/../lib64 -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/lib -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib CMakeFiles/cmTC_2b497.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/crtend.o /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crtn.o]
+    arg [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccvmaOnH.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [--sysroot=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc] ==> ignore
+    arg [--build-id] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib/ld-linux-aarch64.so.1] ==> ignore
+    arg [-X] ==> ignore
+    arg [-EL] ==> ignore
+    arg [-maarch64linux] ==> ignore
+    arg [--fix-cortex-a53-835769] ==> ignore
+    arg [--fix-cortex-a53-843419] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_2b497] ==> ignore
+    arg [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crt1.o] ==> ignore
+    arg [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crti.o] ==> ignore
+    arg [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/crtbegin.o] ==> ignore
+    arg [-L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0] ==> dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0]
+    arg [-L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu] ==> dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu]
+    arg [-L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc] ==> dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc]
+    arg [-L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/../lib64] ==> dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/../lib64]
+    arg [-L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib] ==> dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib]
+    arg [-L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/lib] ==> dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/lib]
+    arg [-L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib] ==> dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib]
+    arg [CMakeFiles/cmTC_2b497.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [-lgcc] ==> lib [gcc]
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--no-as-needed] ==> ignore
+    arg [-lc] ==> lib [c]
+    arg [-lgcc] ==> lib [gcc]
+    arg [--as-needed] ==> ignore
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [--no-as-needed] ==> ignore
+    arg [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/crtend.o] ==> ignore
+    arg [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crtn.o] ==> ignore
+  collapse library dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/lib/gcc/aarch64-linux-gnu/7.5.0]
+  collapse library dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/lib/gcc/aarch64-linux-gnu]
+  collapse library dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/lib/gcc]
+  collapse library dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/../lib64] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/lib64]
+  collapse library dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/lib]
+  collapse library dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/lib] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/libc/lib]
+  collapse library dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/libc/usr/lib]
+  implicit libs: [gcc;gcc_s;c;gcc;gcc_s]
+  implicit dirs: [/home/liuky/HDD_1/soft/aarch-linux-gnu/lib/gcc/aarch64-linux-gnu/7.5.0;/home/liuky/HDD_1/soft/aarch-linux-gnu/lib/gcc/aarch64-linux-gnu;/home/liuky/HDD_1/soft/aarch-linux-gnu/lib/gcc;/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/lib64;/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/lib;/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/libc/lib;/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/libc/usr/lib]
+  implicit fwks: []
+
+
+
+
+Detecting C [-std=c11] compiler features compiled with the following output:
+Change Dir: /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_d6596/fast 
+/usr/bin/make -f CMakeFiles/cmTC_d6596.dir/build.make CMakeFiles/cmTC_d6596.dir/build
+make[1]: 进入目录“/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp”
+Building C object CMakeFiles/cmTC_d6596.dir/feature_tests.c.o
+/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-gcc   -std=c11 -o CMakeFiles/cmTC_d6596.dir/feature_tests.c.o   -c /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/feature_tests.c
+Linking C executable cmTC_d6596
+/usr/local/cmake-3.14.7/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d6596.dir/link.txt --verbose=1
+/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-gcc      CMakeFiles/cmTC_d6596.dir/feature_tests.c.o  -o cmTC_d6596 
+make[1]: 离开目录“/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp”
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:1c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c99] compiler features compiled with the following output:
+Change Dir: /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_30d2d/fast 
+/usr/bin/make -f CMakeFiles/cmTC_30d2d.dir/build.make CMakeFiles/cmTC_30d2d.dir/build
+make[1]: 进入目录“/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp”
+Building C object CMakeFiles/cmTC_30d2d.dir/feature_tests.c.o
+/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-gcc   -std=c99 -o CMakeFiles/cmTC_30d2d.dir/feature_tests.c.o   -c /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/feature_tests.c
+Linking C executable cmTC_30d2d
+/usr/local/cmake-3.14.7/bin/cmake -E cmake_link_script CMakeFiles/cmTC_30d2d.dir/link.txt --verbose=1
+/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-gcc      CMakeFiles/cmTC_30d2d.dir/feature_tests.c.o  -o cmTC_30d2d 
+make[1]: 离开目录“/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp”
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c90] compiler features compiled with the following output:
+Change Dir: /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_c39a0/fast 
+/usr/bin/make -f CMakeFiles/cmTC_c39a0.dir/build.make CMakeFiles/cmTC_c39a0.dir/build
+make[1]: 进入目录“/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp”
+Building C object CMakeFiles/cmTC_c39a0.dir/feature_tests.c.o
+/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-gcc   -std=c90 -o CMakeFiles/cmTC_c39a0.dir/feature_tests.c.o   -c /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/feature_tests.c
+Linking C executable cmTC_c39a0
+/usr/local/cmake-3.14.7/bin/cmake -E cmake_link_script CMakeFiles/cmTC_c39a0.dir/link.txt --verbose=1
+/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-gcc      CMakeFiles/cmTC_c39a0.dir/feature_tests.c.o  -o cmTC_c39a0 
+make[1]: 离开目录“/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp”
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:0c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:0c_variadic_macros
+Determining if the CXX compiler works passed with the following output:
+Change Dir: /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_f0977/fast 
+/usr/bin/make -f CMakeFiles/cmTC_f0977.dir/build.make CMakeFiles/cmTC_f0977.dir/build
+make[1]: 进入目录“/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp”
+Building CXX object CMakeFiles/cmTC_f0977.dir/testCXXCompiler.cxx.o
+/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-g++     -o CMakeFiles/cmTC_f0977.dir/testCXXCompiler.cxx.o -c /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_f0977
+/usr/local/cmake-3.14.7/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f0977.dir/link.txt --verbose=1
+/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-g++       CMakeFiles/cmTC_f0977.dir/testCXXCompiler.cxx.o  -o cmTC_f0977 
+make[1]: 离开目录“/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp”
+
+
+Detecting CXX compiler ABI info compiled with the following output:
+Change Dir: /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_5e51e/fast 
+/usr/bin/make -f CMakeFiles/cmTC_5e51e.dir/build.make CMakeFiles/cmTC_5e51e.dir/build
+make[1]: Entering directory '/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_5e51e.dir/CMakeCXXCompilerABI.cpp.o
+/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-g++    -v -o CMakeFiles/cmTC_5e51e.dir/CMakeCXXCompilerABI.cpp.o -c /usr/local/cmake-3.14.7/share/cmake-3.14/Modules/CMakeCXXCompilerABI.cpp
+Using built-in specs.
+COLLECT_GCC=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-g++
+Target: aarch64-linux-gnu
+Configured with: '/home/tcwg-buildslave/workspace/tcwg-make-release_0/snapshots/gcc.git~linaro-7.5-2019.12/configure' SHELL=/bin/bash --with-mpc=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-mpfr=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gmp=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gnu-as --with-gnu-ld --disable-libmudflap --enable-lto --enable-shared --without-included-gettext --enable-nls --with-system-zlib --disable-sjlj-exceptions --enable-gnu-unique-object --enable-linker-build-id --disable-libstdcxx-pch --enable-c99 --enable-clocale=gnu --enable-libstdcxx-debug --enable-long-long --with-cloog=no --with-ppl=no --with-isl=no --disable-multilib --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419 --with-arch=armv8-a --enable-threads=posix --enable-multiarch --enable-libstdcxx-time=yes --enable-gnu-indirect-function --with-build-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/sysroots/aarch64-linux-gnu --with-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu/aarch64-linux-gnu/libc --enable-checking=release --disable-bootstrap --enable-languages=c,c++,fortran,lto --build=x86_64-unknown-linux-gnu --host=x86_64-unknown-linux-gnu --target=aarch64-linux-gnu --prefix=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu
+Thread model: posix
+gcc version 7.5.0 (Linaro GCC 7.5-2019.12) 
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_5e51e.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64'
+ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/cc1plus -quiet -v -imultiarch aarch64-linux-gnu -iprefix /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/ -isysroot /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc -D_GNU_SOURCE /usr/local/cmake-3.14.7/share/cmake-3.14/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -march=armv8-a -mlittle-endian -mabi=lp64 -auxbase-strip CMakeFiles/cmTC_5e51e.dir/CMakeCXXCompilerABI.cpp.o -version -o /tmp/cc4DT6d4.s
+GNU C++14 (Linaro GCC 7.5-2019.12) version 7.5.0 (aarch64-linux-gnu)
+	compiled by GNU C version 4.8.4, GMP version 6.1.2, MPFR version 3.1.5, MPC version 1.0.3, isl version none
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+ignoring duplicate directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include/c++/7.5.0"
+ignoring duplicate directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include/c++/7.5.0/aarch64-linux-gnu"
+ignoring duplicate directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include/c++/7.5.0/backward"
+ignoring duplicate directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/7.5.0/include"
+ignoring nonexistent directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/local/include/aarch64-linux-gnu"
+ignoring nonexistent directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/local/include"
+ignoring duplicate directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/7.5.0/include-fixed"
+ignoring duplicate directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include"
+ignoring nonexistent directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include/aarch64-linux-gnu"
+#include "..." search starts here:
+#include <...> search starts here:
+ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include/c++/7.5.0
+ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include/c++/7.5.0/aarch64-linux-gnu
+ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include/c++/7.5.0/backward
+ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/include
+ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/include-fixed
+ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include
+ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include
+End of search list.
+GNU C++14 (Linaro GCC 7.5-2019.12) version 7.5.0 (aarch64-linux-gnu)
+	compiled by GNU C version 4.8.4, GMP version 6.1.2, MPFR version 3.1.5, MPC version 1.0.3, isl version none
+GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072
+Compiler executable checksum: 966bcc360f46d7d0bf38230662fdbbf8
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_5e51e.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64'
+ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/bin/as -v -EL -march=armv8-a -mabi=lp64 -o CMakeFiles/cmTC_5e51e.dir/CMakeCXXCompilerABI.cpp.o /tmp/cc4DT6d4.s
+GNU assembler version 2.28.2 (aarch64-linux-gnu) using BFD version (Linaro_Binutils-2019.12) 2.28.2.20170706
+COMPILER_PATH=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/bin/
+LIBRARY_PATH=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/../lib64/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/lib/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_5e51e.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64'
+Linking CXX executable cmTC_5e51e
+/usr/local/cmake-3.14.7/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5e51e.dir/link.txt --verbose=1
+/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-g++      -v CMakeFiles/cmTC_5e51e.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_5e51e 
+Using built-in specs.
+COLLECT_GCC=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-g++
+COLLECT_LTO_WRAPPER=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/lto-wrapper
+Target: aarch64-linux-gnu
+Configured with: '/home/tcwg-buildslave/workspace/tcwg-make-release_0/snapshots/gcc.git~linaro-7.5-2019.12/configure' SHELL=/bin/bash --with-mpc=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-mpfr=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gmp=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gnu-as --with-gnu-ld --disable-libmudflap --enable-lto --enable-shared --without-included-gettext --enable-nls --with-system-zlib --disable-sjlj-exceptions --enable-gnu-unique-object --enable-linker-build-id --disable-libstdcxx-pch --enable-c99 --enable-clocale=gnu --enable-libstdcxx-debug --enable-long-long --with-cloog=no --with-ppl=no --with-isl=no --disable-multilib --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419 --with-arch=armv8-a --enable-threads=posix --enable-multiarch --enable-libstdcxx-time=yes --enable-gnu-indirect-function --with-build-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/sysroots/aarch64-linux-gnu --with-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu/aarch64-linux-gnu/libc --enable-checking=release --disable-bootstrap --enable-languages=c,c++,fortran,lto --build=x86_64-unknown-linux-gnu --host=x86_64-unknown-linux-gnu --target=aarch64-linux-gnu --prefix=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu
+Thread model: posix
+gcc version 7.5.0 (Linaro GCC 7.5-2019.12) 
+COMPILER_PATH=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/bin/
+LIBRARY_PATH=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/../lib64/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/lib/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_5e51e' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64'
+ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/collect2 -plugin /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/liblto_plugin.so -plugin-opt=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/lto-wrapper -plugin-opt=-fresolution=/tmp/ccu2WE87.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc --build-id --eh-frame-hdr -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-835769 --fix-cortex-a53-843419 -o cmTC_5e51e /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crt1.o /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crti.o /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/crtbegin.o -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0 -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/../lib64 -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/lib -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib CMakeFiles/cmTC_5e51e.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/crtend.o /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_5e51e' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64'
+make[1]: Leaving directory '/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp'
+
+
+Parsed CXX implicit include dir info from above output: rv=done
+  found start of include info
+  found start of implicit include info
+    add: [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include/c++/7.5.0]
+    add: [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include/c++/7.5.0/aarch64-linux-gnu]
+    add: [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include/c++/7.5.0/backward]
+    add: [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/include]
+    add: [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/include-fixed]
+    add: [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include]
+    add: [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include]
+  end of search list found
+  collapse include dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include/c++/7.5.0] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/include/c++/7.5.0]
+  collapse include dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include/c++/7.5.0/aarch64-linux-gnu] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/include/c++/7.5.0/aarch64-linux-gnu]
+  collapse include dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include/c++/7.5.0/backward] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/include/c++/7.5.0/backward]
+  collapse include dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/include] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/lib/gcc/aarch64-linux-gnu/7.5.0/include]
+  collapse include dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/include-fixed] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/lib/gcc/aarch64-linux-gnu/7.5.0/include-fixed]
+  collapse include dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/include]
+  collapse include dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/libc/usr/include]
+  implicit include dirs: [/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/include/c++/7.5.0;/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/include/c++/7.5.0/aarch64-linux-gnu;/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/include/c++/7.5.0/backward;/home/liuky/HDD_1/soft/aarch-linux-gnu/lib/gcc/aarch64-linux-gnu/7.5.0/include;/home/liuky/HDD_1/soft/aarch-linux-gnu/lib/gcc/aarch64-linux-gnu/7.5.0/include-fixed;/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/include;/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/libc/usr/include]
+
+
+Parsed CXX implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command(s):/usr/bin/make cmTC_5e51e/fast ]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_5e51e.dir/build.make CMakeFiles/cmTC_5e51e.dir/build]
+  ignore line: [make[1]: Entering directory '/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp']
+  ignore line: [Building CXX object CMakeFiles/cmTC_5e51e.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-g++    -v -o CMakeFiles/cmTC_5e51e.dir/CMakeCXXCompilerABI.cpp.o -c /usr/local/cmake-3.14.7/share/cmake-3.14/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-g++]
+  ignore line: [Target: aarch64-linux-gnu]
+  ignore line: [Configured with: '/home/tcwg-buildslave/workspace/tcwg-make-release_0/snapshots/gcc.git~linaro-7.5-2019.12/configure' SHELL=/bin/bash --with-mpc=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-mpfr=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gmp=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gnu-as --with-gnu-ld --disable-libmudflap --enable-lto --enable-shared --without-included-gettext --enable-nls --with-system-zlib --disable-sjlj-exceptions --enable-gnu-unique-object --enable-linker-build-id --disable-libstdcxx-pch --enable-c99 --enable-clocale=gnu --enable-libstdcxx-debug --enable-long-long --with-cloog=no --with-ppl=no --with-isl=no --disable-multilib --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419 --with-arch=armv8-a --enable-threads=posix --enable-multiarch --enable-libstdcxx-time=yes --enable-gnu-indirect-function --with-build-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/sysroots/aarch64-linux-gnu --with-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu/aarch64-linux-gnu/libc --enable-checking=release --disable-bootstrap --enable-languages=c,c++,fortran,lto --build=x86_64-unknown-linux-gnu --host=x86_64-unknown-linux-gnu --target=aarch64-linux-gnu --prefix=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 7.5.0 (Linaro GCC 7.5-2019.12) ]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_5e51e.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64']
+  ignore line: [ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/cc1plus -quiet -v -imultiarch aarch64-linux-gnu -iprefix /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/ -isysroot /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc -D_GNU_SOURCE /usr/local/cmake-3.14.7/share/cmake-3.14/Modules/CMakeCXXCompilerABI.cpp -quiet -dumpbase CMakeCXXCompilerABI.cpp -march=armv8-a -mlittle-endian -mabi=lp64 -auxbase-strip CMakeFiles/cmTC_5e51e.dir/CMakeCXXCompilerABI.cpp.o -version -o /tmp/cc4DT6d4.s]
+  ignore line: [GNU C++14 (Linaro GCC 7.5-2019.12) version 7.5.0 (aarch64-linux-gnu)]
+  ignore line: [	compiled by GNU C version 4.8.4, GMP version 6.1.2, MPFR version 3.1.5, MPC version 1.0.3, isl version none]
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [ignoring duplicate directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include/c++/7.5.0"]
+  ignore line: [ignoring duplicate directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include/c++/7.5.0/aarch64-linux-gnu"]
+  ignore line: [ignoring duplicate directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include/c++/7.5.0/backward"]
+  ignore line: [ignoring duplicate directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/7.5.0/include"]
+  ignore line: [ignoring nonexistent directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/local/include/aarch64-linux-gnu"]
+  ignore line: [ignoring nonexistent directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/local/include"]
+  ignore line: [ignoring duplicate directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/7.5.0/include-fixed"]
+  ignore line: [ignoring duplicate directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/../../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include"]
+  ignore line: [ignoring nonexistent directory "/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include/aarch64-linux-gnu"]
+  ignore line: [#include "..." search starts here:]
+  ignore line: [#include <...> search starts here:]
+  ignore line: [ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include/c++/7.5.0]
+  ignore line: [ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include/c++/7.5.0/aarch64-linux-gnu]
+  ignore line: [ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include/c++/7.5.0/backward]
+  ignore line: [ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/include]
+  ignore line: [ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/include-fixed]
+  ignore line: [ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/include]
+  ignore line: [ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/include]
+  ignore line: [End of search list.]
+  ignore line: [GNU C++14 (Linaro GCC 7.5-2019.12) version 7.5.0 (aarch64-linux-gnu)]
+  ignore line: [	compiled by GNU C version 4.8.4, GMP version 6.1.2, MPFR version 3.1.5, MPC version 1.0.3, isl version none]
+  ignore line: [GGC heuristics: --param ggc-min-expand=100 --param ggc-min-heapsize=131072]
+  ignore line: [Compiler executable checksum: 966bcc360f46d7d0bf38230662fdbbf8]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_5e51e.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64']
+  ignore line: [ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/bin/as -v -EL -march=armv8-a -mabi=lp64 -o CMakeFiles/cmTC_5e51e.dir/CMakeCXXCompilerABI.cpp.o /tmp/cc4DT6d4.s]
+  ignore line: [GNU assembler version 2.28.2 (aarch64-linux-gnu) using BFD version (Linaro_Binutils-2019.12) 2.28.2.20170706]
+  ignore line: [COMPILER_PATH=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/bin/]
+  ignore line: [LIBRARY_PATH=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/../lib64/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/lib/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'CMakeFiles/cmTC_5e51e.dir/CMakeCXXCompilerABI.cpp.o' '-c' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64']
+  ignore line: [Linking CXX executable cmTC_5e51e]
+  ignore line: [/usr/local/cmake-3.14.7/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5e51e.dir/link.txt --verbose=1]
+  ignore line: [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-g++      -v CMakeFiles/cmTC_5e51e.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_5e51e ]
+  ignore line: [Using built-in specs.]
+  ignore line: [COLLECT_GCC=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-g++]
+  ignore line: [COLLECT_LTO_WRAPPER=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/lto-wrapper]
+  ignore line: [Target: aarch64-linux-gnu]
+  ignore line: [Configured with: '/home/tcwg-buildslave/workspace/tcwg-make-release_0/snapshots/gcc.git~linaro-7.5-2019.12/configure' SHELL=/bin/bash --with-mpc=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-mpfr=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gmp=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu --with-gnu-as --with-gnu-ld --disable-libmudflap --enable-lto --enable-shared --without-included-gettext --enable-nls --with-system-zlib --disable-sjlj-exceptions --enable-gnu-unique-object --enable-linker-build-id --disable-libstdcxx-pch --enable-c99 --enable-clocale=gnu --enable-libstdcxx-debug --enable-long-long --with-cloog=no --with-ppl=no --with-isl=no --disable-multilib --enable-fix-cortex-a53-835769 --enable-fix-cortex-a53-843419 --with-arch=armv8-a --enable-threads=posix --enable-multiarch --enable-libstdcxx-time=yes --enable-gnu-indirect-function --with-build-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/sysroots/aarch64-linux-gnu --with-sysroot=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu/aarch64-linux-gnu/libc --enable-checking=release --disable-bootstrap --enable-languages=c,c++,fortran,lto --build=x86_64-unknown-linux-gnu --host=x86_64-unknown-linux-gnu --target=aarch64-linux-gnu --prefix=/home/tcwg-buildslave/workspace/tcwg-make-release_0/_build/builds/destdir/x86_64-unknown-linux-gnu]
+  ignore line: [Thread model: posix]
+  ignore line: [gcc version 7.5.0 (Linaro GCC 7.5-2019.12) ]
+  ignore line: [COMPILER_PATH=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/bin/]
+  ignore line: [LIBRARY_PATH=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/../lib64/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/lib/:/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_5e51e' '-shared-libgcc' '-march=armv8-a' '-mlittle-endian' '-mabi=lp64']
+  link line: [ /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/collect2 -plugin /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/liblto_plugin.so -plugin-opt=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/lto-wrapper -plugin-opt=-fresolution=/tmp/ccu2WE87.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc --build-id --eh-frame-hdr -dynamic-linker /lib/ld-linux-aarch64.so.1 -X -EL -maarch64linux --fix-cortex-a53-835769 --fix-cortex-a53-843419 -o cmTC_5e51e /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crt1.o /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crti.o /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/crtbegin.o -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0 -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/../lib64 -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/lib -L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib CMakeFiles/cmTC_5e51e.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/crtend.o /home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crtn.o]
+    arg [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/collect2] ==> ignore
+    arg [-plugin] ==> ignore
+    arg [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/liblto_plugin.so] ==> ignore
+    arg [-plugin-opt=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../libexec/gcc/aarch64-linux-gnu/7.5.0/lto-wrapper] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccu2WE87.res] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lc] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
+    arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
+    arg [--sysroot=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc] ==> ignore
+    arg [--build-id] ==> ignore
+    arg [--eh-frame-hdr] ==> ignore
+    arg [-dynamic-linker] ==> ignore
+    arg [/lib/ld-linux-aarch64.so.1] ==> ignore
+    arg [-X] ==> ignore
+    arg [-EL] ==> ignore
+    arg [-maarch64linux] ==> ignore
+    arg [--fix-cortex-a53-835769] ==> ignore
+    arg [--fix-cortex-a53-843419] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_5e51e] ==> ignore
+    arg [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crt1.o] ==> ignore
+    arg [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crti.o] ==> ignore
+    arg [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/crtbegin.o] ==> ignore
+    arg [-L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0] ==> dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0]
+    arg [-L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu] ==> dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu]
+    arg [-L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc] ==> dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc]
+    arg [-L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/../lib64] ==> dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/../lib64]
+    arg [-L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib] ==> dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib]
+    arg [-L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/lib] ==> dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/lib]
+    arg [-L/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib] ==> dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib]
+    arg [CMakeFiles/cmTC_5e51e.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [-lstdc++] ==> lib [stdc++]
+    arg [-lm] ==> lib [m]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [-lc] ==> lib [c]
+    arg [-lgcc_s] ==> lib [gcc_s]
+    arg [-lgcc] ==> lib [gcc]
+    arg [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/crtend.o] ==> ignore
+    arg [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib/crtn.o] ==> ignore
+  collapse library dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/lib/gcc/aarch64-linux-gnu/7.5.0]
+  collapse library dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/lib/gcc/aarch64-linux-gnu]
+  collapse library dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/lib/gcc]
+  collapse library dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib/../lib64] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/lib64]
+  collapse library dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../lib/gcc/aarch64-linux-gnu/7.5.0/../../../../aarch64-linux-gnu/lib] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/lib]
+  collapse library dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/lib] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/libc/lib]
+  collapse library dir [/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/../aarch64-linux-gnu/libc/usr/lib] ==> [/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/libc/usr/lib]
+  implicit libs: [stdc++;m;gcc_s;gcc;c;gcc_s;gcc]
+  implicit dirs: [/home/liuky/HDD_1/soft/aarch-linux-gnu/lib/gcc/aarch64-linux-gnu/7.5.0;/home/liuky/HDD_1/soft/aarch-linux-gnu/lib/gcc/aarch64-linux-gnu;/home/liuky/HDD_1/soft/aarch-linux-gnu/lib/gcc;/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/lib64;/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/lib;/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/libc/lib;/home/liuky/HDD_1/soft/aarch-linux-gnu/aarch64-linux-gnu/libc/usr/lib]
+  implicit fwks: []
+
+
+
+
+Detecting CXX [-std=c++1z] compiler features compiled with the following output:
+Change Dir: /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_fcdc7/fast 
+/usr/bin/make -f CMakeFiles/cmTC_fcdc7.dir/build.make CMakeFiles/cmTC_fcdc7.dir/build
+make[1]: 进入目录“/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp”
+Building CXX object CMakeFiles/cmTC_fcdc7.dir/feature_tests.cxx.o
+/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-g++    -std=c++1z -o CMakeFiles/cmTC_fcdc7.dir/feature_tests.cxx.o -c /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_fcdc7
+/usr/local/cmake-3.14.7/bin/cmake -E cmake_link_script CMakeFiles/cmTC_fcdc7.dir/link.txt --verbose=1
+/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-g++       CMakeFiles/cmTC_fcdc7.dir/feature_tests.cxx.o  -o cmTC_fcdc7 
+make[1]: 离开目录“/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp”
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++14] compiler features compiled with the following output:
+Change Dir: /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_16b14/fast 
+/usr/bin/make -f CMakeFiles/cmTC_16b14.dir/build.make CMakeFiles/cmTC_16b14.dir/build
+make[1]: 进入目录“/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp”
+Building CXX object CMakeFiles/cmTC_16b14.dir/feature_tests.cxx.o
+/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-g++    -std=c++14 -o CMakeFiles/cmTC_16b14.dir/feature_tests.cxx.o -c /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_16b14
+/usr/local/cmake-3.14.7/bin/cmake -E cmake_link_script CMakeFiles/cmTC_16b14.dir/link.txt --verbose=1
+/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-g++       CMakeFiles/cmTC_16b14.dir/feature_tests.cxx.o  -o cmTC_16b14 
+make[1]: 离开目录“/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp”
+
+
+    Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:1cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:1cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:1cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:1cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:1cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:1cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:1cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:1cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:1cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:1cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++11] compiler features compiled with the following output:
+Change Dir: /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_d586a/fast 
+/usr/bin/make -f CMakeFiles/cmTC_d586a.dir/build.make CMakeFiles/cmTC_d586a.dir/build
+make[1]: 进入目录“/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp”
+Building CXX object CMakeFiles/cmTC_d586a.dir/feature_tests.cxx.o
+/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-g++    -std=c++11 -o CMakeFiles/cmTC_d586a.dir/feature_tests.cxx.o -c /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_d586a
+/usr/local/cmake-3.14.7/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d586a.dir/link.txt --verbose=1
+/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-g++       CMakeFiles/cmTC_d586a.dir/feature_tests.cxx.o  -o cmTC_d586a 
+make[1]: 离开目录“/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp”
+
+
+    Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:1cxx_alias_templates
+    Feature record: CXX_FEATURE:1cxx_alignas
+    Feature record: CXX_FEATURE:1cxx_alignof
+    Feature record: CXX_FEATURE:1cxx_attributes
+    Feature record: CXX_FEATURE:0cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:1cxx_auto_type
+    Feature record: CXX_FEATURE:0cxx_binary_literals
+    Feature record: CXX_FEATURE:1cxx_constexpr
+    Feature record: CXX_FEATURE:0cxx_contextual_conversions
+    Feature record: CXX_FEATURE:1cxx_decltype
+    Feature record: CXX_FEATURE:0cxx_decltype_auto
+    Feature record: CXX_FEATURE:1cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:1cxx_default_function_template_args
+    Feature record: CXX_FEATURE:1cxx_defaulted_functions
+    Feature record: CXX_FEATURE:1cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:1cxx_delegating_constructors
+    Feature record: CXX_FEATURE:1cxx_deleted_functions
+    Feature record: CXX_FEATURE:0cxx_digit_separators
+    Feature record: CXX_FEATURE:1cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:1cxx_explicit_conversions
+    Feature record: CXX_FEATURE:1cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:1cxx_extern_templates
+    Feature record: CXX_FEATURE:1cxx_final
+    Feature record: CXX_FEATURE:1cxx_func_identifier
+    Feature record: CXX_FEATURE:1cxx_generalized_initializers
+    Feature record: CXX_FEATURE:0cxx_generic_lambdas
+    Feature record: CXX_FEATURE:1cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:1cxx_inline_namespaces
+    Feature record: CXX_FEATURE:1cxx_lambdas
+    Feature record: CXX_FEATURE:0cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:1cxx_local_type_template_args
+    Feature record: CXX_FEATURE:1cxx_long_long_type
+    Feature record: CXX_FEATURE:1cxx_noexcept
+    Feature record: CXX_FEATURE:1cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:1cxx_nullptr
+    Feature record: CXX_FEATURE:1cxx_override
+    Feature record: CXX_FEATURE:1cxx_range_for
+    Feature record: CXX_FEATURE:1cxx_raw_string_literals
+    Feature record: CXX_FEATURE:1cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:0cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:0cxx_return_type_deduction
+    Feature record: CXX_FEATURE:1cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:1cxx_rvalue_references
+    Feature record: CXX_FEATURE:1cxx_sizeof_member
+    Feature record: CXX_FEATURE:1cxx_static_assert
+    Feature record: CXX_FEATURE:1cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:1cxx_thread_local
+    Feature record: CXX_FEATURE:1cxx_trailing_return_types
+    Feature record: CXX_FEATURE:1cxx_unicode_literals
+    Feature record: CXX_FEATURE:1cxx_uniform_initialization
+    Feature record: CXX_FEATURE:1cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:1cxx_user_literals
+    Feature record: CXX_FEATURE:0cxx_variable_templates
+    Feature record: CXX_FEATURE:1cxx_variadic_macros
+    Feature record: CXX_FEATURE:1cxx_variadic_templates
+
+
+Detecting CXX [-std=c++98] compiler features compiled with the following output:
+Change Dir: /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp
+
+Run Build Command(s):/usr/bin/make cmTC_99961/fast 
+/usr/bin/make -f CMakeFiles/cmTC_99961.dir/build.make CMakeFiles/cmTC_99961.dir/build
+make[1]: 进入目录“/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp”
+Building CXX object CMakeFiles/cmTC_99961.dir/feature_tests.cxx.o
+/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-g++    -std=c++98 -o CMakeFiles/cmTC_99961.dir/feature_tests.cxx.o -c /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_99961
+/usr/local/cmake-3.14.7/bin/cmake -E cmake_link_script CMakeFiles/cmTC_99961.dir/link.txt --verbose=1
+/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-g++       CMakeFiles/cmTC_99961.dir/feature_tests.cxx.o  -o cmTC_99961 
+make[1]: 离开目录“/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/CMakeTmp”
+
+
+    Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
+    Feature record: CXX_FEATURE:0cxx_alias_templates
+    Feature record: CXX_FEATURE:0cxx_alignas
+    Feature record: CXX_FEATURE:0cxx_alignof
+    Feature record: CXX_FEATURE:0cxx_attributes
+    Feature record: CXX_FEATURE:0cxx_attribute_deprecated
+    Feature record: CXX_FEATURE:0cxx_auto_type
+    Feature record: CXX_FEATURE:0cxx_binary_literals
+    Feature record: CXX_FEATURE:0cxx_constexpr
+    Feature record: CXX_FEATURE:0cxx_contextual_conversions
+    Feature record: CXX_FEATURE:0cxx_decltype
+    Feature record: CXX_FEATURE:0cxx_decltype_auto
+    Feature record: CXX_FEATURE:0cxx_decltype_incomplete_return_types
+    Feature record: CXX_FEATURE:0cxx_default_function_template_args
+    Feature record: CXX_FEATURE:0cxx_defaulted_functions
+    Feature record: CXX_FEATURE:0cxx_defaulted_move_initializers
+    Feature record: CXX_FEATURE:0cxx_delegating_constructors
+    Feature record: CXX_FEATURE:0cxx_deleted_functions
+    Feature record: CXX_FEATURE:0cxx_digit_separators
+    Feature record: CXX_FEATURE:0cxx_enum_forward_declarations
+    Feature record: CXX_FEATURE:0cxx_explicit_conversions
+    Feature record: CXX_FEATURE:0cxx_extended_friend_declarations
+    Feature record: CXX_FEATURE:0cxx_extern_templates
+    Feature record: CXX_FEATURE:0cxx_final
+    Feature record: CXX_FEATURE:0cxx_func_identifier
+    Feature record: CXX_FEATURE:0cxx_generalized_initializers
+    Feature record: CXX_FEATURE:0cxx_generic_lambdas
+    Feature record: CXX_FEATURE:0cxx_inheriting_constructors
+    Feature record: CXX_FEATURE:0cxx_inline_namespaces
+    Feature record: CXX_FEATURE:0cxx_lambdas
+    Feature record: CXX_FEATURE:0cxx_lambda_init_captures
+    Feature record: CXX_FEATURE:0cxx_local_type_template_args
+    Feature record: CXX_FEATURE:0cxx_long_long_type
+    Feature record: CXX_FEATURE:0cxx_noexcept
+    Feature record: CXX_FEATURE:0cxx_nonstatic_member_init
+    Feature record: CXX_FEATURE:0cxx_nullptr
+    Feature record: CXX_FEATURE:0cxx_override
+    Feature record: CXX_FEATURE:0cxx_range_for
+    Feature record: CXX_FEATURE:0cxx_raw_string_literals
+    Feature record: CXX_FEATURE:0cxx_reference_qualified_functions
+    Feature record: CXX_FEATURE:0cxx_relaxed_constexpr
+    Feature record: CXX_FEATURE:0cxx_return_type_deduction
+    Feature record: CXX_FEATURE:0cxx_right_angle_brackets
+    Feature record: CXX_FEATURE:0cxx_rvalue_references
+    Feature record: CXX_FEATURE:0cxx_sizeof_member
+    Feature record: CXX_FEATURE:0cxx_static_assert
+    Feature record: CXX_FEATURE:0cxx_strong_enums
+    Feature record: CXX_FEATURE:1cxx_template_template_parameters
+    Feature record: CXX_FEATURE:0cxx_thread_local
+    Feature record: CXX_FEATURE:0cxx_trailing_return_types
+    Feature record: CXX_FEATURE:0cxx_unicode_literals
+    Feature record: CXX_FEATURE:0cxx_uniform_initialization
+    Feature record: CXX_FEATURE:0cxx_unrestricted_unions
+    Feature record: CXX_FEATURE:0cxx_user_literals
+    Feature record: CXX_FEATURE:0cxx_variable_templates
+    Feature record: CXX_FEATURE:0cxx_variadic_macros
+    Feature record: CXX_FEATURE:0cxx_variadic_templates
