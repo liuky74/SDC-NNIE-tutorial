@@ -17,14 +17,22 @@ using namespace std;
 
 int main() {
     int ret;
-
     ArrayQueue array_queue(25, sizeof(SDC_YUV_DATA_S));
     /* 申请视频服务,构造函数会执行 注册服务 + 申请yuv_channel id + 导入队列*/
     VideoService video_service(&array_queue);
+    /*申请工具服务,这个服务主要用于SDC的辅助操作,比如内存的申请和释放等*/
     UtilsService utils_service;
     /* 申请算法模块服务*/
     AlgorithmService algorithm_service(&video_service,&utils_service);
-    /* 加载SSD模型*/
+
+/*---核心流程---
+ * 1 加载模型
+ * 2 读取图像
+ * 3 模型推导
+ * 4 获得结果
+ * --------------*/
+
+/*--- 1 加载SSD模型---------------------------------------------------------------------------------------------------*/
     char model_file[100] ="./ssd_model.wk";
     ret = algorithm_service.SDC_load_model(model_file,1);
     if(ret<0){
@@ -40,6 +48,7 @@ int main() {
         exit(0);
     } else DEBUG_LOG("ssd_param_init sucess.");
 
+/*--- 2 读取图像------------------------------------------------------------------------------------------------------*/
     //设定视频通道的参数
     video_service.set_yuv_channel_param(640, 480, 25);
     //订阅数据
@@ -65,6 +74,10 @@ int main() {
                 } else {
                     /*打印转换后的RGB数据内存地址*/
                     DEBUG_LOG("rgb_data[%i] addr_virt: %lu", idx, rgb_data[idx].addr_virt);
+/*--- 3 模型推导------------------------------------------------------------------------------------------------------*/
+/*todo*/
+/*--- 4 获得结果------------------------------------------------------------------------------------------------------*/
+/*todo*/
                     /*释放RGB数据的内存空间*/
                     algorithm_service.SDC_TransYUV2RGBRelease(&rgb_data[idx]);
                 }
