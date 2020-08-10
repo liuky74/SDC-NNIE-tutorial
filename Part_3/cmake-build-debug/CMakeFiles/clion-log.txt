@@ -1,7 +1,0 @@
-/usr/local/cmake-3.14.7/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-gcc -DCMAKE_CXX_COMPILER=/home/liuky/HDD_1/soft/aarch-linux-gnu/bin/aarch64-linux-gnu-g++ -G "CodeBlocks - Unix Makefiles" /tmp/tmp.6I4iBHcHEb/Part_3
--- Configuring done
--- Build files have been written to: /tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug
-CMake Error at CMakeLists.txt:16 (add_executable):
-  No SOURCES given to target: NNIE_tutorial
-
-

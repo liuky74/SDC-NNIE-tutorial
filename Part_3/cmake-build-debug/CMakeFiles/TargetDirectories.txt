@@ -1,3 +1,0 @@
-/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/NNIE_tutorial.dir
-/tmp/tmp.6I4iBHcHEb/Part_3/cmake-build-debug/CMakeFiles/edit_cache.dir
