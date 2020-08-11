@@ -21,6 +21,7 @@
 
 #define SAMPLE_SVP_NNIE_QUANT_BASE 4096    /*the base value*/
 #define SAMPLE_SVP_NNIE_COORDI_NUM  4      /*coordinate numbers*/
+#define SAMPLE_SVP_NNIE_HALF 0.5f          /*the half value*/
 #define YUV_CHANNEL_LEN (3)
 #define SAMPLE_SVP_NNIE_PROPOSAL_WIDTH  6  /*the number of proposal values*/
 #define SAMPLE_SVP_NNIE_MAX(a,b)    (((a) > (b)) ? (a) : (b))
@@ -107,14 +108,82 @@ typedef struct
 
 typedef struct
 {
+    HI_U32 ImageWidth;
+    HI_U32 ImageHeight;
+
+}SDC_SSD_INPUT_SIZE_S;
+
+typedef struct hiSAMPLE_SVP_NNIE_STACK
+{
+    HI_S32 s32Min;
+    HI_S32 s32Max;
+}SAMPLE_SVP_NNIE_STACK_S;
+
+
+typedef struct
+{
     HI_U32 au32SrcSize[SVP_NNIE_MAX_INPUT_NUM];
     HI_U32 au32DstSize[SVP_NNIE_MAX_OUTPUT_NUM];
 }SVP_NNIE_BLOB_SIZE_S;
+
+typedef struct META_INFO_STRU
+{
+    unsigned short usX;
+    unsigned short usY;
+    unsigned short usWidth;
+    unsigned short usHeight;
+    unsigned int uclazz;
+    float confidence;
+}META_INFO_S;
+
+typedef struct SDC_SSD_OBJECT_INFO_S
+{
+    HI_S32 x_left;
+    HI_S32 y_top;
+    HI_S32 x_right;
+    HI_S32 y_bottom;
+    HI_S32 w;
+    HI_S32 h;
+    HI_U32 clazz;
+    HI_FLOAT confidence;
+}SDC_SSD_OBJECT_INFO_S;
+
+typedef struct SDC_SSD_RESULT_S
+{
+    SDC_IN_OUT HI_U32 numOfObject;
+    SDC_IN HI_FLOAT thresh;
+    SDC_OUT SDC_SSD_OBJECT_INFO_S *pObjInfo;
+}SDC_SSD_RESULT_S;
+
+typedef struct {
+    HI_FLOAT thresh;
+    VW_YUV_FRAME_S* rgb_img;
+    SDC_SSD_RESULT_S *pstResult;
+    SDC_SSD_INPUT_SIZE_S* InputSize;
+    META_INFO_S* astMetaInfo;
+    char* cLabelSendBuf;
+    char* auTempBuf;
+//    uint32_t idx_obj;
+//    uint32_t idx_meta;
+} InferParams;
+
+typedef struct hiSAMPLE_SVP_NNIE_DATA_INDEX_S
+{
+    HI_U32 u32SegIdx;
+    HI_U32 u32NodeIdx;
+}SAMPLE_SVP_NNIE_DATA_INDEX_S;
+
+/*this struct is used to indicate the input data from which seg's input or report node*/
+typedef SAMPLE_SVP_NNIE_DATA_INDEX_S  SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S;
+/*this struct is used to indicate which seg will be executed*/
+typedef SAMPLE_SVP_NNIE_DATA_INDEX_S  SAMPLE_SVP_NNIE_PROCESS_SEG_INDEX_S;
+
 
 class SSDModel {
 private:
     AlgorithmService *m_algorithm_service;
     UtilsService *m_utils_service;
+
     SVP_NNIE_PARAM_S nnie_param={0};
     SVP_NNIE_PARAM_S *m_nnie_param = &nnie_param;
     SVP_NNIE_SSD_SOFTWARE_PARAM_S model_software_param={0};
@@ -122,6 +191,14 @@ private:
     SVP_NNIE_CFG_S nnie_cfg={0};
     SVP_NNIE_CFG_S *m_nnie_cfg=&nnie_cfg;
     SVP_NNIE_MODEL_WITH_FILE_S *ssd_model;
+    SDC_SSD_INPUT_SIZE_S m_input_size={0};
+
+    META_INFO_S astMetaInfo[10] = {0};
+    char cLabelSendBuf[4096] = {0};
+    char auTempBuf[32]={0};
+    SDC_SSD_RESULT_S result={0};
+    InferParams infer_params={0};
+
 
 
     static void SVP_NNIE_GetBlobMemSize(SVP_NNIE_NODE_S *astNnieNode, HI_U32 u32NodeNum,
@@ -130,6 +207,9 @@ private:
 
     HI_S32 SVP_NNIE_GetTaskAndBlobBufSize(SVP_NNIE_BLOB_SIZE_S astBlobSize[],
                                           HI_U32 *pu32TotalSize);
+
+    HI_S32 SAMPLE_SVP_NNIE_Forward(SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S* pstInputDataIdx,
+                                   SAMPLE_SVP_NNIE_PROCESS_SEG_INDEX_S* pstProcSegIdx);
 
     HI_S32 SVP_NNIE_FillForwardInfo();
 
@@ -146,11 +226,32 @@ private:
     HI_S32 SDC_NNIE_ParamDeinit();
 
     HI_S32 SVP_NNIE_Ssd_Deinit();
+
 public:
 
-    SSDModel(AlgorithmService *algorithm_service , UtilsService *utils_service, SVP_NNIE_MODEL_WITH_FILE_S *model);
+    SSDModel(AlgorithmService *algorithm_service ,
+            UtilsService *utils_service,
+            SVP_NNIE_MODEL_WITH_FILE_S *model,
+            HI_U32 input_height,
+             HI_U32 input_width,
+             HI_FLOAT thresh);
+
     int ssd_param_init(HI_U32 max_input_num,HI_U32 max_roi_num);
 
+    void data_connect(VW_YUV_FRAME_S *rgb_data_ptr);
+    int infer();
+    int SDC_SVP_ForwardBGR(
+            SDC_SSD_RESULT_S *pstResult
+//            SDC_SSD_INPUT_SIZE_S InputSize
+            );
+
+    HI_S32 SAMPLE_SVP_NNIE_FillSrcData(SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S* pstInputDataIdx);
+
+    HI_S32 SDC_SVP_NNIE_Detection_GetResult(SVP_BLOB_S *pstDstScore,
+                                            SVP_BLOB_S *pstDstRoi, SVP_BLOB_S *pstClassRoiNum, SDC_SSD_RESULT_S *pstResult);
+
+    HI_S32 SAMPLE_SVP_NNIE_Ssd_GetResult(SVP_NNIE_PARAM_S*pstNnieParam,
+                                         SVP_NNIE_SSD_SOFTWARE_PARAM_S* pstSoftwareParam);
 
 };
 

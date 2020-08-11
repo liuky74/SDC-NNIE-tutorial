@@ -6,6 +6,7 @@
 #define NNIE_TUTORIAL_SDC_HPP
 
 #include <cstdint>
+#include <hi_nnie.h>
 #include "sys/ioctl.h"
 #include "common.hpp"
 
@@ -60,8 +61,6 @@ typedef unsigned long long		UINT64;
 
 
 #define MAX_MODULE_PATH 100
-
-
 
 
 typedef struct
@@ -147,6 +146,22 @@ typedef struct
     uint64_t pts_sys;
     SDC_YUV_FRAME_S frame;
 } SDC_YUV_DATA_S;
+
+typedef struct sdc_nnie_forward_ctrl_stru
+{
+    uint32_t netseg_id;
+    uint32_t max_batch_num;
+    uint32_t max_bbox_num;
+    uint32_t reserve;
+}sdc_nnie_forward_ctrl_s;
+
+typedef struct
+{
+    SVP_NNIE_MODEL_S model;
+    sdc_nnie_forward_ctrl_s forward_ctrl;
+    SVP_SRC_BLOB_S astSrc[16];
+    SVP_DST_BLOB_S astDst[16];
+}sdc_nnie_forward_s;
 
 typedef struct
 {

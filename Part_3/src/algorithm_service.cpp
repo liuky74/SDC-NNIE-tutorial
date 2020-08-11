@@ -258,3 +258,41 @@ int AlgorithmService::SDC_TransYUV2RGBRelease(SDC_YUV_FRAME_S *rgb) {
     return PAS;
 }
 
+int AlgorithmService::SDC_Nnie_Forward(sdc_nnie_forward_s *p_sdc_nnie_forward)
+{
+    int nRet;
+    SDC_COMMON_HEAD_S rsp_head;
+    SDC_COMMON_HEAD_S head;
+    struct iovec iov[2] =
+            {
+                    [0] = {.iov_base = &head, .iov_len = sizeof(head)},
+                    [1] = {.iov_base = p_sdc_nnie_forward, .iov_len = sizeof(*p_sdc_nnie_forward)}
+            };
+    // fill head struct
+    memset(&head, 0, sizeof(head));
+    head.version = SDC_VERSION;
+    head.url = SDC_URL_NNIE_FORWARD;
+    head.method = SDC_METHOD_GET;
+    head.head_length = sizeof(head);
+    head.content_length = sizeof(*p_sdc_nnie_forward);
+
+    // write request
+    nRet = writev(m_fd_algorithm, iov, sizeof(iov)/sizeof(iov[0]));
+    if (nRet < 0)
+    {
+        DEBUG_LOG("ERR:failed to write info to NNIE Forward,nRet:%d!",nRet);
+        return ERR;
+    }
+    // read response
+    iov[0].iov_base = &rsp_head;
+    iov[0].iov_len = sizeof(rsp_head);
+    nRet = readv(m_fd_algorithm, iov, 1);
+    if (rsp_head.code != SDC_CODE_200 || nRet < 0)
+    {
+        DEBUG_LOG("ERR:failed to read info from NNIE Forward,nRet:%d,rsp_head.code:%d!",
+                nRet, rsp_head.code);
+        return ERR;
+    } else DEBUG_LOG("INFO:read info from NNIE Forward succese,nRet:%d,rsp_head.code:%d!",
+                     nRet, rsp_head.code);
+    return PAS;
+}

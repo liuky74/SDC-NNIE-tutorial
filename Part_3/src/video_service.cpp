@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <unistd.h>
 #include <sys/uio.h>
+#include <hi_comm_video.h>
 
 #include "video_service.hpp"
 
@@ -223,7 +224,7 @@ void* VideoService::read_camera_data_run(){
     /*编写申请头*/
     SDC_COMMON_HEAD_S *common_head = (SDC_COMMON_HEAD_S *) buf;
     while(!m_stop_reading){
-        usleep(1000);
+        usleep(3000);
         ret = read(m_fd_video, buf, sizeof(buf));
         if (ret < 0) {
             DEBUG_LOG("WARN:read yuv channel data from camara fail.response:%d,url:%d,code:%d, method:%d",
@@ -276,4 +277,32 @@ int VideoService::get_data_from_queue(SDC_YUV_DATA_S* yuv_data,int duration_num)
         DEBUG_LOG("WARN: queue is empty, get data from queue failed,ret is: %i",ret);
     }
     return ret;
+}
+
+void VideoService::SDC_Struct2RGB(SDC_YUV_FRAME_S *pstSdcRGBFrame, VW_YUV_FRAME_S *pstRGBFrameData) {
+    pstRGBFrameData->enPixelFormat = PIXEL_FORMAT_RGB_888;
+    pstRGBFrameData->pYuvImgAddr = (char *) pstSdcRGBFrame->addr_virt;
+    pstRGBFrameData->ulPhyAddr[0] = pstSdcRGBFrame->addr_phy;
+    pstRGBFrameData->ulPhyAddr[1] = pstSdcRGBFrame->addr_phy + (pstSdcRGBFrame->height * pstSdcRGBFrame->stride);
+    pstRGBFrameData->ulPhyAddr[2] = pstSdcRGBFrame->addr_phy + (pstSdcRGBFrame->height * pstSdcRGBFrame->stride) * 2;
+
+    pstRGBFrameData->ulVirAddr[0] = pstSdcRGBFrame->addr_virt;
+    pstRGBFrameData->ulVirAddr[1] = pstSdcRGBFrame->addr_virt + (pstSdcRGBFrame->height * pstSdcRGBFrame->stride);
+    pstRGBFrameData->ulVirAddr[2] = pstSdcRGBFrame->addr_virt + (pstSdcRGBFrame->height * pstSdcRGBFrame->stride) * 2;
+
+    pstRGBFrameData->uWidth = pstSdcRGBFrame->width;
+    pstRGBFrameData->uHeight = pstSdcRGBFrame->height;
+    pstRGBFrameData->uStride[0] = pstSdcRGBFrame->stride;
+    pstRGBFrameData->uStride[1] = pstSdcRGBFrame->stride;
+    pstRGBFrameData->uStride[2] = pstSdcRGBFrame->stride;
+    pstRGBFrameData->uFrmSize = pstSdcRGBFrame->size;
+    pstRGBFrameData->uPoolId = pstSdcRGBFrame->cookie[0];
+    pstRGBFrameData->uVbBlk = pstSdcRGBFrame->cookie[1];
+    DEBUG_LOG("img params:\n"
+              "width: %u, height: %u, channel: 3\n"
+              "stride[0]: %u\n",
+              pstSdcRGBFrame->width,
+              pstSdcRGBFrame->height,
+              pstSdcRGBFrame->stride);
+    return;
 }

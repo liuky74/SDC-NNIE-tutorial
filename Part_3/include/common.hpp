@@ -16,6 +16,25 @@
 #define PAS 0
 #define ERR -1
 
+#define SDC_IN
+#define SDC_OUT
+#define SDC_IN_OUT
+
+#define SAMPLE_SVP_COORDI_NUM                     4        /*num of coordinates*/
+#define SAMPLE_SVP_PROPOSAL_WIDTH                 6        /*the width of each proposal array*/
+#define SAMPLE_SVP_QUANT_BASE                     4096     /*the basic quantity*/
+#define SAMPLE_SVP_NNIE_MAX_SOFTWARE_MEM_NUM      4
+#define SAMPLE_SVP_NNIE_SSD_REPORT_NODE_NUM       12
+#define SAMPLE_SVP_NNIE_SSD_PRIORBOX_NUM          6
+#define SAMPLE_SVP_NNIE_SSD_SOFTMAX_NUM           6
+#define SAMPLE_SVP_NNIE_SSD_ASPECT_RATIO_NUM      6
+#define SAMPLE_SVP_NNIE_YOLOV1_WIDTH_GRID_NUM     7
+#define SAMPLE_SVP_NNIE_YOLOV1_HEIGHT_GRID_NUM    7
+#define SAMPLE_SVP_NNIE_EACH_SEG_STEP_ADDR_NUM    2
+#define SAMPLE_SVP_NNIE_MAX_CLASS_NUM             30
+#define SAMPLE_SVP_NNIE_MAX_ROI_NUM_OF_CLASS      50
+#define SAMPLE_SVP_NNIE_REPORT_NAME_LENGTH        64
+
 #include <stdio.h>
 #include <fcntl.h>
 #include <cstdlib>
@@ -106,5 +125,6 @@ do{																				  \
 		goto Label;                                                               \
 	}                                                                             \
 }while(0)
+
 
 #endif //NNIE_TUTORIAL_COMMON_HPP

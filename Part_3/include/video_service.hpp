@@ -48,6 +48,8 @@ public:
 
     int get_data_from_queue(SDC_YUV_DATA_S* yuv_data,int duration_num);
 
+    static void SDC_Struct2RGB(SDC_YUV_FRAME_S *pstSdcRGBFrame, VW_YUV_FRAME_S *pstRGBFrameData);
+
 };
 
 #endif //NNIE_TUTORIAL_VIDEO_SERVICE_HPP
