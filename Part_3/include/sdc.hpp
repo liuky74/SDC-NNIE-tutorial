@@ -39,7 +39,9 @@ typedef unsigned long long		UINT64;
 #define SDC_URL_NNIE_FORWARD_BBOX 0x02
 /*---utils.iaas.sdc*/
 #define SDC_URL_MMZ	101
-
+/*---event.paas.sdc*/
+#define SDC_URL_PAAS_EVENTD_EVENT 0
+#define SDC_HEAD_SHM_CACHED_EVENT 0xFFFF
 
 #define SDC_HEAD_YUV_CACHED_COUNT_MAX 	0x01
 
@@ -202,8 +204,45 @@ typedef struct
     unsigned int size;
 } SDC_MEM_S;
 
+typedef struct
+{
+    uint64_t addr_phy;
+    uint32_t size;
+    uint32_t cookie;
+}paas_shm_cached_event_s;
+
+
+typedef struct
+{
+    void* addr_virt;
+    unsigned long addr_phy;
+    unsigned int size;
+    unsigned int cookie;
+    int ttl;
+}SDC_SHM_CACHE_S;
+
+typedef struct
+{
+    char publisher[16];   //发送事件的服务标识，调测使用
+    char name[16];      //事件唯一标识，建议同域名定义避免冲突
+    uint64_t src_timestamp;  //发生时的时间，单位毫秒（CLOCK_MONOTONIC时间）
+    uint64_t tran_timestamp; //服务转发的时间，单位毫秒（CLOCK_MONOTONIC时间）
+    uint32_t id;        //建议同IP地址一样管理，不同前缀对应事件分类，方便分类订阅。
+    uint32_t length;   //事件内容的长度.
+    char data[0];
+}paas_event_s;
+
+typedef struct
+{
+    paas_event_s base;
+    char* data;
+}LABEL_EVENT_DATA_S;
+
+
 #define SRVFS_FT_PHYMEM 5
+#define SDC_FT_CACHE 7
 
 #define SRVFS_PHYMEM_CACHEFLUSH _IOW(SRVFS_FT_PHYMEM,0x03,SDC_MEM_S)
+#define SDC_CACHE_ALLOC _IOR(SDC_FT_CACHE,0x00, SDC_SHM_CACHE_S)
 
 #endif //NNIE_TUTORIAL_SDC_HPP

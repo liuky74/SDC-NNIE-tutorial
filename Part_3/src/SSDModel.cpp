@@ -528,12 +528,14 @@ HI_S32 SVP_NNIE_Ssd_DetectionOutForward(HI_U32 u32ConcatNum,
 
 SSDModel::SSDModel(AlgorithmService *algorithm_service,
                    UtilsService *utils_service,
+                   EventService *event_service,
                    SVP_NNIE_MODEL_WITH_FILE_S *model,
                    HI_U32 input_height,
                    HI_U32 input_width,
                    HI_FLOAT thresh) {
     m_algorithm_service = algorithm_service;
     m_utils_service = utils_service;
+    m_event_service = event_service;
     ssd_model = model;
     m_input_size.ImageWidth=input_width;
     m_input_size.ImageHeight=input_height;
@@ -1672,13 +1674,13 @@ HI_S32 SSDModel::SDC_SVP_NNIE_Detection_GetResult(SVP_BLOB_S *pstDstScore,
 
 int SSDModel::infer(){
     /*取出数据,方便调用*/
-    META_INFO_S* astMetaInfo = infer_params.astMetaInfo;
-    char* cLabelSendBuf = infer_params.cLabelSendBuf;
+//    META_INFO_S* astMetaInfo = infer_params.astMetaInfo;
+//    char* cLabelSendBuf = infer_params.cLabelSendBuf;
     VW_YUV_FRAME_S* rgb_img = infer_params.rgb_img;
     SDC_SSD_RESULT_S *pstResult= infer_params.pstResult;
     SDC_SSD_INPUT_SIZE_S* InputSize = infer_params.InputSize;
-    char* auTempBuf = infer_params.auTempBuf;
-    char* pYuvImageAddrs = rgb_img[0].pYuvImgAddr;
+//    char* auTempBuf = infer_params.auTempBuf;
+//    char* pYuvImageAddrs = rgb_img[0].pYuvImgAddr;
 
     if (SDC_SVP_ForwardBGR(pstResult))
     {
@@ -1686,7 +1688,43 @@ int SSDModel::infer(){
         return ERR;
     } else printf("SDC_SVP_ForwardBGR sucess!\n");
 
-//    SDC_LabelEventDel(sdc_services, 0, 0, APP_NAME);
+    /*清理元数据*/
+    m_event_service->SDC_LabelEventDel(0,0);
+
+    UINT32 idx=0,i=0; //统计box数量
+    idx = 0;
+    memset_s(infer_params.astMetaInfo,sizeof(META_INFO_S) * 10, 0, sizeof(META_INFO_S) * 10);
+    for(i = 0; i < pstResult->numOfObject; i++)
+    {
+        if(pstResult->pObjInfo[i].confidence > infer_params.thresh)//&&  stResult.pObjInfo[i].class==2
+        {
+            if(pstResult->pObjInfo[i].x_left < 0) pstResult->pObjInfo[i].x_left = 0;
+            if(pstResult->pObjInfo[i].y_top < 0) pstResult->pObjInfo[i].y_top = 0;
+            if(pstResult->pObjInfo[i].w < 0) pstResult->pObjInfo[i].w = 0;
+            if(pstResult->pObjInfo[i].h < 0) pstResult->pObjInfo[i].h = 0;
+
+            printf("Object[%d] class[%u] confidece[%f] {%03d, %03d, %03d, %03d, %03d, %03d}\n",
+                   i,
+                   pstResult->pObjInfo[i].clazz,
+                   pstResult->pObjInfo[i].confidence,
+                   pstResult->pObjInfo[i].x_left,
+                   pstResult->pObjInfo[i].y_top,
+                   pstResult->pObjInfo[i].x_right,
+                   pstResult->pObjInfo[i].y_bottom,
+                   pstResult->pObjInfo[i].w,
+                   pstResult->pObjInfo[i].h);
+
+            //#else
+            infer_params.astMetaInfo[idx].uclazz = pstResult->pObjInfo[i].clazz;
+            infer_params.astMetaInfo[idx].usX = pstResult->pObjInfo[i].x_left*10000/InputSize->ImageWidth;
+            infer_params.astMetaInfo[idx].usY = pstResult->pObjInfo[i].y_top*10000/InputSize->ImageHeight;
+            infer_params.astMetaInfo[idx].usWidth = pstResult->pObjInfo[i].w*10000/InputSize->ImageWidth;
+            infer_params.astMetaInfo[idx].usHeight = pstResult->pObjInfo[i].h*10000/InputSize->ImageHeight;
+
+            idx++;
+            //break;
+        }
+    }
 
     return PAS;
 };

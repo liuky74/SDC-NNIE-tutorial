@@ -183,6 +183,7 @@ class SSDModel {
 private:
     AlgorithmService *m_algorithm_service;
     UtilsService *m_utils_service;
+    EventService *m_event_service;
 
     SVP_NNIE_PARAM_S nnie_param={0};
     SVP_NNIE_PARAM_S *m_nnie_param = &nnie_param;
@@ -231,6 +232,7 @@ public:
 
     SSDModel(AlgorithmService *algorithm_service ,
             UtilsService *utils_service,
+             EventService *event_service,
             SVP_NNIE_MODEL_WITH_FILE_S *model,
             HI_U32 input_height,
              HI_U32 input_width,

@@ -8,6 +8,7 @@
 
 #include "video_service.hpp"
 #include "utils_service.hpp"
+#include "event_service.hpp"
 
 class AlgorithmService {
 private:
