@@ -19,6 +19,7 @@ public:
     int get_fd();
 
     int SDC_LabelEventDel(unsigned int baseid, unsigned int id);
+    int SDC_LabelEventPublish(unsigned int baseid, int iDataLen, char *cEventMsg, uint64_t pts);
 
 };
 

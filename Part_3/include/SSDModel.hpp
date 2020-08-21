@@ -11,6 +11,36 @@
 #include "utils_service.hpp"
 
 
+//----------------------------------------------------------------------------------------------------------------------
+
+typedef struct sdc_yuv_frame_stru {
+    uint64_t addr_phy;
+    uint64_t addr_virt;
+    uint32_t size;
+    uint32_t width;
+    uint32_t height;
+    uint32_t stride;
+    uint32_t format; // YUV_420SP
+    uint32_t reserve;
+    uint32_t cookie[4];
+} sdc_yuv_frame_s;
+
+typedef struct sdc_yuv_data_stru {
+    uint32_t channel;
+    uint32_t reserve;
+    uint64_t pts;
+    uint64_t pts_sys;
+    sdc_yuv_frame_s frame;
+} sdc_yuv_data_s;
+//----------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
 #define SAMPLE_SVP_NNIE_EACH_SEG_STEP_ADDR_NUM    2
 /*16Byte align*/
 #define SAMPLE_SVP_NNIE_ALIGN_16 16
@@ -24,31 +54,28 @@
 #define SAMPLE_SVP_NNIE_HALF 0.5f          /*the half value*/
 #define YUV_CHANNEL_LEN (3)
 #define SAMPLE_SVP_NNIE_PROPOSAL_WIDTH  6  /*the number of proposal values*/
-#define SAMPLE_SVP_NNIE_MAX(a,b)    (((a) > (b)) ? (a) : (b))
-#define SAMPLE_SVP_NNIE_MIN(a,b)    (((a) < (b)) ? (a) : (b))
+#define SAMPLE_SVP_NNIE_MAX(a, b)    (((a) > (b)) ? (a) : (b))
+#define SAMPLE_SVP_NNIE_MIN(a, b)    (((a) < (b)) ? (a) : (b))
 
 /*each seg input and output memory*/
-typedef struct hiSAMPLE_SVP_NNIE_SEG_DATA_S
-{
+typedef struct hiSAMPLE_SVP_NNIE_SEG_DATA_S {
     SVP_SRC_BLOB_S astSrc[SVP_NNIE_MAX_INPUT_NUM];
     SVP_DST_BLOB_S astDst[SVP_NNIE_MAX_OUTPUT_NUM];
-}SVP_NNIE_SEG_DATA_S;
+} SVP_NNIE_SEG_DATA_S;
 
 /*NNIE Execution parameters */
-typedef struct
-{
-    SVP_NNIE_MODEL_S*    pstModel;
+typedef struct {
+    SVP_NNIE_MODEL_S *pstModel;
     HI_U32 u32TmpBufSize;
     HI_U32 au32TaskBufSize[SVP_NNIE_MAX_NET_SEG_NUM];
-    SVP_MEM_INFO_S      stStepBuf;//store Lstm step info
+    SVP_MEM_INFO_S stStepBuf;//store Lstm step info
     SVP_NNIE_SEG_DATA_S astSegData[SVP_NNIE_MAX_NET_SEG_NUM];//each seg's input and output blob
     SVP_NNIE_FORWARD_CTRL_S astForwardCtrl[SVP_NNIE_MAX_NET_SEG_NUM];
     SVP_NNIE_FORWARD_WITHBBOX_CTRL_S astForwardWithBboxCtrl[SVP_NNIE_MAX_NET_SEG_NUM];
-}SVP_NNIE_PARAM_S;
+} SVP_NNIE_PARAM_S;
 
 /*SSD software parameter*/
-typedef struct
-{
+typedef struct {
     /*----------------- Model Parameters ---------------*/
     HI_U32 au32ConvHeight[12];
     HI_U32 au32ConvWidth[12];
@@ -91,53 +118,49 @@ typedef struct
     SVP_DST_BLOB_S stDstRoi;
     SVP_DST_BLOB_S stDstScore;
     SVP_MEM_INFO_S stGetResultTmpBuf;
-}SVP_NNIE_SSD_SOFTWARE_PARAM_S;
+} SVP_NNIE_SSD_SOFTWARE_PARAM_S;
 
 /*NNIE configuration parameter*/
-typedef struct
-{
+typedef struct {
+    VW_YUV_FRAME_S *rgb_adds;
     HI_CHAR *pszBGR;/*BGR彩色三通道数据的指针,在模型推断的过程中会将这个指针下的数据拷贝到模型的data blob中作为输入数据*/
     HI_CHAR *pszYUV;/*YUV420SP格式的数据指针*/
     HI_CHAR *pszPic;
 //    HI_CHAR **pszBGRs;
     HI_U32 u32MaxInputNum;/*模型的Batch size*/
     HI_U32 u32MaxRoiNum;
-    HI_U64 au64StepVirAddr[SAMPLE_SVP_NNIE_EACH_SEG_STEP_ADDR_NUM*SVP_NNIE_MAX_NET_SEG_NUM];//virtual addr of LSTM's or RNN's step buffer
-    SVP_NNIE_ID_E	aenNnieCoreId[SVP_NNIE_MAX_NET_SEG_NUM];/*使用的NNIE内核ID*/
-}SVP_NNIE_CFG_S;
+    HI_U64 au64StepVirAddr[SAMPLE_SVP_NNIE_EACH_SEG_STEP_ADDR_NUM *
+                           SVP_NNIE_MAX_NET_SEG_NUM];//virtual addr of LSTM's or RNN's step buffer
+    SVP_NNIE_ID_E aenNnieCoreId[SVP_NNIE_MAX_NET_SEG_NUM];/*使用的NNIE内核ID*/
+} SVP_NNIE_CFG_S;
 
-typedef struct
-{
+typedef struct {
     HI_U32 ImageWidth;
     HI_U32 ImageHeight;
 
-}SDC_SSD_INPUT_SIZE_S;
+} SDC_SSD_INPUT_SIZE_S;
 
-typedef struct hiSAMPLE_SVP_NNIE_STACK
-{
+typedef struct hiSAMPLE_SVP_NNIE_STACK {
     HI_S32 s32Min;
     HI_S32 s32Max;
-}SAMPLE_SVP_NNIE_STACK_S;
+} SAMPLE_SVP_NNIE_STACK_S;
 
 
-typedef struct
-{
+typedef struct {
     HI_U32 au32SrcSize[SVP_NNIE_MAX_INPUT_NUM];
     HI_U32 au32DstSize[SVP_NNIE_MAX_OUTPUT_NUM];
-}SVP_NNIE_BLOB_SIZE_S;
+} SVP_NNIE_BLOB_SIZE_S;
 
-typedef struct META_INFO_STRU
-{
+typedef struct META_INFO_STRU {
     unsigned short usX;
     unsigned short usY;
     unsigned short usWidth;
     unsigned short usHeight;
     unsigned int uclazz;
     float confidence;
-}META_INFO_S;
+} META_INFO_S;
 
-typedef struct SDC_SSD_OBJECT_INFO_S
-{
+typedef struct SDC_SSD_OBJECT_INFO_S {
     HI_S32 x_left;
     HI_S32 y_top;
     HI_S32 x_right;
@@ -146,37 +169,36 @@ typedef struct SDC_SSD_OBJECT_INFO_S
     HI_S32 h;
     HI_U32 clazz;
     HI_FLOAT confidence;
-}SDC_SSD_OBJECT_INFO_S;
+} SDC_SSD_OBJECT_INFO_S;
 
-typedef struct SDC_SSD_RESULT_S
-{
+typedef struct SDC_SSD_RESULT_S {
     SDC_IN_OUT HI_U32 numOfObject;
     SDC_IN HI_FLOAT thresh;
     SDC_OUT SDC_SSD_OBJECT_INFO_S *pObjInfo;
-}SDC_SSD_RESULT_S;
+} SDC_SSD_RESULT_S;
 
 typedef struct {
     HI_FLOAT thresh;
-    VW_YUV_FRAME_S* rgb_img;
+    VW_YUV_FRAME_S *rgb_img;
     SDC_SSD_RESULT_S *pstResult;
-    SDC_SSD_INPUT_SIZE_S* InputSize;
-    META_INFO_S* astMetaInfo;
-    char* cLabelSendBuf;
-    char* auTempBuf;
+    SDC_SSD_INPUT_SIZE_S *InputSize;
+    META_INFO_S *astMetaInfo;
+    char *cLabelSendBuf;
+    char *auTempBuf;
 //    uint32_t idx_obj;
 //    uint32_t idx_meta;
 } InferParams;
 
-typedef struct hiSAMPLE_SVP_NNIE_DATA_INDEX_S
-{
+typedef struct hiSAMPLE_SVP_NNIE_DATA_INDEX_S {
     HI_U32 u32SegIdx;
+    HI_U32 u32Node_num;
     HI_U32 u32NodeIdx;
-}SAMPLE_SVP_NNIE_DATA_INDEX_S;
+} SAMPLE_SVP_NNIE_DATA_INDEX_S;
 
 /*this struct is used to indicate the input data from which seg's input or report node*/
-typedef SAMPLE_SVP_NNIE_DATA_INDEX_S  SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S;
+typedef SAMPLE_SVP_NNIE_DATA_INDEX_S SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S;
 /*this struct is used to indicate which seg will be executed*/
-typedef SAMPLE_SVP_NNIE_DATA_INDEX_S  SAMPLE_SVP_NNIE_PROCESS_SEG_INDEX_S;
+typedef SAMPLE_SVP_NNIE_DATA_INDEX_S SAMPLE_SVP_NNIE_PROCESS_SEG_INDEX_S;
 
 
 class SSDModel {
@@ -185,38 +207,42 @@ private:
     UtilsService *m_utils_service;
     EventService *m_event_service;
 
-    SVP_NNIE_PARAM_S nnie_param={0};
+    SVP_NNIE_PARAM_S nnie_param = {0};
     SVP_NNIE_PARAM_S *m_nnie_param = &nnie_param;
-    SVP_NNIE_SSD_SOFTWARE_PARAM_S model_software_param={0};
+    SVP_NNIE_SSD_SOFTWARE_PARAM_S model_software_param = {0};
     SVP_NNIE_SSD_SOFTWARE_PARAM_S *m_model_software_param = &model_software_param;
-    SVP_NNIE_CFG_S nnie_cfg={0};
-    SVP_NNIE_CFG_S *m_nnie_cfg=&nnie_cfg;
+    SVP_NNIE_CFG_S nnie_cfg = {0};
+    SVP_NNIE_CFG_S *m_nnie_cfg = &nnie_cfg;
     SVP_NNIE_MODEL_WITH_FILE_S *ssd_model;
-    SDC_SSD_INPUT_SIZE_S m_input_size={0};
+    SDC_SSD_INPUT_SIZE_S m_input_size = {0};
+    HI_U32 m_duration_num;
+    HI_U32 m_class_num;
 
     META_INFO_S astMetaInfo[10] = {0};
     char cLabelSendBuf[4096] = {0};
-    char auTempBuf[32]={0};
-    SDC_SSD_RESULT_S result={0};
-    InferParams infer_params={0};
+    char auTempBuf[32] = {0};
+    SDC_SSD_RESULT_S result = {0};
+    InferParams infer_params = {0};
 
-
+    int m_done = 0;
 
     static void SVP_NNIE_GetBlobMemSize(SVP_NNIE_NODE_S *astNnieNode, HI_U32 u32NodeNum,
-                                        HI_U32 u32TotalStep, SVP_BLOB_S *astBlob, HI_U32 u32Align, HI_U32 *pu32TotalSize,
+                                        HI_U32 u32TotalStep, SVP_BLOB_S *astBlob, HI_U32 u32Align,
+                                        HI_U32 *pu32TotalSize,
                                         HI_U32 *au32BlobSize);
 
     HI_S32 SVP_NNIE_GetTaskAndBlobBufSize(SVP_NNIE_BLOB_SIZE_S astBlobSize[],
                                           HI_U32 *pu32TotalSize);
 
-    HI_S32 SAMPLE_SVP_NNIE_Forward(SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S* pstInputDataIdx,
-                                   SAMPLE_SVP_NNIE_PROCESS_SEG_INDEX_S* pstProcSegIdx);
+    HI_S32 SAMPLE_SVP_NNIE_Forward(SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S *pstInputDataIdx,
+                                   SAMPLE_SVP_NNIE_PROCESS_SEG_INDEX_S *pstProcSegIdx);
 
     HI_S32 SVP_NNIE_FillForwardInfo();
 
     HI_S32 SVP_NNIE_Ssd_ParamInit();
 
     HI_S32 SVP_NNIE_Ssd_SoftwareInit();
+
     HI_S32 SVP_NNIE_Ssd_SoftwareDeinit();
 
     HI_U32 SVP_NNIE_Ssd_GetResultTmpBuf();
@@ -224,36 +250,46 @@ private:
     HI_S32 SVP_NNIE_ParamInit();
 
     HI_S32 SDC_NNIE_ParamInit();
+
     HI_S32 SDC_NNIE_ParamDeinit();
 
     HI_S32 SVP_NNIE_Ssd_Deinit();
 
 public:
 
-    SSDModel(AlgorithmService *algorithm_service ,
-            UtilsService *utils_service,
+    SSDModel(AlgorithmService *algorithm_service,
+             UtilsService *utils_service,
              EventService *event_service,
-            SVP_NNIE_MODEL_WITH_FILE_S *model,
-            HI_U32 input_height,
+             SVP_NNIE_MODEL_WITH_FILE_S *model,
+             HI_U32 duration_num,
+             HI_U32 class_num,
+             HI_U32 input_height,
              HI_U32 input_width,
              HI_FLOAT thresh);
 
-    int ssd_param_init(HI_U32 max_input_num,HI_U32 max_roi_num);
+    int ssd_param_init(HI_U32 max_input_num, HI_U32 max_roi_num);
 
     void data_connect(VW_YUV_FRAME_S *rgb_data_ptr);
+
     int infer();
+
     int SDC_SVP_ForwardBGR(
             SDC_SSD_RESULT_S *pstResult
 //            SDC_SSD_INPUT_SIZE_S InputSize
-            );
+    );
 
-    HI_S32 SAMPLE_SVP_NNIE_FillSrcData(SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S* pstInputDataIdx);
+    HI_S32 SAMPLE_SVP_NNIE_FillSrcData(SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S *pstInputDataIdx);
 
     HI_S32 SDC_SVP_NNIE_Detection_GetResult(SVP_BLOB_S *pstDstScore,
-                                            SVP_BLOB_S *pstDstRoi, SVP_BLOB_S *pstClassRoiNum, SDC_SSD_RESULT_S *pstResult);
+                                            SVP_BLOB_S *pstDstRoi, SVP_BLOB_S *pstClassRoiNum,
+                                            SDC_SSD_RESULT_S *pstResult);
 
-    HI_S32 SAMPLE_SVP_NNIE_Ssd_GetResult(SVP_NNIE_PARAM_S*pstNnieParam,
-                                         SVP_NNIE_SSD_SOFTWARE_PARAM_S* pstSoftwareParam);
+    HI_S32 SAMPLE_SVP_NNIE_Ssd_GetResult(SVP_NNIE_PARAM_S *pstNnieParam,
+                                         SVP_NNIE_SSD_SOFTWARE_PARAM_S *pstSoftwareParam);
+
+    void infer_run();
+
+    int show(UINT32 idx, char *app_name, UINT64 pts);
 
 };
 

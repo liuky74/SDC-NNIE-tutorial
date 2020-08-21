@@ -4,7 +4,9 @@
 
 #include <time.h>
 #include <math.h>
+#include <unistd.h>
 #include "SSDModel.hpp"
+#include "img_save.hpp"
 
 HI_S32 SVP_NNIE_Overlap(HI_S32 s32XMin1, HI_S32 s32YMin1, HI_S32 s32XMax1, HI_S32 s32YMax1, HI_S32 s32XMin2,
                         HI_S32 s32YMin2, HI_S32 s32XMax2, HI_S32 s32YMax2,  HI_S32* s32AreaSum, HI_S32* s32AreaInter)
@@ -530,6 +532,8 @@ SSDModel::SSDModel(AlgorithmService *algorithm_service,
                    UtilsService *utils_service,
                    EventService *event_service,
                    SVP_NNIE_MODEL_WITH_FILE_S *model,
+                   HI_U32 duration_num,
+                   HI_U32 class_num,
                    HI_U32 input_height,
                    HI_U32 input_width,
                    HI_FLOAT thresh) {
@@ -537,6 +541,7 @@ SSDModel::SSDModel(AlgorithmService *algorithm_service,
     m_utils_service = utils_service;
     m_event_service = event_service;
     ssd_model = model;
+    m_class_num = class_num;
     m_input_size.ImageWidth=input_width;
     m_input_size.ImageHeight=input_height;
 
@@ -547,6 +552,7 @@ SSDModel::SSDModel(AlgorithmService *algorithm_service,
     infer_params.InputSize = &m_input_size;
     infer_params.pstResult = &result;
 
+    m_duration_num = duration_num;
     result.numOfObject=10;
     result.thresh = thresh;
     /*申请内存用于保存检测结果*/
@@ -758,7 +764,6 @@ HI_S32 SSDModel::SVP_NNIE_GetTaskAndBlobBufSize(SVP_NNIE_BLOB_SIZE_S astBlobSize
         * other seg's src blobs from the output blobs of those segs before it or from software output results*/
         /*计算输入blob的内存,注意只有第一个Seg的输入blob需要申请,因为其余Seg的输入节点都是以其他输出节点数据作为输入的,不需要再申请内存*/
         if (i == 0) {
-            DEBUG_LOG("u32TotalStep: %i", u32TotalStep);
             SVP_NNIE_GetBlobMemSize(
                     &(m_nnie_param->pstModel->astSeg[i].astSrcNode[0]),/*来自SVP_NNIE_MODEL_S结构体的第i个Seg下的第一个输入节点blob[0]的指针*/
                     m_nnie_param->pstModel->astSeg[i].u16SrcNum, /*有多少个输入blob节点,会一次性把所有节点的内存大小都计算出来*/
@@ -934,7 +939,7 @@ HI_U32 SSDModel::SVP_NNIE_Ssd_GetResultTmpBuf() {
 HI_S32 SSDModel::SVP_NNIE_Ssd_SoftwareInit() {
     HI_U32 i = 0;
     HI_S32 s32Ret = HI_SUCCESS;
-    HI_U32 u32ClassNum = 9;//分类数
+    HI_U32 u32ClassNum = m_class_num;//分类数
     HI_U32 u32TotalSize = 0;
     HI_U32 u32DstRoiSize = 0;
     HI_U32 u32DstScoreSize = 0;
@@ -1318,11 +1323,13 @@ int SSDModel::SDC_SVP_ForwardBGR(
     m_nnie_cfg->pszPic = HI_NULL;
     m_nnie_cfg->pszYUV = HI_NULL;
 //    m_nnie_cfg->pszBGR = pcSrcBGR;
+    m_nnie_cfg->rgb_adds = infer_params.rgb_img;
     m_nnie_cfg->pszBGR = infer_params.rgb_img->pYuvImgAddr;
 
     /*Fill src data*/
     //  SAMPLE_SVP_TRACE_INFO("Ssd start!\n");
     stInputDataIdx.u32SegIdx = 0;
+    stInputDataIdx.u32Node_num = m_duration_num;
     stInputDataIdx.u32NodeIdx = 0;
     /*从data_connect获取到的数据地址中拷贝数据到模型的输入blob的数据内存地址中*/
     s32Ret = SAMPLE_SVP_NNIE_FillSrcData(&stInputDataIdx);
@@ -1351,7 +1358,7 @@ int SSDModel::SDC_SVP_ForwardBGR(
                                      &m_model_software_param->stDstRoi, &m_model_software_param->stClassRoiNum, infer_params.pstResult);
     return s32Ret;
 }
-
+/*多帧填充*/
 HI_S32 SSDModel::SAMPLE_SVP_NNIE_FillSrcData(SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S* pstInputDataIdx)
 {
 
@@ -1363,9 +1370,11 @@ HI_S32 SSDModel::SAMPLE_SVP_NNIE_FillSrcData(SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S*
     HI_U8*pu8PicAddr = NULL;
     HI_U32*pu32StepAddr = NULL;
     HI_U32 u32SegIdx = pstInputDataIdx->u32SegIdx;
-    HI_U32 u32NodeIdx = pstInputDataIdx->u32NodeIdx;
+    HI_U32 u32NodeIdxs = pstInputDataIdx->u32Node_num;
+    HI_U32 u32NodeIdx;
     HI_U32 u32TotalStepNum = 0;
     HI_U8 *pu8BGR = HI_NULL;
+    VW_YUV_FRAME_S *rgb_adds=HI_NULL;
     HI_U8 *pu8YUV = HI_NULL;
     HI_BOOL bRBG2BGR = HI_TRUE;
 
@@ -1377,156 +1386,145 @@ HI_S32 SSDModel::SAMPLE_SVP_NNIE_FillSrcData(SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S*
     HI_U8 *p_G_data = HI_NULL;
     HI_U8 *p_R_data = HI_NULL;
 
+    /*储存了rgb数据的VM_YUV_FRAME头指针*/
+    rgb_adds = m_nnie_cfg->rgb_adds;
+    for(u32NodeIdx=0;u32NodeIdx<u32NodeIdxs;u32NodeIdx++){
+        /*取出图像数据的指针*/
+        DEBUG_LOG("SAMPLE_SVP_NNIE_FillSrcData u32NodeIdx:%i",u32NodeIdx);
+        pu8BGR = (HI_U8*)(rgb_adds+u32NodeIdx)->pYuvImgAddr;
+        /*get data size*/
 
-    /*open file*/
-    if (NULL != m_nnie_cfg->pszPic)
-    {
-        fp = fopen(m_nnie_cfg->pszPic, "rb");
-        SAMPLE_SVP_CHECK_EXPR_RET(NULL == fp,HI_INVALID_VALUE,SAMPLE_SVP_ERR_LEVEL_ERROR,
-                                  "Error, open file failed!\n");
-    }
-    else if(NULL != m_nnie_cfg->pszBGR)
-    {
-        pu8BGR = (HI_U8*)m_nnie_cfg->pszBGR;
-        //printf("pu8BGR = %p\n", pu8BGR);
-    }
-    else if(NULL != m_nnie_cfg->pszYUV)
-    {
-        pu8YUV = (HI_U8*)m_nnie_cfg->pszYUV;
-        //printf("pu8YUV = %p\n", pu8YUV);
-    }
-
-    /*get data size*/
-    if(SVP_BLOB_TYPE_U8 <= m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].enType &&
-       SVP_BLOB_TYPE_YVU422SP >= m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].enType)
-    {
-        u32VarSize = sizeof(HI_U8);
-    }
-    else
-    {
-        u32VarSize = sizeof(HI_U32);
-    }
-
-    /*fill src data*/
-    if(SVP_BLOB_TYPE_SEQ_S32 == m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].enType)
-    {
-        u32Dim = m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].unShape.stSeq.u32Dim;
-        u32Stride = m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u32Stride;
-        pu32StepAddr = (HI_U32*)(m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].unShape.stSeq.u64VirAddrStep);
-        pu8PicAddr = (HI_U8*)(m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u64VirAddr);
-        for(n = 0; n < m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u32Num; n++)
+        if(SVP_BLOB_TYPE_U8 <= m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].enType &&
+           SVP_BLOB_TYPE_YVU422SP >= m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].enType)
         {
-            for(i = 0;i < *(pu32StepAddr+n); i++)
-            {
-                s32Ret = fread(pu8PicAddr,u32Dim*u32VarSize,1,fp);
-                SAMPLE_SVP_CHECK_EXPR_GOTO(1 != s32Ret,FAIL,SAMPLE_SVP_ERR_LEVEL_ERROR,"Error,Read image file failed!\n");
-                pu8PicAddr += u32Stride;
-            }
-            u32TotalStepNum += *(pu32StepAddr+n);
-        }
-
-        m_utils_service->SDC_FlushCache(m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u64PhyAddr,
-                                        (HI_VOID *) m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u64VirAddr,
-                       u32TotalStepNum*u32Stride);
-    }
-    else
-    {
-        u32Height = m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].unShape.stWhc.u32Height;
-        u32Width = m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].unShape.stWhc.u32Width;
-        u32Chn = m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].unShape.stWhc.u32Chn;
-        u32Stride = m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u32Stride;
-        pu8PicAddr = (HI_U8*)(m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u64VirAddr);
-        if(SVP_BLOB_TYPE_YVU420SP == m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].enType)
-        {
-            for(n = 0; n < m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u32Num; n++)
-            {
-                for(i = 0; i < u32Chn*u32Height/2; i++)
-                {
-                    if(fp)
-                    {
-                        s32Ret = fread(pu8PicAddr,u32Width*u32VarSize,1,fp);
-                    }
-                    else
-                    {
-                        //printf("pu8YUV current = %p\n", pu8YUV);
-                        memcpy_s(pu8PicAddr, u32Width*u32VarSize, pu8YUV, u32Width*u32VarSize);
-                        //printf("pu8YUV current2 = %p\n", pu8YUV);
-                        pu8YUV += 304;
-                    }
-                    //SAMPLE_SVP_CHECK_EXPR_GOTO(1 != s32Ret,FAIL,SAMPLE_SVP_ERR_LEVEL_ERROR,"Error,Read image file failed!\n");
-                    //printf("u32Stride = %d\n", u32Stride);
-                    pu8PicAddr += u32Stride;
-                }
-            }
-        }
-        else if(SVP_BLOB_TYPE_YVU422SP == m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].enType)
-        {
-            for(n = 0; n < m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u32Num; n++)
-            {
-                for(i = 0; i < u32Height*2; i++)
-                {
-                    s32Ret = fread(pu8PicAddr,u32Width*u32VarSize,1,fp);
-                    SAMPLE_SVP_CHECK_EXPR_GOTO(1 != s32Ret,FAIL,SAMPLE_SVP_ERR_LEVEL_ERROR,"Error,Read image file failed!\n");
-                    pu8PicAddr += u32Stride;
-                }
-            }
+            u32VarSize = sizeof(HI_U8);
         }
         else
         {
-            if(bRBG2BGR) // RBG => BGR
-            {
-                p_B_data = pu8BGR + B_BASE_OFFSET;
-                p_G_data = pu8BGR + G_BASE_OFFSET;
-                p_R_data = pu8BGR + R_BASE_OFFSET;
-            }
+            u32VarSize = sizeof(HI_U32);
+        }
+        /*fill src data*/
+        if(SVP_BLOB_TYPE_SEQ_S32 == m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].enType)
+        {
+            u32Dim = m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].unShape.stSeq.u32Dim;
+            u32Stride = m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u32Stride;
+            pu32StepAddr = (HI_U32*)(m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].unShape.stSeq.u64VirAddrStep);
+            pu8PicAddr = (HI_U8*)(m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u64VirAddr);
             for(n = 0; n < m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u32Num; n++)
             {
-                for(i = 0;i < u32Chn; i++)
+                for(i = 0;i < *(pu32StepAddr+n); i++)
                 {
-                    for(j = 0; j < u32Height; j++)
+                    s32Ret = fread(pu8PicAddr,u32Dim*u32VarSize,1,fp);
+                    SAMPLE_SVP_CHECK_EXPR_GOTO(1 != s32Ret,FAIL,SAMPLE_SVP_ERR_LEVEL_ERROR,"Error,Read image file failed!\n");
+                    pu8PicAddr += u32Stride;
+                }
+                u32TotalStepNum += *(pu32StepAddr+n);
+            }
+
+            m_utils_service->SDC_FlushCache(m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u64PhyAddr,
+                                            (HI_VOID *) m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u64VirAddr,
+                                            u32TotalStepNum*u32Stride);
+        }
+        else
+        {
+            u32Height = m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].unShape.stWhc.u32Height;
+            u32Width = m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].unShape.stWhc.u32Width;
+            u32Chn = m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].unShape.stWhc.u32Chn;
+            u32Stride = m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u32Stride;
+            pu8PicAddr = (HI_U8*)(m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u64VirAddr);
+            if(SVP_BLOB_TYPE_YVU420SP == m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].enType)
+            {
+                for(n = 0; n < m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u32Num; n++)
+                {
+                    for(i = 0; i < u32Chn*u32Height/2; i++)
                     {
-                        if(HI_NULL != fp)
+                        if(fp)
                         {
                             s32Ret = fread(pu8PicAddr,u32Width*u32VarSize,1,fp);
-                            SAMPLE_SVP_CHECK_EXPR_GOTO(1 != s32Ret,FAIL,SAMPLE_SVP_ERR_LEVEL_ERROR,"Error,Read image file failed!\n");
                         }
-                        else if(HI_NULL != m_nnie_cfg->pszBGR)
+                        else
                         {
-                            //printf("u32Width*u32VarSize = %d\n", u32Width*u32VarSize);
-                            if(bRBG2BGR) // RBG => BGR
-                            {
-                                if(u32Chn == 0) //copy B
-                                {
-                                    memcpy_s(pu8PicAddr, u32Width*u32VarSize, p_B_data, u32Width*u32VarSize);
-                                    p_B_data += u32Stride;
-                                }
-                                else if(u32Chn == 1) //copy G
-                                {
-                                    memcpy_s(pu8PicAddr, u32Width*u32VarSize, p_G_data, u32Width*u32VarSize);
-                                    p_G_data += u32Stride;
-                                }
-                                else // copy R
-                                {
-                                    memcpy_s(pu8PicAddr, u32Width*u32VarSize, p_R_data, u32Width*u32VarSize);
-                                    p_R_data += u32Stride;
-                                }
-                            }
-                            else
-                            {
-                                memcpy_s(pu8PicAddr, u32Width*u32VarSize, pu8BGR, u32Width*u32VarSize);
-                                pu8BGR += u32Stride;
-                            }
+                            //printf("pu8YUV current = %p\n", pu8YUV);
+                            memcpy_s(pu8PicAddr, u32Width*u32VarSize, pu8YUV, u32Width*u32VarSize);
+                            //printf("pu8YUV current2 = %p\n", pu8YUV);
+                            pu8YUV += 304;
                         }
-                        //pu8BGR += u32Width*u32VarSize;
+                        //SAMPLE_SVP_CHECK_EXPR_GOTO(1 != s32Ret,FAIL,SAMPLE_SVP_ERR_LEVEL_ERROR,"Error,Read image file failed!\n");
                         //printf("u32Stride = %d\n", u32Stride);
                         pu8PicAddr += u32Stride;
                     }
                 }
             }
+            else if(SVP_BLOB_TYPE_YVU422SP == m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].enType)
+            {
+                for(n = 0; n < m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u32Num; n++)
+                {
+                    for(i = 0; i < u32Height*2; i++)
+                    {
+                        s32Ret = fread(pu8PicAddr,u32Width*u32VarSize,1,fp);
+                        SAMPLE_SVP_CHECK_EXPR_GOTO(1 != s32Ret,FAIL,SAMPLE_SVP_ERR_LEVEL_ERROR,"Error,Read image file failed!\n");
+                        pu8PicAddr += u32Stride;
+                    }
+                }
+            }
+            else
+            {
+                if(bRBG2BGR) // RBG => BGR
+                {
+                    p_B_data = pu8BGR + B_BASE_OFFSET;
+                    p_G_data = pu8BGR + G_BASE_OFFSET;
+                    p_R_data = pu8BGR + R_BASE_OFFSET;
+                }
+                for(n = 0; n < m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u32Num; n++)
+                {
+                    for(i = 0;i < u32Chn; i++)
+                    {
+                        for(j = 0; j < u32Height; j++)
+                        {
+                            if(HI_NULL != fp)
+                            {
+                                s32Ret = fread(pu8PicAddr,u32Width*u32VarSize,1,fp);
+                                SAMPLE_SVP_CHECK_EXPR_GOTO(1 != s32Ret,FAIL,SAMPLE_SVP_ERR_LEVEL_ERROR,"Error,Read image file failed!\n");
+                            }
+                            else if(HI_NULL != m_nnie_cfg->pszBGR)
+                            {
+                                //printf("u32Width*u32VarSize = %d\n", u32Width*u32VarSize);
+                                if(bRBG2BGR) // RBG => BGR
+                                {
+                                    if(i == 0) //copy B
+                                    {
+//                                    DEBUG_LOG("p_B_data value: %i",*p_B_data);
+                                        memcpy_s(pu8PicAddr, u32Width*u32VarSize, p_B_data, u32Width*u32VarSize);
+                                        p_B_data += u32Stride;
+                                    }
+                                    else if(i == 1) //copy G
+                                    {
+//                                    DEBUG_LOG("p_G_data value: %i",*p_G_data);
+                                        memcpy_s(pu8PicAddr, u32Width*u32VarSize, p_G_data, u32Width*u32VarSize);
+                                        p_G_data += u32Stride;
+                                    }
+                                    else // copy R
+                                    {
+//                                    DEBUG_LOG("p_R_data value: %i",*p_R_data);
+                                        memcpy_s(pu8PicAddr, u32Width*u32VarSize, p_R_data, u32Width*u32VarSize);
+                                        p_R_data += u32Stride;
+                                    }
+                                }
+                                else
+                                {
+                                    memcpy_s(pu8PicAddr, u32Width*u32VarSize, pu8BGR, u32Width*u32VarSize);
+                                    pu8BGR += u32Stride;
+                                }
+                            }
+                            pu8PicAddr += u32Stride;
+                        }
+                    }
+                }
+            }
+            m_utils_service->SDC_FlushCache(m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u64PhyAddr,
+                                            (HI_VOID *) m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u64VirAddr,
+                                            m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u32Num * u32Chn * u32Height * u32Stride);
         }
-        m_utils_service->SDC_FlushCache(m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u64PhyAddr,
-                                        (HI_VOID *) m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u64VirAddr,
-                                        m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u32Num * u32Chn * u32Height * u32Stride);
     }
     if(fp != HI_NULL)
         fclose(fp);
@@ -1538,6 +1536,213 @@ HI_S32 SSDModel::SAMPLE_SVP_NNIE_FillSrcData(SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S*
     fclose(fp);
     return HI_FAILURE;
 }
+
+//HI_S32 SSDModel::SAMPLE_SVP_NNIE_FillSrcData(SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S* pstInputDataIdx)
+//{
+//
+//    FILE* fp = NULL;
+//    HI_U32 i =0, j = 0, n = 0;
+//    HI_U32 u32Height = 0, u32Width = 0, u32Chn = 0, u32Stride = 0, u32Dim = 0;
+//    HI_U32 u32VarSize = 0;
+//    HI_S32 s32Ret = HI_SUCCESS;
+//    HI_U8*pu8PicAddr = NULL;
+//    HI_U32*pu32StepAddr = NULL;
+//    HI_U32 u32SegIdx = pstInputDataIdx->u32SegIdx;
+//    HI_U32 u32NodeIdx = pstInputDataIdx->u32NodeIdx;
+//    HI_U32 u32TotalStepNum = 0;
+//    HI_U8 *pu8BGR = HI_NULL;
+//    HI_U8 *pu8YUV = HI_NULL;
+//    HI_BOOL bRBG2BGR = HI_TRUE;
+//
+//    // RBG => BGR 应该不对,从保存下来得图像显示,摄像头读入得就是BGR,不需要转换.是BGR->BGR
+//#define B_BASE_OFFSET (1*u32Stride*u32Height)
+//#define G_BASE_OFFSET (2*u32Stride*u32Height)
+//#define R_BASE_OFFSET (0*u32Stride*u32Height)
+////#define B_BASE_OFFSET (1*u32Stride*u32Height)
+////#define G_BASE_OFFSET (2*u32Stride*u32Height)
+////#define R_BASE_OFFSET (0*u32Stride*u32Height)
+//    HI_U8 *p_B_data = HI_NULL;
+//    HI_U8 *p_G_data = HI_NULL;
+//    HI_U8 *p_R_data = HI_NULL;
+//
+//
+//    /*open file*/
+//    if (NULL != m_nnie_cfg->pszPic)
+//    {
+//        fp = fopen(m_nnie_cfg->pszPic, "rb");
+//        SAMPLE_SVP_CHECK_EXPR_RET(NULL == fp,HI_INVALID_VALUE,SAMPLE_SVP_ERR_LEVEL_ERROR,
+//                                  "Error, open file failed!\n");
+//    }
+//    else if(NULL != m_nnie_cfg->pszBGR)
+//    {
+//        pu8BGR = (HI_U8*)m_nnie_cfg->pszBGR;
+//        DEBUG_LOG("---------------------------------------save img txt-----------------------------------------------");
+////        SaveImgTxt::SDC_RGB_save(m_nnie_cfg->pszBGR,304,304,"img1.txt");
+//        //printf("pu8BGR = %p\n", pu8BGR);
+//    }
+//    else if(NULL != m_nnie_cfg->pszYUV)
+//    {
+//        pu8YUV = (HI_U8*)m_nnie_cfg->pszYUV;
+//        //printf("pu8YUV = %p\n", pu8YUV);
+//    }
+//
+//    /*get data size*/
+//
+//    if(SVP_BLOB_TYPE_U8 <= m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].enType &&
+//       SVP_BLOB_TYPE_YVU422SP >= m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].enType)
+//    {
+//        u32VarSize = sizeof(HI_U8);
+//    }
+//    else
+//    {
+//        u32VarSize = sizeof(HI_U32);
+//    }
+//
+//    /*fill src data*/
+//    if(SVP_BLOB_TYPE_SEQ_S32 == m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].enType)
+//    {
+//        DEBUG_LOG("错误的分支");
+//        exit(-1);
+//        u32Dim = m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].unShape.stSeq.u32Dim;
+//        u32Stride = m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u32Stride;
+//        pu32StepAddr = (HI_U32*)(m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].unShape.stSeq.u64VirAddrStep);
+//        pu8PicAddr = (HI_U8*)(m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u64VirAddr);
+//        for(n = 0; n < m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u32Num; n++)
+//        {
+//            for(i = 0;i < *(pu32StepAddr+n); i++)
+//            {
+//                s32Ret = fread(pu8PicAddr,u32Dim*u32VarSize,1,fp);
+//                SAMPLE_SVP_CHECK_EXPR_GOTO(1 != s32Ret,FAIL,SAMPLE_SVP_ERR_LEVEL_ERROR,"Error,Read image file failed!\n");
+//                pu8PicAddr += u32Stride;
+//            }
+//            u32TotalStepNum += *(pu32StepAddr+n);
+//        }
+//
+//        m_utils_service->SDC_FlushCache(m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u64PhyAddr,
+//                                        (HI_VOID *) m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u64VirAddr,
+//                       u32TotalStepNum*u32Stride);
+//    }
+//    else
+//    {
+//        u32Height = m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].unShape.stWhc.u32Height;
+//        u32Width = m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].unShape.stWhc.u32Width;
+//        u32Chn = m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].unShape.stWhc.u32Chn;
+//        u32Stride = m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u32Stride;
+//        pu8PicAddr = (HI_U8*)(m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u64VirAddr);
+//        if(SVP_BLOB_TYPE_YVU420SP == m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].enType)
+//        {
+//            DEBUG_LOG("ERR:错误的分支");
+//            exit(-1);
+//            for(n = 0; n < m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u32Num; n++)
+//            {
+//                for(i = 0; i < u32Chn*u32Height/2; i++)
+//                {
+//                    if(fp)
+//                    {
+//                        s32Ret = fread(pu8PicAddr,u32Width*u32VarSize,1,fp);
+//                    }
+//                    else
+//                    {
+//                        //printf("pu8YUV current = %p\n", pu8YUV);
+//                        memcpy_s(pu8PicAddr, u32Width*u32VarSize, pu8YUV, u32Width*u32VarSize);
+//                        //printf("pu8YUV current2 = %p\n", pu8YUV);
+//                        pu8YUV += 304;
+//                    }
+//                    //SAMPLE_SVP_CHECK_EXPR_GOTO(1 != s32Ret,FAIL,SAMPLE_SVP_ERR_LEVEL_ERROR,"Error,Read image file failed!\n");
+//                    //printf("u32Stride = %d\n", u32Stride);
+//                    pu8PicAddr += u32Stride;
+//                }
+//            }
+//        }
+//        else if(SVP_BLOB_TYPE_YVU422SP == m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].enType)
+//        {
+//            DEBUG_LOG("ERR:错误的分支");
+//            exit(-1);
+//            for(n = 0; n < m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u32Num; n++)
+//            {
+//                for(i = 0; i < u32Height*2; i++)
+//                {
+//                    s32Ret = fread(pu8PicAddr,u32Width*u32VarSize,1,fp);
+//                    SAMPLE_SVP_CHECK_EXPR_GOTO(1 != s32Ret,FAIL,SAMPLE_SVP_ERR_LEVEL_ERROR,"Error,Read image file failed!\n");
+//                    pu8PicAddr += u32Stride;
+//                }
+//            }
+//        }
+//        else
+//        {
+//            if(bRBG2BGR) // RBG => BGR
+//            {
+//                p_B_data = pu8BGR + B_BASE_OFFSET;
+//                p_G_data = pu8BGR + G_BASE_OFFSET;
+//                p_R_data = pu8BGR + R_BASE_OFFSET;
+//                DEBUG_LOG("INFO:|u32Stride:%i,|u32Height:%i|,",u32Stride,u32Height);
+//
+////                SaveImgTxt::SDC_RGB_save(p_R_data,p_G_data,p_B_data,304,300,"img2.txt");
+////                exit(0);
+//            }
+//            for(n = 0; n < m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u32Num; n++)
+//            {
+//                for(i = 0;i < u32Chn; i++)
+//                {
+//                    for(j = 0; j < u32Height; j++)
+//                    {
+//                        if(HI_NULL != fp)
+//                        {
+//                            s32Ret = fread(pu8PicAddr,u32Width*u32VarSize,1,fp);
+//                            SAMPLE_SVP_CHECK_EXPR_GOTO(1 != s32Ret,FAIL,SAMPLE_SVP_ERR_LEVEL_ERROR,"Error,Read image file failed!\n");
+//                        }
+//                        else if(HI_NULL != m_nnie_cfg->pszBGR)
+//                        {
+//                            //printf("u32Width*u32VarSize = %d\n", u32Width*u32VarSize);
+//                            if(bRBG2BGR) // RBG => BGR
+//                            {
+//
+//                                if(i == 0) //copy B
+//                                {
+////                                    DEBUG_LOG("p_B_data value: %i",*p_B_data);
+//                                    memcpy_s(pu8PicAddr, u32Width*u32VarSize, p_B_data, u32Width*u32VarSize);
+//                                    p_B_data += u32Stride;
+//                                }
+//                                else if(i == 1) //copy G
+//                                {
+////                                    DEBUG_LOG("p_G_data value: %i",*p_G_data);
+//                                    memcpy_s(pu8PicAddr, u32Width*u32VarSize, p_G_data, u32Width*u32VarSize);
+//                                    p_G_data += u32Stride;
+//                                }
+//                                else // copy R
+//                                {
+////                                    DEBUG_LOG("p_R_data value: %i",*p_R_data);
+//                                    memcpy_s(pu8PicAddr, u32Width*u32VarSize, p_R_data, u32Width*u32VarSize);
+//                                    p_R_data += u32Stride;
+//                                }
+//                            }
+//                            else
+//                            {
+//                                memcpy_s(pu8PicAddr, u32Width*u32VarSize, pu8BGR, u32Width*u32VarSize);
+//                                pu8BGR += u32Stride;
+//                            }
+//                        }
+//                        //pu8BGR += u32Width*u32VarSize;
+//                        //printf("u32Stride = %d\n", u32Stride);
+//                        pu8PicAddr += u32Stride;
+//                    }
+//                }
+//            }
+//        }
+//        m_utils_service->SDC_FlushCache(m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u64PhyAddr,
+//                                        (HI_VOID *) m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u64VirAddr,
+//                                        m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u32Num * u32Chn * u32Height * u32Stride);
+//    }
+//    if(fp != HI_NULL)
+//        fclose(fp);
+//    return HI_SUCCESS;
+//
+//    FAIL:
+//    if(fp != HI_NULL)
+//        fclose(fp);
+//    fclose(fp);
+//    return HI_FAILURE;
+//}
 
 HI_S32 SSDModel::SAMPLE_SVP_NNIE_Ssd_GetResult(SVP_NNIE_PARAM_S*pstNnieParam,
                                      SVP_NNIE_SSD_SOFTWARE_PARAM_S* pstSoftwareParam)
@@ -1676,13 +1881,13 @@ int SSDModel::infer(){
     /*取出数据,方便调用*/
 //    META_INFO_S* astMetaInfo = infer_params.astMetaInfo;
 //    char* cLabelSendBuf = infer_params.cLabelSendBuf;
-    VW_YUV_FRAME_S* rgb_img = infer_params.rgb_img;
+//    VW_YUV_FRAME_S* rgb_img = infer_params.rgb_img;
     SDC_SSD_RESULT_S *pstResult= infer_params.pstResult;
     SDC_SSD_INPUT_SIZE_S* InputSize = infer_params.InputSize;
 //    char* auTempBuf = infer_params.auTempBuf;
 //    char* pYuvImageAddrs = rgb_img[0].pYuvImgAddr;
 
-    if (SDC_SVP_ForwardBGR(pstResult))
+    if (SDC_SVP_ForwardBGR(pstResult)<0)
     {
         printf("Err in SDC_SVP_ForwardBGR!\n");
         return ERR;
@@ -1726,5 +1931,190 @@ int SSDModel::infer(){
         }
     }
 
-    return PAS;
+
+    return idx;
+}
+
+
+
+
+void SSDModel::infer_run() {
+//    sleep(5);
+    while (!m_done){
+        infer();
+        usleep(10000);
+    }
+}
+
+int SSDModel::show(UINT32 idx,char* app_name,UINT64 pts) {
+    uint32_t iObjectNum = idx;
+    char *pcTemp = NULL;
+    int i;
+    int iTagLen = 0;
+    int iLength=0;
+    int iRetCode = PAS;
+
+//    DisplayChannelData(pts, stResult.numOfObject);
+    memset_s(cLabelSendBuf,4096, 0, 4096);
+    if (iObjectNum > 0)
+    {
+
+        pcTemp = cLabelSendBuf;
+        *(uint32_t *)pcTemp = 1;//add
+        pcTemp += sizeof(uint32_t);
+
+        strcpy_s(pcTemp, 32, app_name); //app name
+        pcTemp += 32;
+
+        *(uint64_t *)pcTemp = 0;//id
+        pcTemp += sizeof(uint64_t);
+
+        *(uint16_t *)pcTemp = iObjectNum;//polygon_cnt
+        pcTemp += sizeof(uint16_t);
+
+        for (i=0; i < iObjectNum; i++)
+        {
+
+            *(int32_t *)pcTemp = 0xFF0000;//color = 345455;
+            pcTemp += sizeof(int32_t);
+
+            *(int32_t *)pcTemp = 5;//edge_width = 3;
+            pcTemp += sizeof(int32_t);
+
+            *(uint32_t *)pcTemp = 0;//pstPolygon->attr = 1;
+            pcTemp += sizeof(uint32_t);
+
+            *(int32_t *)pcTemp = 0xFFFFFF;//pstPolygon->bottom_color = 345455;
+            pcTemp += sizeof(int32_t);
+
+            *(int32_t *)pcTemp = 0;//pstPolygon->transparency = 128;
+            pcTemp += sizeof(int32_t);
+
+            *(int32_t *)pcTemp = 4;//pstPolygon->iPointcnt = 4;
+            pcTemp += sizeof(int32_t);
+
+
+            /*以下是矩形框坐标*/
+            *(uint32_t *)pcTemp = astMetaInfo[i].usX;//x1;
+            pcTemp += sizeof(uint32_t);
+
+            *(uint32_t *)pcTemp = astMetaInfo[i].usY;//y1;
+            pcTemp += sizeof(uint32_t);
+
+            *(uint32_t *)pcTemp = astMetaInfo[i].usX;//x2;
+            pcTemp += sizeof(uint32_t);
+
+            *(uint32_t *)pcTemp = astMetaInfo[i].usY + astMetaInfo[i].usHeight;//y2;
+            pcTemp += sizeof(uint32_t);
+
+            *(uint32_t *)pcTemp = astMetaInfo[i].usX + astMetaInfo[i].usWidth;//x3;
+            pcTemp += sizeof(uint32_t);
+
+            *(uint32_t *)pcTemp = astMetaInfo[i].usY + astMetaInfo[i].usHeight;//y3;
+            pcTemp += sizeof(uint32_t);
+
+            *(uint32_t *)pcTemp = astMetaInfo[i].usX + astMetaInfo[i].usWidth;//x4;
+            pcTemp += sizeof(uint32_t);
+
+            *(uint32_t *)pcTemp = astMetaInfo[i].usY;//y4;
+            pcTemp += sizeof(uint32_t);
+        }
+
+        /*给tag_cnt 赋值，一个目标两条字串，置信度和目标*/
+        //iObjectNum = 1;
+        *pcTemp = iObjectNum * 2;//tag_cnt
+        pcTemp++;
+
+        for (i=0; i < iObjectNum; i++)
+        {
+
+            *(int32_t *)pcTemp = 0xFF0000;//color = 345455;
+            pcTemp += sizeof(int32_t);
+
+            strcpy_s(pcTemp, 32, "宋体"); //font
+            pcTemp += 32;
+
+            *(int32_t *)pcTemp = 16;//size
+            pcTemp += sizeof(int32_t);
+
+            *(uint32_t *)pcTemp = astMetaInfo[i].usX + 25;//pos-x
+            pcTemp += sizeof(uint32_t);
+
+            *(uint32_t *)pcTemp = astMetaInfo[i].usY + 25;//pos-y
+            pcTemp += sizeof(uint32_t);
+
+            switch(astMetaInfo[i].uclazz)
+            {
+                case 1:
+                    iTagLen = 20;//sizeof("安全帽");
+                    *(uint32_t *)pcTemp = iTagLen;//len
+                    pcTemp += sizeof(uint32_t);
+
+                    strcpy_s(pcTemp, 127, "cls1");
+                    pcTemp += iTagLen;
+
+                    break;
+
+                case 2:
+                    iTagLen = 20;//sizeof("未戴安全帽");
+                    *(uint32_t *)pcTemp = iTagLen;//len
+                    pcTemp += sizeof(uint32_t);
+
+                    strcpy_s(pcTemp, 127, "cls2");
+                    pcTemp += iTagLen;
+
+                    break;
+
+                default:
+                    iTagLen = 20;//sizeof("未知");
+                    *(uint32_t *)pcTemp = iTagLen;//len
+                    pcTemp += sizeof(uint32_t);
+
+                    strcpy_s(pcTemp, 127, "other");
+                    pcTemp += iTagLen;
+
+                    //fprintf(stderr, "class:%d\r\n",stResult.pObjInfo[i].class);
+                    break;
+            }
+
+            *(uint32_t *)pcTemp = 0xFF0000;//color = 345455;
+            pcTemp += sizeof(uint32_t);
+
+            strcpy_s(pcTemp, 32, "宋体"); //font
+            pcTemp += 32;
+
+            *(uint32_t *)pcTemp = 16;//size
+            pcTemp += sizeof(uint32_t);
+
+            *(uint32_t *)pcTemp = astMetaInfo[i].usX + 25;//pos-x
+            pcTemp += sizeof(uint32_t);
+
+
+            *(uint32_t *)pcTemp = astMetaInfo[i].usY + 300;//pos-y
+            pcTemp += sizeof(uint32_t);
+
+            /*先增加置信度内容*/
+
+            memset_s(auTempBuf, 32,0,32);
+            sprintf(auTempBuf, "Conf: %2.2f%%", (float)astMetaInfo[i].confidence*100);
+
+            iTagLen = sizeof(auTempBuf);
+            *(uint32_t *)pcTemp = iTagLen;//len
+            pcTemp += sizeof(uint32_t);
+
+            strcpy_s(pcTemp, 32, auTempBuf);
+            pcTemp += iTagLen;
+        }
+
+        /*超时时间*/
+        *pcTemp = 1;
+        pcTemp++;
+        iLength = (int)(pcTemp - cLabelSendBuf);
+        iRetCode = m_event_service->SDC_LabelEventPublish(0, iLength, cLabelSendBuf, pts);
+        if (iRetCode != PAS)
+        {
+            printf("Err in SDC_LabelEventPublish!\n");
+        }
+    }
+
 };

@@ -221,6 +221,8 @@ void* VideoService::read_camera_data_run(){
     char buf[1024];
     /*摄像头不会直接返回图像的具体数值,而是将保存了图像内容的内存地址以SDC_YUV_DATA_S的格式返回*/
     SDC_YUV_DATA_S *yuv_data;
+    /*存放弹出的收据*/
+    SDC_YUV_DATA_S remove_yuv_data;
     /*编写申请头*/
     SDC_COMMON_HEAD_S *common_head = (SDC_COMMON_HEAD_S *) buf;
     while(!m_stop_reading){
@@ -248,8 +250,22 @@ void* VideoService::read_camera_data_run(){
                         ret = m_video_queue->put(&yuv_data[idx]);
                         /*放入失败时(比如队列已满)则直接释放sdc上的内存*/
                         if (ret < 0) {
-                            DEBUG_LOG("WARN:save yuv_data in queue failed, release data and continue.");
-                            release_yuv(&yuv_data[idx]);
+                            if(ret == QUEUE_FULL){
+                            /*如果队列已满,则弹出队首释放*/
+                                m_video_queue->get(&remove_yuv_data,1,NULL);
+                                DEBUG_LOG("QUEUE_FULL");
+                                release_yuv(&remove_yuv_data);
+                                ret = m_video_queue->put(&yuv_data[idx]);
+                                if(ret<0){
+                                    /*如果再次失败,则报错*/
+                                    DEBUG_LOG("WARN:save yuv_data in queue failed again!, release data and continue.");
+                                    release_yuv(&yuv_data[idx]);
+                                }
+                            } else{
+                                DEBUG_LOG("WARN:save yuv_data in queue failed, release data and continue.");
+                                release_yuv(&yuv_data[idx]);
+                            }
+
                         }
                     }
                 } else {
@@ -298,11 +314,11 @@ void VideoService::SDC_Struct2RGB(SDC_YUV_FRAME_S *pstSdcRGBFrame, VW_YUV_FRAME_
     pstRGBFrameData->uFrmSize = pstSdcRGBFrame->size;
     pstRGBFrameData->uPoolId = pstSdcRGBFrame->cookie[0];
     pstRGBFrameData->uVbBlk = pstSdcRGBFrame->cookie[1];
-    DEBUG_LOG("img params:\n"
-              "width: %u, height: %u, channel: 3\n"
-              "stride[0]: %u\n",
-              pstSdcRGBFrame->width,
-              pstSdcRGBFrame->height,
-              pstSdcRGBFrame->stride);
+//    DEBUG_LOG("img params:\n"
+//              "width: %u, height: %u, channel: 3\n"
+//              "stride[0]: %u\n",
+//              pstSdcRGBFrame->width,
+//              pstSdcRGBFrame->height,
+//              pstSdcRGBFrame->stride);
     return;
 }
