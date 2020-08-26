@@ -8,104 +8,115 @@
 #include "SSDModel.hpp"
 #include "img_save.hpp"
 
-HI_S32 SVP_NNIE_Overlap(HI_S32 s32XMin1, HI_S32 s32YMin1, HI_S32 s32XMax1, HI_S32 s32YMax1, HI_S32 s32XMin2,
-                        HI_S32 s32YMin2, HI_S32 s32XMax2, HI_S32 s32YMax2,  HI_S32* s32AreaSum, HI_S32* s32AreaInter)
-{
-    HI_S32 s32Inter = 0;
-    HI_S32 s32Total = 0;
-    HI_S32 s32XMin = 0;
-    HI_S32 s32YMin = 0;
-    HI_S32 s32XMax = 0;
-    HI_S32 s32YMax = 0;
-    HI_S32 s32Area1 = 0;
-    HI_S32 s32Area2 = 0;
-    HI_S32 s32InterWidth = 0;
-    HI_S32 s32InterHeight = 0;
+//HI_S32 SVP_NNIE_Overlap(HI_S32 s32XMin1, HI_S32 s32YMin1, HI_S32 s32XMax1, HI_S32 s32YMax1, HI_S32 s32XMin2,
+//                        HI_S32 s32YMin2, HI_S32 s32XMax2, HI_S32 s32YMax2,  HI_S32* s32AreaSum, HI_S32* s32AreaInter)
+//{
+//    HI_S32 s32Inter = 0;
+//    HI_S32 s32Total = 0;
+//    HI_S32 s32XMin = 0;
+//    HI_S32 s32YMin = 0;
+//    HI_S32 s32XMax = 0;
+//    HI_S32 s32YMax = 0;
+//    HI_S32 s32Area1 = 0;
+//    HI_S32 s32Area2 = 0;
+//    HI_S32 s32InterWidth = 0;
+//    HI_S32 s32InterHeight = 0;
+//
+//    s32XMin = SAMPLE_SVP_NNIE_MAX(s32XMin1, s32XMin2);
+//    s32YMin = SAMPLE_SVP_NNIE_MAX(s32YMin1, s32YMin2);
+//    s32XMax = SAMPLE_SVP_NNIE_MIN(s32XMax1, s32XMax2);
+//    s32YMax = SAMPLE_SVP_NNIE_MIN(s32YMax1, s32YMax2);
+//
+//    s32InterWidth = s32XMax - s32XMin + 1;
+//    s32InterHeight = s32YMax - s32YMin + 1;
+//
+//    s32InterWidth = ( s32InterWidth >= 0 ) ? s32InterWidth : 0;
+//    s32InterHeight = ( s32InterHeight >= 0 ) ? s32InterHeight : 0;
+//
+//    s32Inter = s32InterWidth * s32InterHeight;
+//    s32Area1 = (s32XMax1 - s32XMin1 + 1) * (s32YMax1 - s32YMin1 + 1);
+//    s32Area2 = (s32XMax2 - s32XMin2 + 1) * (s32YMax2 - s32YMin2 + 1);
+//
+//    s32Total = s32Area1 + s32Area2 - s32Inter;
+//
+//    *s32AreaSum = s32Total;
+//    *s32AreaInter = s32Inter;
+//    return HI_SUCCESS;
+//}
 
-    s32XMin = SAMPLE_SVP_NNIE_MAX(s32XMin1, s32XMin2);
-    s32YMin = SAMPLE_SVP_NNIE_MAX(s32YMin1, s32YMin2);
-    s32XMax = SAMPLE_SVP_NNIE_MIN(s32XMax1, s32XMax2);
-    s32YMax = SAMPLE_SVP_NNIE_MIN(s32YMax1, s32YMax2);
+//HI_S32 SVP_NNIE_NonMaxSuppression( HI_S32* ps32Proposals, HI_U32 u32AnchorsNum,
+//                                   HI_U32 u32NmsThresh,HI_U32 u32MaxRoiNum)
+//{
+//    HI_S32 s32XMin1 = 0;
+//    HI_S32 s32YMin1 = 0;
+//    HI_S32 s32XMax1 = 0;
+//    HI_S32 s32YMax1 = 0;
+//    HI_S32 s32XMin2 = 0;
+//    HI_S32 s32YMin2 = 0;
+//    HI_S32 s32XMax2 = 0;
+//    HI_S32 s32YMax2 = 0;
+//    HI_S32 s32AreaTotal = 0;
+//    HI_S32 s32AreaInter = 0;
+//    HI_U32 i = 0;
+//    HI_U32 j = 0;
+//    HI_U32 u32Num = 0;
+//    bool bNoOverlap = true;
+////    HI_BOOL bNoOverlap  = HI_TRUE;
+//    for (i = 0; i < u32AnchorsNum && u32Num < u32MaxRoiNum; i++)
+//    {
+//        if( ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+5] == 0 )
+//        {
+//            u32Num++;
+//            s32XMin1 =  ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i];
+//            s32YMin1 =  ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+1];
+//            s32XMax1 =  ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+2];
+//            s32YMax1 =  ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+3];
+//            for(j= i+1;j< u32AnchorsNum; j++)
+//            {
+//                if( ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+5] == 0 )
+//                {
+//                    s32XMin2 = ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j];
+//                    s32YMin2 = ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+1];
+//                    s32XMax2 = ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+2];
+//                    s32YMax2 = ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+3];
+//
+//                    bNoOverlap = (s32XMin2>s32XMax1)||(s32XMax2<s32XMin1)||(s32YMin2>s32YMax1)||(s32YMax2<s32YMin1);
+//                    if(bNoOverlap)
+//                    {
+//                        continue;
+//                    }
+//                    (void)SVP_NNIE_Overlap(s32XMin1, s32YMin1, s32XMax1, s32YMax1, s32XMin2, s32YMin2, s32XMax2, s32YMax2, &s32AreaTotal, &s32AreaInter);
+//                    if(s32AreaInter*SAMPLE_SVP_NNIE_QUANT_BASE > ((HI_S32)u32NmsThresh*s32AreaTotal))
+//                    {
+//                        if( ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+4] >= ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+4] )
+//                        {
+//                            ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+5] = 1;
+//                        }
+//                        else
+//                        {
+//                            ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+5] = 1;
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//    }
+//    return HI_SUCCESS;
+//}
 
-    s32InterWidth = s32XMax - s32XMin + 1;
-    s32InterHeight = s32YMax - s32YMin + 1;
+//void SVP_NNIE_Argswap(HI_S32* ps32Src1, HI_S32* ps32Src2)
+//{
+//    HI_U32 i = 0;
+//    HI_S32 u32Tmp = 0;
+//    for( i = 0; i < SAMPLE_SVP_NNIE_PROPOSAL_WIDTH; i++ )
+//    {
+//        u32Tmp = ps32Src1[i];
+//        ps32Src1[i] = ps32Src2[i];
+//        ps32Src2[i] = u32Tmp;
+//    }
+//}
 
-    s32InterWidth = ( s32InterWidth >= 0 ) ? s32InterWidth : 0;
-    s32InterHeight = ( s32InterHeight >= 0 ) ? s32InterHeight : 0;
-
-    s32Inter = s32InterWidth * s32InterHeight;
-    s32Area1 = (s32XMax1 - s32XMin1 + 1) * (s32YMax1 - s32YMin1 + 1);
-    s32Area2 = (s32XMax2 - s32XMin2 + 1) * (s32YMax2 - s32YMin2 + 1);
-
-    s32Total = s32Area1 + s32Area2 - s32Inter;
-
-    *s32AreaSum = s32Total;
-    *s32AreaInter = s32Inter;
-    return HI_SUCCESS;
-}
-
-HI_S32 SVP_NNIE_NonMaxSuppression( HI_S32* ps32Proposals, HI_U32 u32AnchorsNum,
-                                   HI_U32 u32NmsThresh,HI_U32 u32MaxRoiNum)
-{
-    HI_S32 s32XMin1 = 0;
-    HI_S32 s32YMin1 = 0;
-    HI_S32 s32XMax1 = 0;
-    HI_S32 s32YMax1 = 0;
-    HI_S32 s32XMin2 = 0;
-    HI_S32 s32YMin2 = 0;
-    HI_S32 s32XMax2 = 0;
-    HI_S32 s32YMax2 = 0;
-    HI_S32 s32AreaTotal = 0;
-    HI_S32 s32AreaInter = 0;
-    HI_U32 i = 0;
-    HI_U32 j = 0;
-    HI_U32 u32Num = 0;
-    bool bNoOverlap = true;
-//    HI_BOOL bNoOverlap  = HI_TRUE;
-    for (i = 0; i < u32AnchorsNum && u32Num < u32MaxRoiNum; i++)
-    {
-        if( ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+5] == 0 )
-        {
-            u32Num++;
-            s32XMin1 =  ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i];
-            s32YMin1 =  ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+1];
-            s32XMax1 =  ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+2];
-            s32YMax1 =  ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+3];
-            for(j= i+1;j< u32AnchorsNum; j++)
-            {
-                if( ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+5] == 0 )
-                {
-                    s32XMin2 = ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j];
-                    s32YMin2 = ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+1];
-                    s32XMax2 = ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+2];
-                    s32YMax2 = ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+3];
-
-                    bNoOverlap = (s32XMin2>s32XMax1)||(s32XMax2<s32XMin1)||(s32YMin2>s32YMax1)||(s32YMax2<s32YMin1);
-                    if(bNoOverlap)
-                    {
-                        continue;
-                    }
-                    (void)SVP_NNIE_Overlap(s32XMin1, s32YMin1, s32XMax1, s32YMax1, s32XMin2, s32YMin2, s32XMax2, s32YMax2, &s32AreaTotal, &s32AreaInter);
-                    if(s32AreaInter*SAMPLE_SVP_NNIE_QUANT_BASE > ((HI_S32)u32NmsThresh*s32AreaTotal))
-                    {
-                        if( ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+4] >= ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+4] )
-                        {
-                            ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+5] = 1;
-                        }
-                        else
-                        {
-                            ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+5] = 1;
-                        }
-                    }
-                }
-            }
-        }
-    }
-    return HI_SUCCESS;
-}
-
-void SVP_NNIE_Argswap(HI_S32* ps32Src1, HI_S32* ps32Src2)
-{
+void SSDModel::SVP_NNIE_Argswap(HI_S32 *ps32Src1, HI_S32 *ps32Src2) {
     HI_U32 i = 0;
     HI_S32 u32Tmp = 0;
     for( i = 0; i < SAMPLE_SVP_NNIE_PROPOSAL_WIDTH; i++ )
@@ -116,8 +127,8 @@ void SVP_NNIE_Argswap(HI_S32* ps32Src1, HI_S32* ps32Src2)
     }
 }
 
-HI_S32 SVP_NNIE_NonRecursiveArgQuickSort(HI_S32* ps32Array,
-                                         HI_S32 s32Low, HI_S32 s32High, SAMPLE_SVP_NNIE_STACK_S *pstStack,HI_U32 u32MaxNum)
+HI_S32 SSDModel::SVP_NNIE_NonRecursiveArgQuickSort(HI_S32 *ps32Array, HI_S32 s32Low, HI_S32 s32High,
+                                                   SAMPLE_SVP_NNIE_STACK_S *pstStack, HI_U32 u32MaxNum)
 {
     HI_S32 i = s32Low;
     HI_S32 j = s32High;
@@ -178,14 +189,76 @@ HI_S32 SVP_NNIE_NonRecursiveArgQuickSort(HI_S32* ps32Array,
     }
     return HI_SUCCESS;
 }
+//HI_S32 SVP_NNIE_NonRecursiveArgQuickSort(HI_S32* ps32Array,
+//                                         HI_S32 s32Low, HI_S32 s32High, SAMPLE_SVP_NNIE_STACK_S *pstStack,HI_U32 u32MaxNum)
+//{
+//    HI_S32 i = s32Low;
+//    HI_S32 j = s32High;
+//    HI_S32 s32Top = 0;
+//    HI_S32 s32KeyConfidence = ps32Array[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH * s32Low + 4];
+//    pstStack[s32Top].s32Min = s32Low;
+//    pstStack[s32Top].s32Max = s32High;
+//
+//    while(s32Top > -1)
+//    {
+//        s32Low = pstStack[s32Top].s32Min;
+//        s32High = pstStack[s32Top].s32Max;
+//        i = s32Low;
+//        j = s32High;
+//        s32Top--;
+//
+//        s32KeyConfidence = ps32Array[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH * s32Low + 4];
+//
+//        while(i < j)
+//        {
+//            while((i < j) && (s32KeyConfidence > ps32Array[j * SAMPLE_SVP_NNIE_PROPOSAL_WIDTH + 4]))
+//            {
+//                j--;
+//            }
+//            if(i < j)
+//            {
+//                SVP_NNIE_Argswap(&ps32Array[i*SAMPLE_SVP_NNIE_PROPOSAL_WIDTH], &ps32Array[j*SAMPLE_SVP_NNIE_PROPOSAL_WIDTH]);
+//                i++;
+//            }
+//
+//            while((i < j) && (s32KeyConfidence < ps32Array[i*SAMPLE_SVP_NNIE_PROPOSAL_WIDTH + 4]))
+//            {
+//                i++;
+//            }
+//            if(i < j)
+//            {
+//                SVP_NNIE_Argswap(&ps32Array[i*SAMPLE_SVP_NNIE_PROPOSAL_WIDTH], &ps32Array[j*SAMPLE_SVP_NNIE_PROPOSAL_WIDTH]);
+//                j--;
+//            }
+//        }
+//
+//        if(s32Low <= u32MaxNum)
+//        {
+//            if(s32Low < i-1)
+//            {
+//                s32Top++;
+//                pstStack[s32Top].s32Min = s32Low;
+//                pstStack[s32Top].s32Max = i-1;
+//            }
+//
+//            if(s32High > i+1)
+//            {
+//                s32Top++;
+//                pstStack[s32Top].s32Min = i+1;
+//                pstStack[s32Top].s32Max = s32High;
+//            }
+//        }
+//    }
+//    return HI_SUCCESS;
+//}
 
-HI_S32 SVP_NNIE_Ssd_PriorBoxForward(HI_U32 u32PriorBoxWidth,
-                                    HI_U32 u32PriorBoxHeight, HI_U32 u32OriImWidth, HI_U32 u32OriImHeight,
-                                    HI_FLOAT* pf32PriorBoxMinSize, HI_U32 u32MinSizeNum, HI_FLOAT* pf32PriorBoxMaxSize,
-                                    HI_U32 u32MaxSizeNum, HI_BOOL bFlip, HI_BOOL bClip, HI_U32 u32InputAspectRatioNum,
-                                    HI_FLOAT af32PriorBoxAspectRatio[],HI_FLOAT f32PriorBoxStepWidth,
-                                    HI_FLOAT f32PriorBoxStepHeight,HI_FLOAT f32Offset,HI_S32 as32PriorBoxVar[],
-                                    HI_S32* ps32PriorboxOutputData)
+HI_S32 SSDModel::SVP_NNIE_Ssd_PriorBoxForward(HI_U32 u32PriorBoxWidth, HI_U32 u32PriorBoxHeight, HI_U32 u32OriImWidth,
+                                              HI_U32 u32OriImHeight, HI_FLOAT *pf32PriorBoxMinSize,
+                                              HI_U32 u32MinSizeNum, HI_FLOAT *pf32PriorBoxMaxSize, HI_U32 u32MaxSizeNum,
+                                              HI_BOOL bFlip, HI_BOOL bClip, HI_U32 u32InputAspectRatioNum,
+                                              HI_FLOAT *af32PriorBoxAspectRatio, HI_FLOAT f32PriorBoxStepWidth,
+                                              HI_FLOAT f32PriorBoxStepHeight, HI_FLOAT f32Offset,
+                                              HI_S32 *as32PriorBoxVar, HI_S32 *ps32PriorboxOutputData)
 {
     HI_U32 u32AspectRatioNum = 0;
     HI_U32 u32Index = 0;
@@ -292,7 +365,121 @@ HI_S32 SVP_NNIE_Ssd_PriorBoxForward(HI_U32 u32PriorBoxWidth,
     return HI_SUCCESS;
 }
 
-HI_S32 SVP_NNIE_SSD_SoftMax(HI_S32* ps32Src, HI_S32 s32ArraySize, HI_S32* ps32Dst)
+//HI_S32 SVP_NNIE_Ssd_PriorBoxForward(HI_U32 u32PriorBoxWidth,
+//                                    HI_U32 u32PriorBoxHeight, HI_U32 u32OriImWidth, HI_U32 u32OriImHeight,
+//                                    HI_FLOAT* pf32PriorBoxMinSize, HI_U32 u32MinSizeNum, HI_FLOAT* pf32PriorBoxMaxSize,
+//                                    HI_U32 u32MaxSizeNum, HI_BOOL bFlip, HI_BOOL bClip, HI_U32 u32InputAspectRatioNum,
+//                                    HI_FLOAT af32PriorBoxAspectRatio[],HI_FLOAT f32PriorBoxStepWidth,
+//                                    HI_FLOAT f32PriorBoxStepHeight,HI_FLOAT f32Offset,HI_S32 as32PriorBoxVar[],
+//                                    HI_S32* ps32PriorboxOutputData)
+//{
+//    HI_U32 u32AspectRatioNum = 0;
+//    HI_U32 u32Index = 0;
+//    HI_FLOAT af32AspectRatio[SAMPLE_SVP_NNIE_SSD_ASPECT_RATIO_NUM] = { 0 };
+//    HI_U32 u32NumPrior = 0;
+//    HI_FLOAT f32CenterX = 0;
+//    HI_FLOAT f32CenterY = 0;
+//    HI_FLOAT f32BoxHeight = 0;
+//    HI_FLOAT f32BoxWidth = 0;
+//    HI_FLOAT f32MaxBoxWidth = 0;
+//    HI_U32 i = 0;
+//    HI_U32 j = 0;
+//    HI_U32 n = 0;
+//    HI_U32 h = 0;
+//    HI_U32 w = 0;
+//    SAMPLE_SVP_CHECK_EXPR_RET((HI_TRUE == bFlip && u32InputAspectRatioNum >
+//                                                   (SAMPLE_SVP_NNIE_SSD_ASPECT_RATIO_NUM-1)/2),HI_INVALID_VALUE,SAMPLE_SVP_ERR_LEVEL_ERROR,
+//                              "Error,when bFlip is true, u32InputAspectRatioNum(%d) can't be greater than %d!\n",
+//                              u32InputAspectRatioNum, (SAMPLE_SVP_NNIE_SSD_ASPECT_RATIO_NUM-1)/2);
+//    SAMPLE_SVP_CHECK_EXPR_RET((HI_FALSE == bFlip && u32InputAspectRatioNum >
+//                                                    (SAMPLE_SVP_NNIE_SSD_ASPECT_RATIO_NUM-1)),HI_INVALID_VALUE,SAMPLE_SVP_ERR_LEVEL_ERROR,
+//                              "Error,when bFlip is false, u32InputAspectRatioNum(%d) can't be greater than %d!\n",
+//                              u32InputAspectRatioNum, (SAMPLE_SVP_NNIE_SSD_ASPECT_RATIO_NUM-1));
+//
+//    // generate aspect_ratios
+//    u32AspectRatioNum = 0;
+//    af32AspectRatio[0] = 1;
+//    u32AspectRatioNum++;
+//    for (i = 0; i < u32InputAspectRatioNum; i++)
+//    {
+//        af32AspectRatio[u32AspectRatioNum++] = af32PriorBoxAspectRatio[i];
+//        if (bFlip)
+//        {
+//            af32AspectRatio[u32AspectRatioNum++] = 1.0f / af32PriorBoxAspectRatio[i];
+//        }
+//    }
+//    u32NumPrior = u32MinSizeNum * u32AspectRatioNum + u32MaxSizeNum;
+//
+//    u32Index = 0;
+//    for (h = 0; h < u32PriorBoxHeight; h++)
+//    {
+//        for (w = 0; w < u32PriorBoxWidth; w++)
+//        {
+//            f32CenterX = (w + f32Offset) * f32PriorBoxStepWidth;
+//            f32CenterY = (h + f32Offset) * f32PriorBoxStepHeight;
+//            for (n = 0; n < u32MinSizeNum; n++)
+//            {
+//                /*** first prior ***/
+//                f32BoxHeight = pf32PriorBoxMinSize[n];
+//                f32BoxWidth = pf32PriorBoxMinSize[n];
+//                ps32PriorboxOutputData[u32Index++] = (HI_S32)(f32CenterX - f32BoxWidth * SAMPLE_SVP_NNIE_HALF);
+//                ps32PriorboxOutputData[u32Index++] = (HI_S32)(f32CenterY - f32BoxHeight * SAMPLE_SVP_NNIE_HALF);
+//                ps32PriorboxOutputData[u32Index++] = (HI_S32)(f32CenterX + f32BoxWidth * SAMPLE_SVP_NNIE_HALF);
+//                ps32PriorboxOutputData[u32Index++] = (HI_S32)(f32CenterY + f32BoxHeight * SAMPLE_SVP_NNIE_HALF);
+//                /*** second prior ***/
+//                if(u32MaxSizeNum>0)
+//                {
+//
+//                    f32MaxBoxWidth = sqrt(pf32PriorBoxMinSize[n] * pf32PriorBoxMaxSize[n]);
+//                    f32BoxHeight = f32MaxBoxWidth;
+//                    f32BoxWidth = f32MaxBoxWidth;
+//                    ps32PriorboxOutputData[u32Index++] = (HI_S32)(f32CenterX - f32BoxWidth * SAMPLE_SVP_NNIE_HALF);
+//                    ps32PriorboxOutputData[u32Index++] = (HI_S32)(f32CenterY - f32BoxHeight * SAMPLE_SVP_NNIE_HALF);
+//                    ps32PriorboxOutputData[u32Index++] = (HI_S32)(f32CenterX + f32BoxWidth * SAMPLE_SVP_NNIE_HALF);
+//                    ps32PriorboxOutputData[u32Index++] = (HI_S32)(f32CenterY + f32BoxHeight * SAMPLE_SVP_NNIE_HALF);
+//                }
+//                /**** rest of priors, skip AspectRatio == 1 ****/
+//                for (i = 1; i < u32AspectRatioNum; i++)
+//                {
+//
+//                    f32BoxWidth = (HI_FLOAT)(pf32PriorBoxMinSize[n] * sqrt( af32AspectRatio[i] ));
+//                    f32BoxHeight = (HI_FLOAT)(pf32PriorBoxMinSize[n]/sqrt( af32AspectRatio[i] ));
+//                    ps32PriorboxOutputData[u32Index++] = (HI_S32)(f32CenterX - f32BoxWidth * SAMPLE_SVP_NNIE_HALF);
+//                    ps32PriorboxOutputData[u32Index++] = (HI_S32)(f32CenterY - f32BoxHeight * SAMPLE_SVP_NNIE_HALF);
+//                    ps32PriorboxOutputData[u32Index++] = (HI_S32)(f32CenterX + f32BoxWidth * SAMPLE_SVP_NNIE_HALF);
+//                    ps32PriorboxOutputData[u32Index++] = (HI_S32)(f32CenterY + f32BoxHeight * SAMPLE_SVP_NNIE_HALF);
+//                }
+//            }
+//        }
+//    }
+//    /************ clip the priors' coordidates, within [0, u32ImgWidth] & [0, u32ImgHeight] *************/
+//    if (bClip)
+//    {
+//        for (i = 0; i < (HI_U32)(u32PriorBoxWidth * u32PriorBoxHeight * SAMPLE_SVP_NNIE_COORDI_NUM*u32NumPrior / 2); i++)
+//        {
+//            ps32PriorboxOutputData[2 * i] = SAMPLE_SVP_NNIE_MIN((HI_U32)SAMPLE_SVP_NNIE_MAX(ps32PriorboxOutputData[2 * i], 0), u32OriImWidth);
+//            ps32PriorboxOutputData[2 * i + 1] = SAMPLE_SVP_NNIE_MIN((HI_U32)SAMPLE_SVP_NNIE_MAX(ps32PriorboxOutputData[2 * i + 1], 0), u32OriImHeight);
+//        }
+//    }
+//    /*********************** get var **********************/
+//    for (h = 0; h < u32PriorBoxHeight; h++)
+//    {
+//        for (w = 0; w < u32PriorBoxWidth; w++)
+//        {
+//            for (i = 0; i < u32NumPrior; i++)
+//            {
+//                for (j = 0; j < SAMPLE_SVP_NNIE_COORDI_NUM; j++)
+//                {
+//                    ps32PriorboxOutputData[u32Index++] = (HI_S32)as32PriorBoxVar[j];
+//                }
+//            }
+//        }
+//    }
+//    return HI_SUCCESS;
+//}
+
+
+HI_S32 SSDModel::SVP_NNIE_SSD_SoftMax(HI_S32 *ps32Src, HI_S32 s32ArraySize, HI_S32 *ps32Dst)
 {
     HI_S32 s32Max = 0;
     HI_S32 s32Sum = 0;
@@ -316,9 +503,33 @@ HI_S32 SVP_NNIE_SSD_SoftMax(HI_S32* ps32Src, HI_S32 s32ArraySize, HI_S32* ps32Ds
     return HI_SUCCESS;
 }
 
-HI_S32 SVP_NNIE_Ssd_SoftmaxForward(HI_U32 u32SoftMaxInHeight,
-                                   HI_U32 au32SoftMaxInChn[], HI_U32 u32ConcatNum, HI_U32 au32ConvStride[],
-                                   HI_U32 au32SoftMaxWidth[],HI_S32* aps32SoftMaxInputData[], HI_S32* ps32SoftMaxOutputData)
+//HI_S32 SVP_NNIE_SSD_SoftMax(HI_S32* ps32Src, HI_S32 s32ArraySize, HI_S32* ps32Dst)
+//{
+//    HI_S32 s32Max = 0;
+//    HI_S32 s32Sum = 0;
+//    HI_S32 i = 0;
+//    for (i = 0; i < s32ArraySize; ++i)
+//    {
+//        if (s32Max < ps32Src[i])
+//        {
+//            s32Max = ps32Src[i];
+//        }
+//    }
+//    for (i = 0; i < s32ArraySize; ++i)
+//    {
+//        ps32Dst[i] = (HI_S32)(SAMPLE_SVP_NNIE_QUANT_BASE* exp((HI_FLOAT)(ps32Src[i] - s32Max) / SAMPLE_SVP_NNIE_QUANT_BASE));
+//        s32Sum += ps32Dst[i];
+//    }
+//    for (i = 0; i < s32ArraySize; ++i)
+//    {
+//        ps32Dst[i] = (HI_S32)(((HI_FLOAT)ps32Dst[i] / (HI_FLOAT)s32Sum) * SAMPLE_SVP_NNIE_QUANT_BASE);
+//    }
+//    return HI_SUCCESS;
+//}
+
+HI_S32 SSDModel::SVP_NNIE_Ssd_SoftmaxForward(HI_U32 u32SoftMaxInHeight, HI_U32 *au32SoftMaxInChn, HI_U32 u32ConcatNum,
+                                             HI_U32 *au32ConvStride, HI_U32 *au32SoftMaxWidth,
+                                             HI_S32 **aps32SoftMaxInputData, HI_S32 *ps32SoftMaxOutputData)
 {
     HI_S32* ps32InputData = NULL;
     HI_S32* ps32OutputTmp = NULL;
@@ -355,7 +566,46 @@ HI_S32 SVP_NNIE_Ssd_SoftmaxForward(HI_U32 u32SoftMaxInHeight,
     return s32Ret;
 }
 
-HI_S32 SVP_NNIE_Ssd_DetectionOutForward(HI_U32 u32ConcatNum,
+//HI_S32 SVP_NNIE_Ssd_SoftmaxForward(HI_U32 u32SoftMaxInHeight,
+//                                   HI_U32 au32SoftMaxInChn[], HI_U32 u32ConcatNum, HI_U32 au32ConvStride[],
+//                                   HI_U32 au32SoftMaxWidth[],HI_S32* aps32SoftMaxInputData[], HI_S32* ps32SoftMaxOutputData)
+//{
+//    HI_S32* ps32InputData = NULL;
+//    HI_S32* ps32OutputTmp = NULL;
+//    HI_U32 u32OuterNum = 0;
+//    HI_U32 u32InnerNum = 0;
+//    HI_U32 u32InputChannel = 0;
+//    HI_U32 i = 0;
+//    HI_U32 u32ConcatCnt = 0;
+//    HI_S32 s32Ret = 0;
+//    HI_U32 u32Stride = 0;
+//    HI_U32 u32Skip = 0;
+//    HI_U32 u32Left = 0;
+//    ps32OutputTmp = ps32SoftMaxOutputData;
+//    for (u32ConcatCnt = 0; u32ConcatCnt < u32ConcatNum; u32ConcatCnt++)
+//    {
+//        ps32InputData = aps32SoftMaxInputData[u32ConcatCnt];
+//        u32Stride = au32ConvStride[u32ConcatCnt];
+//        u32InputChannel = au32SoftMaxInChn[u32ConcatCnt];
+//        u32OuterNum = u32InputChannel / u32SoftMaxInHeight;
+//        u32InnerNum = u32SoftMaxInHeight;
+//        u32Skip = au32SoftMaxWidth[u32ConcatCnt] / u32InnerNum;
+//        u32Left = u32Stride - au32SoftMaxWidth[u32ConcatCnt];
+//        for (i = 0; i < u32OuterNum; i++)
+//        {
+//            s32Ret = SVP_NNIE_SSD_SoftMax(ps32InputData, (HI_S32)u32InnerNum,ps32OutputTmp);
+//            if ((i + 1) % u32Skip == 0)
+//            {
+//                ps32InputData += u32Left;
+//            }
+//            ps32InputData += u32InnerNum;
+//            ps32OutputTmp += u32InnerNum;
+//        }
+//    }
+//    return s32Ret;
+//}
+
+HI_S32 SSDModel::SVP_NNIE_Ssd_DetectionOutForward(HI_U32 u32ConcatNum,
                                         HI_U32 u32ConfThresh,HI_U32 u32ClassNum, HI_U32 u32TopK, HI_U32 u32KeepTopK, HI_U32 u32NmsThresh,
                                         HI_U32 au32DetectInputChn[], HI_S32* aps32AllLocPreds[], HI_S32* aps32AllPriorBoxes[],
                                         HI_S32* ps32ConfScores, HI_S32* ps32AssistMemPool, HI_S32* ps32DstScoreSrc,
@@ -1392,6 +1642,10 @@ HI_S32 SSDModel::SAMPLE_SVP_NNIE_FillSrcData(SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S*
         /*取出图像数据的指针*/
         DEBUG_LOG("SAMPLE_SVP_NNIE_FillSrcData u32NodeIdx:%i",u32NodeIdx);
         pu8BGR = (HI_U8*)(rgb_adds+u32NodeIdx)->pYuvImgAddr;
+//        char file_name[100];
+//        sprintf(file_name,"video_img_%i.txt",u32NodeIdx);
+//        SaveImgTxt::SDC_RGB_read(pu8BGR,file_name,300,304,3);
+
         /*get data size*/
 
         if(SVP_BLOB_TYPE_U8 <= m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].enType &&
@@ -1936,16 +2190,6 @@ int SSDModel::infer(){
 }
 
 
-
-
-void SSDModel::infer_run() {
-//    sleep(5);
-    while (!m_done){
-        infer();
-        usleep(10000);
-    }
-}
-
 int SSDModel::show(UINT32 idx,char* app_name,UINT64 pts) {
     uint32_t iObjectNum = idx;
     char *pcTemp = NULL;
@@ -2117,4 +2361,103 @@ int SSDModel::show(UINT32 idx,char* app_name,UINT64 pts) {
         }
     }
 
-};
+}
+
+HI_S32 SSDModel::SVP_NNIE_Overlap(HI_S32 s32XMin1, HI_S32 s32YMin1, HI_S32 s32XMax1, HI_S32 s32YMax1, HI_S32 s32XMin2,
+                                  HI_S32 s32YMin2, HI_S32 s32XMax2, HI_S32 s32YMax2, HI_S32 *s32AreaSum,
+                                  HI_S32 *s32AreaInter)
+{
+    HI_S32 s32Inter = 0;
+    HI_S32 s32Total = 0;
+    HI_S32 s32XMin = 0;
+    HI_S32 s32YMin = 0;
+    HI_S32 s32XMax = 0;
+    HI_S32 s32YMax = 0;
+    HI_S32 s32Area1 = 0;
+    HI_S32 s32Area2 = 0;
+    HI_S32 s32InterWidth = 0;
+    HI_S32 s32InterHeight = 0;
+
+    s32XMin = SAMPLE_SVP_NNIE_MAX(s32XMin1, s32XMin2);
+    s32YMin = SAMPLE_SVP_NNIE_MAX(s32YMin1, s32YMin2);
+    s32XMax = SAMPLE_SVP_NNIE_MIN(s32XMax1, s32XMax2);
+    s32YMax = SAMPLE_SVP_NNIE_MIN(s32YMax1, s32YMax2);
+
+    s32InterWidth = s32XMax - s32XMin + 1;
+    s32InterHeight = s32YMax - s32YMin + 1;
+
+    s32InterWidth = ( s32InterWidth >= 0 ) ? s32InterWidth : 0;
+    s32InterHeight = ( s32InterHeight >= 0 ) ? s32InterHeight : 0;
+
+    s32Inter = s32InterWidth * s32InterHeight;
+    s32Area1 = (s32XMax1 - s32XMin1 + 1) * (s32YMax1 - s32YMin1 + 1);
+    s32Area2 = (s32XMax2 - s32XMin2 + 1) * (s32YMax2 - s32YMin2 + 1);
+
+    s32Total = s32Area1 + s32Area2 - s32Inter;
+
+    *s32AreaSum = s32Total;
+    *s32AreaInter = s32Inter;
+    return HI_SUCCESS;
+}
+
+HI_S32 SSDModel::SVP_NNIE_NonMaxSuppression(HI_S32 *ps32Proposals, HI_U32 u32AnchorsNum, HI_U32 u32NmsThresh,
+                                            HI_U32 u32MaxRoiNum) {
+
+    {
+        HI_S32 s32XMin1 = 0;
+        HI_S32 s32YMin1 = 0;
+        HI_S32 s32XMax1 = 0;
+        HI_S32 s32YMax1 = 0;
+        HI_S32 s32XMin2 = 0;
+        HI_S32 s32YMin2 = 0;
+        HI_S32 s32XMax2 = 0;
+        HI_S32 s32YMax2 = 0;
+        HI_S32 s32AreaTotal = 0;
+        HI_S32 s32AreaInter = 0;
+        HI_U32 i = 0;
+        HI_U32 j = 0;
+        HI_U32 u32Num = 0;
+        bool bNoOverlap = true;
+//    HI_BOOL bNoOverlap  = HI_TRUE;
+        for (i = 0; i < u32AnchorsNum && u32Num < u32MaxRoiNum; i++)
+        {
+            if( ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+5] == 0 )
+            {
+                u32Num++;
+                s32XMin1 =  ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i];
+                s32YMin1 =  ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+1];
+                s32XMax1 =  ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+2];
+                s32YMax1 =  ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+3];
+                for(j= i+1;j< u32AnchorsNum; j++)
+                {
+                    if( ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+5] == 0 )
+                    {
+                        s32XMin2 = ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j];
+                        s32YMin2 = ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+1];
+                        s32XMax2 = ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+2];
+                        s32YMax2 = ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+3];
+
+                        bNoOverlap = (s32XMin2>s32XMax1)||(s32XMax2<s32XMin1)||(s32YMin2>s32YMax1)||(s32YMax2<s32YMin1);
+                        if(bNoOverlap)
+                        {
+                            continue;
+                        }
+                        (void)SVP_NNIE_Overlap(s32XMin1, s32YMin1, s32XMax1, s32YMax1, s32XMin2, s32YMin2, s32XMax2, s32YMax2, &s32AreaTotal, &s32AreaInter);
+                        if(s32AreaInter*SAMPLE_SVP_NNIE_QUANT_BASE > ((HI_S32)u32NmsThresh*s32AreaTotal))
+                        {
+                            if( ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+4] >= ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+4] )
+                            {
+                                ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+5] = 1;
+                            }
+                            else
+                            {
+                                ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+5] = 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return HI_SUCCESS;
+    }
+}

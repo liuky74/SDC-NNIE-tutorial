@@ -3,6 +3,7 @@
 //
 
 #include "img_save.hpp"
+#include <cmath>
 
 void SaveImgTxt::int2char(uint8_t *intData, char *charData) {
     uint8_t intTmp_data = *intData;
@@ -11,6 +12,16 @@ void SaveImgTxt::int2char(uint8_t *intData, char *charData) {
         intTmp_data = intTmp_data / 10;
     }
 };
+void SaveImgTxt::char2int(char *charData, uint8_t *intData) {
+    uint8_t number_u8=0;
+    int intSize = strlen(charData);
+    for(int idx=0;idx<intSize;idx++){
+        number_u8+=(uint8_t)(charData[intSize-1-idx]-'0')*pow(10,idx);;
+    }
+    *intData = number_u8;
+}
+
+
 
 int SaveImgTxt::SDC_RGB_save(SDC_YUV_FRAME_S *yuv_rgb_s) {
     //保存图像数据
@@ -135,4 +146,27 @@ int SaveImgTxt::SDC_RGB_save(HI_U8 *r_pts,HI_U8 *g_pts,HI_U8 *b_pts, unsigned in
     fflush(stdout);
     exit(0);
     return PAS;
-};
+}
+
+int SaveImgTxt::SDC_RGB_read(HI_U8 *ptr, char *file_name, int height, int width,int channel) {
+    uint8_t number_u8=0;
+    FILE *img_file = fopen(file_name,"r");
+    char charNumber[4];
+    char charValue='0';
+    int c_idx,h_idx,w_idx;
+    for(c_idx=0;c_idx<channel;c_idx++){
+        for(h_idx=0;h_idx<height;h_idx++){
+            for(w_idx=0;w_idx<width;w_idx++){
+                int pixel_idx=0;
+                for(pixel_idx=0;;pixel_idx++){
+                    charValue = (char)fgetc(img_file);
+                    if(charValue == ',') break;
+                    charNumber[pixel_idx] = charValue;
+                }
+                char2int(charNumber,&number_u8);
+                *(ptr+c_idx*height*width+h_idx*width+w_idx) = number_u8;
+            }
+        }
+    }
+    return PAS;
+}

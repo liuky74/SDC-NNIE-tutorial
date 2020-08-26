@@ -11,35 +11,6 @@
 #include "utils_service.hpp"
 
 
-//----------------------------------------------------------------------------------------------------------------------
-
-typedef struct sdc_yuv_frame_stru {
-    uint64_t addr_phy;
-    uint64_t addr_virt;
-    uint32_t size;
-    uint32_t width;
-    uint32_t height;
-    uint32_t stride;
-    uint32_t format; // YUV_420SP
-    uint32_t reserve;
-    uint32_t cookie[4];
-} sdc_yuv_frame_s;
-
-typedef struct sdc_yuv_data_stru {
-    uint32_t channel;
-    uint32_t reserve;
-    uint64_t pts;
-    uint64_t pts_sys;
-    sdc_yuv_frame_s frame;
-} sdc_yuv_data_s;
-//----------------------------------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
 
 #define SAMPLE_SVP_NNIE_EACH_SEG_STEP_ADDR_NUM    2
 /*16Byte align*/
@@ -236,6 +207,33 @@ private:
 
     HI_S32 SAMPLE_SVP_NNIE_Forward(SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S *pstInputDataIdx,
                                    SAMPLE_SVP_NNIE_PROCESS_SEG_INDEX_S *pstProcSegIdx);
+    HI_S32 SVP_NNIE_Overlap(HI_S32 s32XMin1, HI_S32 s32YMin1, HI_S32 s32XMax1, HI_S32 s32YMax1, HI_S32 s32XMin2,
+                            HI_S32 s32YMin2, HI_S32 s32XMax2, HI_S32 s32YMax2,  HI_S32* s32AreaSum, HI_S32* s32AreaInter);
+    HI_S32 SVP_NNIE_NonMaxSuppression( HI_S32* ps32Proposals, HI_U32 u32AnchorsNum, HI_U32 u32NmsThresh,HI_U32 u32MaxRoiNum);
+
+    static void SVP_NNIE_Argswap(HI_S32* ps32Src1, HI_S32* ps32Src2);
+
+    static HI_S32 SVP_NNIE_NonRecursiveArgQuickSort(HI_S32* ps32Array, HI_S32 s32Low, HI_S32 s32High, SAMPLE_SVP_NNIE_STACK_S *pstStack,HI_U32 u32MaxNum);
+
+    static HI_S32 SVP_NNIE_Ssd_PriorBoxForward(HI_U32 u32PriorBoxWidth,
+                                        HI_U32 u32PriorBoxHeight, HI_U32 u32OriImWidth, HI_U32 u32OriImHeight,
+                                        HI_FLOAT* pf32PriorBoxMinSize, HI_U32 u32MinSizeNum, HI_FLOAT* pf32PriorBoxMaxSize,
+                                        HI_U32 u32MaxSizeNum, HI_BOOL bFlip, HI_BOOL bClip, HI_U32 u32InputAspectRatioNum,
+                                        HI_FLOAT af32PriorBoxAspectRatio[],HI_FLOAT f32PriorBoxStepWidth,
+                                        HI_FLOAT f32PriorBoxStepHeight,HI_FLOAT f32Offset,HI_S32 as32PriorBoxVar[],
+                                        HI_S32* ps32PriorboxOutputData);
+
+    static HI_S32 SVP_NNIE_SSD_SoftMax(HI_S32* ps32Src, HI_S32 s32ArraySize, HI_S32* ps32Dst);
+
+    static HI_S32 SVP_NNIE_Ssd_SoftmaxForward(HI_U32 u32SoftMaxInHeight,
+                                       HI_U32 au32SoftMaxInChn[], HI_U32 u32ConcatNum, HI_U32 au32ConvStride[],
+                                       HI_U32 au32SoftMaxWidth[],HI_S32* aps32SoftMaxInputData[], HI_S32* ps32SoftMaxOutputData);
+
+    HI_S32 SVP_NNIE_Ssd_DetectionOutForward(HI_U32 u32ConcatNum,
+                                            HI_U32 u32ConfThresh,HI_U32 u32ClassNum, HI_U32 u32TopK, HI_U32 u32KeepTopK, HI_U32 u32NmsThresh,
+                                            HI_U32 au32DetectInputChn[], HI_S32* aps32AllLocPreds[], HI_S32* aps32AllPriorBoxes[],
+                                            HI_S32* ps32ConfScores, HI_S32* ps32AssistMemPool, HI_S32* ps32DstScoreSrc,
+                                            HI_S32* ps32DstBboxSrc, HI_S32* ps32RoiOutCntSrc);
 
     HI_S32 SVP_NNIE_FillForwardInfo();
 
@@ -287,7 +285,7 @@ public:
     HI_S32 SAMPLE_SVP_NNIE_Ssd_GetResult(SVP_NNIE_PARAM_S *pstNnieParam,
                                          SVP_NNIE_SSD_SOFTWARE_PARAM_S *pstSoftwareParam);
 
-    void infer_run();
+
 
     int show(UINT32 idx, char *app_name, UINT64 pts);
 
