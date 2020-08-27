@@ -21,7 +21,7 @@ using namespace std;
 
 int main() {
     int ret;
-    int duration_num = 12;//每次只取duration_num帧数据
+    int duration_num = 1;//每次只取duration_num帧数据
     char app_name[100] = "NNIE_tutorial";
     ArrayQueue array_queue(25, sizeof(SDC_YUV_DATA_S));
     /* 申请视频服务,构造函数会执行 注册服务 + 申请yuv_channel id + 导入队列*/
@@ -42,7 +42,7 @@ int main() {
 
 /*--- 1 加载SSD模型---------------------------------------------------------------------------------------------------*/
 //NNIE_ssd3d_12input_with_norm_inst ssd_mask_inst0909
-    char model_file[100] = "./NNIE_ssd3d_12input_with_norm_inst.wk";
+    char model_file[100] = "./ssd_mask_inst0909.wk";
     ret = algorithm_service.SDC_load_model(model_file, 1);
     if (ret < 0) {
         DEBUG_LOG("ERR:SDC_load_model failed.");
@@ -53,7 +53,7 @@ int main() {
                  &utils_service,
                  &event_service,
                  algorithm_service.get_model(),
-                 duration_num,9,300, 300, 0.3);
+                 duration_num,21,300, 300, 0.3);
 
     /*模型初始化*/
     ret = ssd.ssd_param_init(1, 0);
@@ -73,45 +73,19 @@ int main() {
     //取出数据并释放
 
     UINT32 box_num;
-    char file_name[100];
-    long long frame_idx_f=-1, frame_idx_p=-1;
-    int idx,frame_increment;
+    int idx;
     SDC_YUV_DATA_S yuv_data[duration_num];
     SDC_YUV_FRAME_S rgb_data[duration_num];//储存转换后的rgb数据
     VW_YUV_FRAME_S input_rgb_data[duration_num];
     /*将前端摄像头获取的数据与后端的模型输入blob进行地址连接,后端的模型将会从该地址拷贝数据作为模型输入*/
     ssd.data_connect(input_rgb_data);
     /*使用线程循环执行前向推导*/
-
     int loop_condition = 1;
     while (loop_condition) {
-        ret = video_service.get_data_from_queue(yuv_data, duration_num, &frame_idx_p);
+        ret = video_service.get_data_from_queue(yuv_data, duration_num,NULL);
         if (ret == PAS) {
-            /*首次取数据,没有可以复用的,增量固定为duration num*/
-            if (frame_idx_f==-1) {
-                frame_increment = duration_num;
-            } else{
-                /*获取帧数变化量,判断哪些数据是可以复用的*/
-                frame_increment = (int)(frame_idx_p-frame_idx_f);
-            };
-            /*更新前索引*/
-            frame_idx_f = frame_idx_p;
-            frame_increment = frame_increment>duration_num?duration_num:frame_increment;
-            DEBUG_LOG("INFO:frame increment value is: %i",frame_increment);
-            frame_increment=12;
-            /*首先释放不可复用数据的内存*/
-            for(idx = 0;idx<frame_increment;idx++) algorithm_service.SDC_TransYUV2RGBRelease(&rgb_data[idx]);
-            /*可以复用的数据前移*/
-            for(idx = 0; idx<(duration_num-frame_increment);idx++){
-//                DEBUG_LOG("前移复用数据, %i移动至%i,",frame_increment+idx,idx);
-                /*可以复用的数据前移*/
-                memcpy((void*)&rgb_data[idx],(void*)&rgb_data[frame_increment+idx], sizeof(SDC_YUV_FRAME_S));
-//                rgb_data[idx] = rgb_data[frame_increment+idx];
-                /*将可以复用的数据,重新储存在SDC_YUV_FRAME_S数据结构中*/
-                VideoService::SDC_Struct2RGB(&rgb_data[idx], &input_rgb_data[idx]);
-            }
             /*补充新数据*/
-            for (idx = (duration_num-frame_increment); idx < duration_num; idx++) {
+            for (idx = 0; idx < duration_num; idx++) {
 //                DEBUG_LOG("添加新数据,idx:%i",idx);
                 /*将YUV420SP数据转为RGB*/
                 ret = algorithm_service.SDC_TransYUV2RGB(&yuv_data[idx].frame, &rgb_data[idx]);
@@ -129,6 +103,8 @@ int main() {
 
 /*--- 4 获得结果------------------------------------------------------------------------------------------------------*/
             ssd.show(box_num,app_name,yuv_data[duration_num-1].pts);
+            /*释放转换后的rgb数据内存*/
+            for(idx = 0;idx<duration_num;idx++) algorithm_service.SDC_TransYUV2RGBRelease(&rgb_data[idx]);
             /*释放YUV420SP数据的内存空间*/
             video_service.release_yuv(&yuv_data[0]);
 
