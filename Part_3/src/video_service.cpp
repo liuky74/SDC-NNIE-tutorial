@@ -248,12 +248,11 @@ void* VideoService::read_camera_data_run(){
                     /*将数据放入队列中*/
                     for (idx = 0; idx < yuv_data_num; idx++) {
                         ret = m_video_queue->put(&yuv_data[idx]);
-                        /*放入失败时(比如队列已满)则直接释放sdc上的内存*/
+                        /*放入失败时,如果是队列已满则弹出队首数据后再次存放数据*/
                         if (ret < 0) {
                             if(ret == QUEUE_FULL){
                             /*如果队列已满,则弹出队首释放*/
                                 m_video_queue->get(&remove_yuv_data,1,NULL);
-                                DEBUG_LOG("QUEUE_FULL");
                                 release_yuv(&remove_yuv_data);
                                 ret = m_video_queue->put(&yuv_data[idx]);
                                 if(ret<0){
@@ -262,6 +261,7 @@ void* VideoService::read_camera_data_run(){
                                     release_yuv(&yuv_data[idx]);
                                 }
                             } else{
+                                /*其他情况则输出警告信息并直接释放存放数据内存*/
                                 DEBUG_LOG("WARN:save yuv_data in queue failed, release data and continue.");
                                 release_yuv(&yuv_data[idx]);
                             }
@@ -281,13 +281,13 @@ void* VideoService::read_camera_data_run(){
     DEBUG_LOG("INFO: Reading stopped.");
     return NULL ;
 }
-int VideoService::get_data_from_queue(SDC_YUV_DATA_S* yuv_data,int duration_num){
+int VideoService::get_data_from_queue(SDC_YUV_DATA_S* yuv_data,int duration_num,long long *frame_idx=NULL){
     /*将保存在queue中的YUV_420SP格式的数据取出,并放入指针指向的内存空间中
      * yuv_data 用于保存数据的指针
-     * duration_num 需要连续取多少帧,注意yuv_data的内从空间必须大于duration_num*sizeof(SDC_YUV_DATA_S)
+     * duration_num 需要连续取多少帧,注意yuv_data的内存空间必须大于duration_num*sizeof(SDC_YUV_DATA_S)
      * */
     int ret;
-    ret = m_video_queue->get(yuv_data,duration_num,&m_frame_idx);
+    ret = m_video_queue->get(yuv_data,duration_num,frame_idx);
     /*取数据是有可能失败的,比如队列中为空时,但是队列为空并不表示程序出错*/
     if (ret == QUEUE_EMPTY) {
         DEBUG_LOG("WARN: queue is empty, get data from queue failed,ret is: %i",ret);

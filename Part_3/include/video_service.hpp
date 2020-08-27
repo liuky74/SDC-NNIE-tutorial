@@ -46,7 +46,7 @@ public:
 
     void* read_camera_data_run();
 
-    int get_data_from_queue(SDC_YUV_DATA_S* yuv_data,int duration_num);
+    int get_data_from_queue(SDC_YUV_DATA_S* yuv_data,int duration_num,long long *frame_idx);
 
     static void SDC_Struct2RGB(SDC_YUV_FRAME_S *pstSdcRGBFrame, VW_YUV_FRAME_S *pstRGBFrameData);
 

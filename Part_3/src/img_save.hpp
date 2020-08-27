@@ -13,7 +13,7 @@ class SaveImgTxt{
 public:
     static void int2char(uint8_t *intData, char *charData);
     static void char2int(char *charData, uint8_t *intData);
-    static int SDC_RGB_save(SDC_YUV_FRAME_S *yuv_rgb_s);
+    static int SDC_RGB_save(SDC_YUV_FRAME_S *yuv_rgb_s, char* file_name);
 
     static int SDC_RGB_save(VW_YUV_FRAME_S *yuv_rgb_s);
     static int SDC_RGB_save(char *data_add, unsigned int width, unsigned height,char *file_name);

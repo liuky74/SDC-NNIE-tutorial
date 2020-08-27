@@ -1640,7 +1640,7 @@ HI_S32 SSDModel::SAMPLE_SVP_NNIE_FillSrcData(SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S*
     rgb_adds = m_nnie_cfg->rgb_adds;
     for(u32NodeIdx=0;u32NodeIdx<u32NodeIdxs;u32NodeIdx++){
         /*取出图像数据的指针*/
-        DEBUG_LOG("SAMPLE_SVP_NNIE_FillSrcData u32NodeIdx:%i",u32NodeIdx);
+//        DEBUG_LOG("SAMPLE_SVP_NNIE_FillSrcData u32NodeIdx:%i",u32NodeIdx);
         pu8BGR = (HI_U8*)(rgb_adds+u32NodeIdx)->pYuvImgAddr;
 //        char file_name[100];
 //        sprintf(file_name,"video_img_%i.txt",u32NodeIdx);

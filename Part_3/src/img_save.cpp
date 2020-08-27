@@ -23,9 +23,9 @@ void SaveImgTxt::char2int(char *charData, uint8_t *intData) {
 
 
 
-int SaveImgTxt::SDC_RGB_save(SDC_YUV_FRAME_S *yuv_rgb_s) {
+int SaveImgTxt::SDC_RGB_save(SDC_YUV_FRAME_S *yuv_rgb_s,char* file_name) {
     //保存图像数据
-    FILE *img_file = fopen("./img.txt", "w");
+    FILE *img_file = fopen(file_name, "w");
     char charPixel_data[4] = "000";
 
     uint32_t item_size = sizeof(uint8_t);
@@ -48,7 +48,6 @@ int SaveImgTxt::SDC_RGB_save(SDC_YUV_FRAME_S *yuv_rgb_s) {
     fclose(img_file);
     printf("close file\n");
     fflush(stdout);
-    exit(0);
     return PAS;
 };
 

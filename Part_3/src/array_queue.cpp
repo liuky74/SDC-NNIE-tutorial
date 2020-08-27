@@ -23,13 +23,13 @@ ArrayQueue::~ArrayQueue() {
 int ArrayQueue::put(void *item) {
     /*先判断+1后是否队列已满,不为满则添加数据*/
     pthread_mutex_lock(&m_mutex);
-    /*整体数据下标这个参数用于判断我们是否由于处理不及时漏掉了一部分视频帧,因此无论如何都要+1*/
-    m_data_idx++;
     int ret = PAS;
     int next = (m_capacity + m_write_idx + 1) % m_capacity;
     if (next == m_read_idx) {
         ret = QUEUE_FULL;
     } else {
+        /*整体数据下标这个参数表示这是进入序列的第几个数据*/
+        m_data_idx++;
         void *ptr = m_buff + m_write_idx * m_item_size;
         memcpy(ptr, item, m_item_size);
         m_write_idx = next;
@@ -48,7 +48,6 @@ int ArrayQueue::get(void *item, int num = 1, long long *data_idx = NULL) {
     if ((m_read_idx == m_write_idx) || (m_write_idx + m_capacity - m_read_idx) % m_capacity < num) {
         ret = QUEUE_EMPTY;
     } else {
-        DEBUG_LOG("m_read_idx: %i", m_read_idx);
         read_idx = m_read_idx;
         for (idx = 0; idx < num; idx++) {
             ptr = m_buff + read_idx * m_item_size;
