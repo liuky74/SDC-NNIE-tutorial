@@ -35,7 +35,7 @@ public:
 
     int SDC_ModelDecript(SDC_MMZ_ALLOC_S *pstMmzAddr);
 
-    int SDC_Nnie_Forward(sdc_nnie_forward_s *p_sdc_nnie_forward);
+    int SDC_Nnie_Forward(SDC_NNIE_FORWARD_S *p_sdc_nnie_forward);
 
 };
 

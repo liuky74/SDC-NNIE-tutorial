@@ -155,15 +155,15 @@ typedef struct sdc_nnie_forward_ctrl_stru
     uint32_t max_batch_num;
     uint32_t max_bbox_num;
     uint32_t reserve;
-}sdc_nnie_forward_ctrl_s;
+}SDC_NNIE_FORWARD_CTRL_S;
 
 typedef struct
 {
     SVP_NNIE_MODEL_S model;
-    sdc_nnie_forward_ctrl_s forward_ctrl;
+    SDC_NNIE_FORWARD_CTRL_S forward_ctrl;
     SVP_SRC_BLOB_S astSrc[16];
     SVP_DST_BLOB_S astDst[16];
-}sdc_nnie_forward_s;
+}SDC_NNIE_FORWARD_S;
 
 typedef struct
 {

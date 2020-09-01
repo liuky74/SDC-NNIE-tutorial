@@ -258,7 +258,7 @@ int AlgorithmService::SDC_TransYUV2RGBRelease(SDC_YUV_FRAME_S *rgb) {
     return PAS;
 }
 
-int AlgorithmService::SDC_Nnie_Forward(sdc_nnie_forward_s *p_sdc_nnie_forward)
+int AlgorithmService::SDC_Nnie_Forward(SDC_NNIE_FORWARD_S *p_sdc_nnie_forward)
 {
     int nRet;
     SDC_COMMON_HEAD_S rsp_head;

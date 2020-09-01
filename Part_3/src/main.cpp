@@ -22,7 +22,7 @@ using namespace std;
 int main() {
     int ret;
     int duration_num = 1;//每次只取duration_num帧数据
-    char app_name[100] = "NNIE_tutorial";
+    char app_name[100] = "NNIE_tutorial";/*app的名字,必须与封包时的app名相同,否则无法显示检测框*/
     ArrayQueue array_queue(25, sizeof(SDC_YUV_DATA_S));
     /* 申请视频服务,构造函数会执行 注册服务 + 申请yuv_channel id + 导入队列*/
     VideoService video_service(&array_queue);
@@ -117,6 +117,4 @@ int main() {
     while (1) {
         sleep(5);
     }
-
-    printf("End\n");
 }

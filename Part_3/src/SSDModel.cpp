@@ -1514,7 +1514,7 @@ HI_S32 SSDModel::SAMPLE_SVP_NNIE_Forward(
 {
     HI_S32 s32Ret = HI_SUCCESS;
     HI_U32 i = 0, j = 0;
-    sdc_nnie_forward_s sdc_nnie_forward;
+    SDC_NNIE_FORWARD_S sdc_nnie_forward;
 
     /*set input blob according to node name*/
     if(pstInputDataIdx->u32SegIdx != pstProcSegIdx->u32SegIdx)
