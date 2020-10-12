@@ -2179,7 +2179,7 @@ int SSDModel::infer(){
             infer_params.astMetaInfo[idx].usY = pstResult->pObjInfo[i].y_top*10000/InputSize->ImageHeight;
             infer_params.astMetaInfo[idx].usWidth = pstResult->pObjInfo[i].w*10000/InputSize->ImageWidth;
             infer_params.astMetaInfo[idx].usHeight = pstResult->pObjInfo[i].h*10000/InputSize->ImageHeight;
-
+            infer_params.astMetaInfo[idx].confidence = pstResult->pObjInfo[i].confidence;
             idx++;
             //break;
         }
@@ -2294,7 +2294,7 @@ int SSDModel::show(UINT32 idx,char* app_name,UINT64 pts) {
                     *(uint32_t *)pcTemp = iTagLen;//len
                     pcTemp += sizeof(uint32_t);
 
-                    strcpy_s(pcTemp, 127, "cls1");
+                    strcpy_s(pcTemp, 127, "mark");
                     pcTemp += iTagLen;
 
                     break;
@@ -2304,7 +2304,70 @@ int SSDModel::show(UINT32 idx,char* app_name,UINT64 pts) {
                     *(uint32_t *)pcTemp = iTagLen;//len
                     pcTemp += sizeof(uint32_t);
 
-                    strcpy_s(pcTemp, 127, "cls2");
+                    strcpy_s(pcTemp, 127, "smoke");
+                    pcTemp += iTagLen;
+
+                    break;
+                case 3:
+                    iTagLen = 20;//sizeof("未戴安全帽");
+                    *(uint32_t *)pcTemp = iTagLen;//len
+                    pcTemp += sizeof(uint32_t);
+
+                    strcpy_s(pcTemp, 127, "smoke_gray");
+                    pcTemp += iTagLen;
+
+                    break;
+                case 4:
+                    iTagLen = 20;//sizeof("未戴安全帽");
+                    *(uint32_t *)pcTemp = iTagLen;//len
+                    pcTemp += sizeof(uint32_t);
+
+                    strcpy_s(pcTemp, 127, "vehicle");
+                    pcTemp += iTagLen;
+
+                    break;
+                case 5:
+                    iTagLen = 20;//sizeof("未戴安全帽");
+                    *(uint32_t *)pcTemp = iTagLen;//len
+                    pcTemp += sizeof(uint32_t);
+
+                    strcpy_s(pcTemp, 127, "vehicle");
+                    pcTemp += iTagLen;
+
+                    break;
+                case 6:
+                    iTagLen = 20;//sizeof("未戴安全帽");
+                    *(uint32_t *)pcTemp = iTagLen;//len
+                    pcTemp += sizeof(uint32_t);
+
+                    strcpy_s(pcTemp, 127, "vehicle");
+                    pcTemp += iTagLen;
+
+                    break;
+                case 7:
+                    iTagLen = 20;//sizeof("未戴安全帽");
+                    *(uint32_t *)pcTemp = iTagLen;//len
+                    pcTemp += sizeof(uint32_t);
+
+                    strcpy_s(pcTemp, 127, "vehicle");
+                    pcTemp += iTagLen;
+
+                    break;
+                case 8:
+                    iTagLen = 20;//sizeof("未戴安全帽");
+                    *(uint32_t *)pcTemp = iTagLen;//len
+                    pcTemp += sizeof(uint32_t);
+
+                    strcpy_s(pcTemp, 127, "vehicle");
+                    pcTemp += iTagLen;
+
+                    break;
+                case 9:
+                    iTagLen = 20;//sizeof("未戴安全帽");
+                    *(uint32_t *)pcTemp = iTagLen;//len
+                    pcTemp += sizeof(uint32_t);
+
+                    strcpy_s(pcTemp, 127, "vehicle");
                     pcTemp += iTagLen;
 
                     break;
@@ -2340,7 +2403,7 @@ int SSDModel::show(UINT32 idx,char* app_name,UINT64 pts) {
             /*先增加置信度内容*/
 
             memset_s(auTempBuf, 32,0,32);
-            sprintf(auTempBuf, "Conf: %2.2f%%", (float)astMetaInfo[i].confidence*100);
+            sprintf(auTempBuf, "Conf: %2.2f", (float)astMetaInfo[i].confidence);
 
             iTagLen = sizeof(auTempBuf);
             *(uint32_t *)pcTemp = iTagLen;//len

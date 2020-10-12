@@ -21,8 +21,8 @@ using namespace std;
 
 int main() {
     int ret;
-    int duration_num = 1;//每次只取duration_num帧数据
-    char app_name[100] = "NNIE_tutorial";/*app的名字,必须与封包时的app名相同,否则无法显示检测框*/
+    int duration_num = 12;//每次只取duration_num帧数据
+    char app_name[100] = "SmokeDetect";/*app的名字,必须与封包时的app名相同,否则无法显示检测框*/
     ArrayQueue array_queue(25, sizeof(SDC_YUV_DATA_S));
     /* 申请视频服务,构造函数会执行 注册服务 + 申请yuv_channel id + 导入队列*/
     VideoService video_service(&array_queue);
@@ -42,7 +42,7 @@ int main() {
 
 /*--- 1 加载SSD模型---------------------------------------------------------------------------------------------------*/
 //NNIE_ssd3d_12input_with_norm_inst ssd_mask_inst0909
-    char model_file[100] = "./ssd_mask_inst0909.wk";
+    char model_file[100] = "./res/model/NNIE_ssd3d_12input_with_norm_inst.wk";
     ret = algorithm_service.SDC_load_model(model_file, 1);
     if (ret < 0) {
         DEBUG_LOG("ERR:SDC_load_model failed.");
@@ -53,7 +53,7 @@ int main() {
                  &utils_service,
                  &event_service,
                  algorithm_service.get_model(),
-                 duration_num,21,300, 300, 0.3);
+                 duration_num,9,300, 300, 0.6);
 
     /*模型初始化*/
     ret = ssd.ssd_param_init(1, 0);
