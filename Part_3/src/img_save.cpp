@@ -105,7 +105,7 @@ int SaveImgTxt::SDC_RGB_save(char *data_add, unsigned int width, unsigned height
     fclose(img_file);
     printf("close file\n");
     fflush(stdout);
-//    exit(0);
+    exit(0);
     return PAS;
 };
 
@@ -150,19 +150,20 @@ int SaveImgTxt::SDC_RGB_save(HI_U8 *r_pts,HI_U8 *g_pts,HI_U8 *b_pts, unsigned in
 int SaveImgTxt::SDC_RGB_read(HI_U8 *ptr, char *file_name, int height, int width,int channel) {
     uint8_t number_u8=0;
     FILE *img_file = fopen(file_name,"r");
-    char charNumber[4];
+    char charNumber[4]="000";
     char charValue='0';
     int c_idx,h_idx,w_idx;
+    int pixel_idx=0;
     for(c_idx=0;c_idx<channel;c_idx++){
         for(h_idx=0;h_idx<height;h_idx++){
             for(w_idx=0;w_idx<width;w_idx++){
-                int pixel_idx=0;
                 for(pixel_idx=0;;pixel_idx++){
                     charValue = (char)fgetc(img_file);
                     if(charValue == ',') break;
                     charNumber[pixel_idx] = charValue;
                 }
                 char2int(charNumber,&number_u8);
+//                printf("befor transform: %s,aft transform: %i\n",charNumber,number_u8);
                 *(ptr+c_idx*height*width+h_idx*width+w_idx) = number_u8;
             }
         }

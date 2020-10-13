@@ -1626,28 +1626,45 @@ HI_S32 SSDModel::SAMPLE_SVP_NNIE_FillSrcData(SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S*
     HI_U8 *pu8BGR = HI_NULL;
     VW_YUV_FRAME_S *rgb_adds=HI_NULL;
     HI_U8 *pu8YUV = HI_NULL;
-    HI_BOOL bRBG2BGR = HI_TRUE;
+//    HI_BOOL bRBG2BGR = HI_TRUE;
+    HI_BOOL bRBG2BGR = HI_FALSE;
 
-    // RBG => BGR
+    // 摄像头输入的图像格式为RBG，获取各个通道头地址
 #define B_BASE_OFFSET (1*u32Stride*u32Height)
 #define G_BASE_OFFSET (2*u32Stride*u32Height)
 #define R_BASE_OFFSET (0*u32Stride*u32Height)
+
     HI_U8 *p_B_data = HI_NULL;
     HI_U8 *p_G_data = HI_NULL;
     HI_U8 *p_R_data = HI_NULL;
 
     /*储存了rgb数据的VM_YUV_FRAME头指针*/
     rgb_adds = m_nnie_cfg->rgb_adds;
+    /*todo 临时变量，用于读取txt格式的图片*/
+    int cur_img_idx = img_txt_idx;
+//    if(cur_img_idx>23){
+//        exit(0);
+//    }
+    img_txt_idx++;
+    printf("cur_img_idx:%i\n",cur_img_idx);
+    /*todo ---end---*/
     for(u32NodeIdx=0;u32NodeIdx<u32NodeIdxs;u32NodeIdx++){
         /*取出图像数据的指针*/
 //        DEBUG_LOG("SAMPLE_SVP_NNIE_FillSrcData u32NodeIdx:%i",u32NodeIdx);
         pu8BGR = (HI_U8*)(rgb_adds+u32NodeIdx)->pYuvImgAddr;
-//        char file_name[100];
-//        sprintf(file_name,"video_img_%i.txt",u32NodeIdx);
-//        SaveImgTxt::SDC_RGB_read(pu8BGR,file_name,300,304,3);
+
+        /*todo 临时变量，用于读取txt格式的图片*/
+        char file_name[100];
+        sprintf(file_name,"./video_imgs/video_img_%i.txt",cur_img_idx-23+u32NodeIdx*2);
+//        sprintf(file_name,"./video2_imgs/video_img_%i.txt",u32NodeIdx);
+        printf("loading img_txt file:%s\n",file_name);
+        SaveImgTxt::SDC_RGB_read(pu8BGR,file_name,300,304,3);
+//        char save_img_txt_file_path[100];
+//        sprintf(save_img_txt_file_path,"./save_img_%i.txt",u32NodeIdx);
+//        SaveImgTxt::SDC_RGB_save((char *)pu8BGR,304,300,save_img_txt_file_path);
+        /*todo ---end---*/
 
         /*get data size*/
-
         if(SVP_BLOB_TYPE_U8 <= m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].enType &&
            SVP_BLOB_TYPE_YVU422SP >= m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].enType)
         {
@@ -1728,6 +1745,11 @@ HI_S32 SSDModel::SAMPLE_SVP_NNIE_FillSrcData(SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S*
                     p_B_data = pu8BGR + B_BASE_OFFSET;
                     p_G_data = pu8BGR + G_BASE_OFFSET;
                     p_R_data = pu8BGR + R_BASE_OFFSET;
+                    /*todo 临时变量*/
+//                    char save_img_txt_file_path[100];
+//                    sprintf(save_img_txt_file_path,"./save_img_%i.txt",u32NodeIdx);
+//                    SaveImgTxt::SDC_RGB_save(p_R_data,p_G_data,p_B_data,304,300,save_img_txt_file_path);
+                    /*todo end*/
                 }
                 for(n = 0; n < m_nnie_param->astSegData[u32SegIdx].astSrc[u32NodeIdx].u32Num; n++)
                 {
@@ -2153,6 +2175,14 @@ int SSDModel::infer(){
     UINT32 idx=0,i=0; //统计box数量
     idx = 0;
     memset_s(infer_params.astMetaInfo,sizeof(META_INFO_S) * 10, 0, sizeof(META_INFO_S) * 10);
+
+    /*todo 临时变量*/
+    char label_file_name[100];
+    sprintf(label_file_name,"./label_files/video_img_%i.txt",img_txt_idx-1);
+    printf("save label file:%s\n",label_file_name);
+    FILE *label_file = fopen(label_file_name,"w");
+    /*todo ---end---*/
+
     for(i = 0; i < pstResult->numOfObject; i++)
     {
         if(pstResult->pObjInfo[i].confidence > infer_params.thresh)//&&  stResult.pObjInfo[i].class==2
@@ -2162,16 +2192,30 @@ int SSDModel::infer(){
             if(pstResult->pObjInfo[i].w < 0) pstResult->pObjInfo[i].w = 0;
             if(pstResult->pObjInfo[i].h < 0) pstResult->pObjInfo[i].h = 0;
 
-            printf("Object[%d] class[%u] confidece[%f] {%03d, %03d, %03d, %03d, %03d, %03d}\n",
-                   i,
-                   pstResult->pObjInfo[i].clazz,
-                   pstResult->pObjInfo[i].confidence,
-                   pstResult->pObjInfo[i].x_left,
-                   pstResult->pObjInfo[i].y_top,
-                   pstResult->pObjInfo[i].x_right,
-                   pstResult->pObjInfo[i].y_bottom,
-                   pstResult->pObjInfo[i].w,
-                   pstResult->pObjInfo[i].h);
+//            printf("Object[%d] class[%u] confidece[%f] {%03d, %03d, %03d, %03d, %03d, %03d}\n",
+//                   i,
+//                   pstResult->pObjInfo[i].clazz,
+//                   pstResult->pObjInfo[i].confidence,
+//                   pstResult->pObjInfo[i].x_left,
+//                   pstResult->pObjInfo[i].y_top,
+//                   pstResult->pObjInfo[i].x_right,
+//                   pstResult->pObjInfo[i].y_bottom,
+//                   pstResult->pObjInfo[i].w,
+//                   pstResult->pObjInfo[i].h);
+            char box_str[200];
+            sprintf(box_str,"Object[%d] class[%u] confidece[%f] {%03d, %03d, %03d, %03d, %03d, %03d}\n",
+                     i,
+                     pstResult->pObjInfo[i].clazz,
+                     pstResult->pObjInfo[i].confidence,
+                     pstResult->pObjInfo[i].x_left,
+                     pstResult->pObjInfo[i].y_top,
+                     pstResult->pObjInfo[i].x_right,
+                     pstResult->pObjInfo[i].y_bottom,
+                     pstResult->pObjInfo[i].w,
+                     pstResult->pObjInfo[i].h);
+            fputs(box_str,label_file);
+
+
 
             //#else
             infer_params.astMetaInfo[idx].uclazz = pstResult->pObjInfo[i].clazz;
@@ -2184,6 +2228,8 @@ int SSDModel::infer(){
             //break;
         }
     }
+    /*todo 临时变量*/
+    fclose(label_file);
 
 
     return idx;
