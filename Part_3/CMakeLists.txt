@@ -19,3 +19,4 @@ add_executable(NNIE_tutorial ${SRCS})
 
 target_link_libraries(NNIE_tutorial pthread m dl)
 target_link_libraries(NNIE_tutorial ${LIBS})
+

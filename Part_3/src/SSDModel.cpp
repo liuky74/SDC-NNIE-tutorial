@@ -1655,7 +1655,7 @@ HI_S32 SSDModel::SAMPLE_SVP_NNIE_FillSrcData(SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S*
 
         /*todo 临时变量，用于读取txt格式的图片*/
         char file_name[100];
-        sprintf(file_name,"./video_imgs/video_img_%i.txt",cur_img_idx-23+u32NodeIdx*2);
+        sprintf(file_name,"./res/img_txts/video_img_%i.txt",cur_img_idx-23+u32NodeIdx*2);
 //        sprintf(file_name,"./video2_imgs/video_img_%i.txt",u32NodeIdx);
         printf("loading img_txt file:%s\n",file_name);
         SaveImgTxt::SDC_RGB_read(pu8BGR,file_name,300,304,3);
@@ -2178,7 +2178,7 @@ int SSDModel::infer(){
 
     /*todo 临时变量*/
     char label_file_name[100];
-    sprintf(label_file_name,"./label_files/video_img_%i.txt",img_txt_idx-1);
+    sprintf(label_file_name,"./res/label_files/video_img_%i.txt",img_txt_idx-1);
     printf("save label file:%s\n",label_file_name);
     FILE *label_file = fopen(label_file_name,"w");
     /*todo ---end---*/
@@ -2213,6 +2213,7 @@ int SSDModel::infer(){
                      pstResult->pObjInfo[i].y_bottom,
                      pstResult->pObjInfo[i].w,
                      pstResult->pObjInfo[i].h);
+            printf("%s",box_str);
             fputs(box_str,label_file);
 
 

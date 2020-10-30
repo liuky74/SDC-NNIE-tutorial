@@ -168,5 +168,6 @@ int SaveImgTxt::SDC_RGB_read(HI_U8 *ptr, char *file_name, int height, int width,
             }
         }
     }
+    fclose(img_file);
     return PAS;
 }
