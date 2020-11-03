@@ -251,6 +251,7 @@ void* VideoService::read_camera_data_run(){
                         /*放入失败时,如果是队列已满则弹出队首数据后再次存放数据*/
                         if (ret < 0) {
                             if(ret == QUEUE_FULL){
+                                DEBUG_LOG("WARN:QUEUE FULL");
                             /*如果队列已满,则弹出队首释放*/
                                 m_video_queue->get(&remove_yuv_data,1,NULL);
                                 release_yuv(&remove_yuv_data);

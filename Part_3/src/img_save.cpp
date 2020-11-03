@@ -105,7 +105,7 @@ int SaveImgTxt::SDC_RGB_save(char *data_add, unsigned int width, unsigned height
     fclose(img_file);
     printf("close file\n");
     fflush(stdout);
-    exit(0);
+//    exit(0);
     return PAS;
 };
 
@@ -168,5 +168,6 @@ int SaveImgTxt::SDC_RGB_read(HI_U8 *ptr, char *file_name, int height, int width,
             }
         }
     }
+    fclose(img_file);
     return PAS;
 }

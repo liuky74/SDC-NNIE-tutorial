@@ -257,7 +257,7 @@ int AlgorithmService::SDC_TransYUV2RGBRelease(SDC_YUV_FRAME_S *rgb) {
 
     return PAS;
 }
-
+/*前向运算请求*/
 int AlgorithmService::SDC_Nnie_Forward(SDC_NNIE_FORWARD_S *p_sdc_nnie_forward)
 {
     int nRet;
@@ -283,7 +283,7 @@ int AlgorithmService::SDC_Nnie_Forward(SDC_NNIE_FORWARD_S *p_sdc_nnie_forward)
         DEBUG_LOG("ERR:failed to write info to NNIE Forward,nRet:%d!",nRet);
         return ERR;
     }
-    // read response
+    // read response 读取返回值
     iov[0].iov_base = &rsp_head;
     iov[0].iov_len = sizeof(rsp_head);
     nRet = readv(m_fd_algorithm, iov, 1);

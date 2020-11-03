@@ -23,7 +23,7 @@ int main() {
     int ret;
     int duration_num = 12;//每次只取duration_num帧数据
     char app_name[100] = "SmokeDetect";/*app的名字,必须与封包时的app名相同,否则无法显示检测框*/
-    ArrayQueue array_queue(25, sizeof(SDC_YUV_DATA_S));
+    ArrayQueue array_queue(12, sizeof(SDC_YUV_DATA_S));
     /* 申请视频服务,构造函数会执行 注册服务 + 申请yuv_channel id + 导入队列*/
     VideoService video_service(&array_queue);
     /*申请工具服务,这个服务主要用于SDC的辅助操作,比如内存的申请和释放等*/
@@ -67,7 +67,7 @@ int main() {
     //设定视频通道的参数
     video_service.set_yuv_channel_param(304, 300, 12);
     //订阅数据
-    video_service.subscribe_video(50);
+    video_service.subscribe_video(12);
     //使用线程将订阅的数据不停的保存到数组队列中
     std::thread video_thread(&VideoService::read_camera_data_run, &video_service);
     //取出数据并释放
@@ -104,13 +104,17 @@ int main() {
 /*--- 4 获得结果------------------------------------------------------------------------------------------------------*/
             ssd.show(box_num,app_name,yuv_data[duration_num-1].pts);
             /*释放转换后的rgb数据内存*/
-            for(idx = 0;idx<duration_num;idx++) algorithm_service.SDC_TransYUV2RGBRelease(&rgb_data[idx]);
+            for(idx = 0;idx<duration_num;idx++){
+                algorithm_service.SDC_TransYUV2RGBRelease(&rgb_data[idx]);
+                /*释放YUV420SP数据的内存空间*/
+//                video_service.release_yuv(&yuv_data[idx]);
+            }
             /*释放YUV420SP数据的内存空间*/
             video_service.release_yuv(&yuv_data[0]);
 
         }
         //我们一秒取25帧,也就是40000微妙一帧,为了更好的观测到队列为空时的返回值,所以延迟30000微妙
-        usleep(60000);
+        usleep(30000);
 
     }
 
