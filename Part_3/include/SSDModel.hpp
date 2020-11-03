@@ -197,6 +197,7 @@ private:
     InferParams infer_params = {0};
 
     int m_done = 0;
+    int m_max_obj_num=20;
     int img_txt_idx=23;/*临时变量，用于读取txt格式的图像*/
 
     static void SVP_NNIE_GetBlobMemSize(SVP_NNIE_NODE_S *astNnieNode, HI_U32 u32NodeNum,

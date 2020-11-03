@@ -607,9 +607,12 @@ HI_S32 SSDModel::SVP_NNIE_Ssd_SoftmaxForward(HI_U32 u32SoftMaxInHeight, HI_U32 *
 
 HI_S32 SSDModel::SVP_NNIE_Ssd_DetectionOutForward(HI_U32 u32ConcatNum,
                                         HI_U32 u32ConfThresh,HI_U32 u32ClassNum, HI_U32 u32TopK, HI_U32 u32KeepTopK, HI_U32 u32NmsThresh,
-                                        HI_U32 au32DetectInputChn[], HI_S32* aps32AllLocPreds[], HI_S32* aps32AllPriorBoxes[],
-                                        HI_S32* ps32ConfScores, HI_S32* ps32AssistMemPool, HI_S32* ps32DstScoreSrc,
-                                        HI_S32* ps32DstBboxSrc, HI_S32* ps32RoiOutCntSrc)
+                                        HI_U32 au32DetectInputChn[],/*输入数据,保存了各feature map的priorbox数量*/
+                                        HI_S32* aps32AllLocPreds[],/*输入数据,各feature map的loc pred*/
+                                        HI_S32* aps32AllPriorBoxes[],/*输入数据,各feature map的priorbox坐标数据*/
+                                        HI_S32* ps32ConfScores, HI_S32* ps32AssistMemPool,
+                                        /*下面3个是用于保存最后的结果*/
+                                        HI_S32* ps32DstScoreSrc,HI_S32* ps32DstBboxSrc, HI_S32* ps32RoiOutCntSrc)
 {
     HI_S32* ps32LocPreds = NULL;
     HI_S32* ps32PriorBoxes = NULL;
@@ -699,8 +702,10 @@ HI_S32 SSDModel::SVP_NNIE_Ssd_DetectionOutForward(HI_U32 u32ConcatNum,
         }
         s32Ret = SVP_NNIE_NonRecursiveArgQuickSort(ps32SingleProposal, 0, u32PriorNum - 1, pstStack,u32TopK);
         u32AfterFilter = (u32PriorNum < u32TopK) ? u32PriorNum : u32TopK;
+        /*NMS,将重叠较高的anchor box标记出来*/
         s32Ret = SVP_NNIE_NonMaxSuppression(ps32SingleProposal, u32AfterFilter, u32NmsThresh, u32AfterFilter);
         u32RoiOutCnt = 0;
+        /*指针类型转换,这几个传入的指针都是用于保存结果的*/
         ps32DstScore = (HI_S32*)ps32DstScoreSrc;
         ps32DstBbox = (HI_S32*)ps32DstBboxSrc;
         ps32ClassRoiNum = (HI_S32*)ps32RoiOutCntSrc;
@@ -722,7 +727,6 @@ HI_S32 SSDModel::SVP_NNIE_Ssd_DetectionOutForward(HI_U32 u32ConcatNum,
         ps32ClassRoiNum[i] = (HI_S32)u32RoiOutCnt;
         u32AfterTopK += u32RoiOutCnt;
     }
-
     u32KeepCnt = 0;
     u32Offset = 0;
     if (u32AfterTopK > u32KeepTopK)
@@ -803,10 +807,11 @@ SSDModel::SSDModel(AlgorithmService *algorithm_service,
     infer_params.pstResult = &result;
 
     m_duration_num = duration_num;
-    result.numOfObject=10;
+    result.numOfObject=m_max_obj_num;
+
     result.thresh = thresh;
     /*申请内存用于保存检测结果*/
-    result.pObjInfo = (SDC_SSD_OBJECT_INFO_S *) malloc(result.numOfObject * sizeof(SDC_SSD_OBJECT_INFO_S));
+    result.pObjInfo = (SDC_SSD_OBJECT_INFO_S *) malloc(m_max_obj_num * sizeof(SDC_SSD_OBJECT_INFO_S));
 
 }
 
@@ -1516,38 +1521,16 @@ HI_S32 SSDModel::SAMPLE_SVP_NNIE_Forward(
     HI_U32 i = 0, j = 0;
     SDC_NNIE_FORWARD_S sdc_nnie_forward;
 
-    /*set input blob according to node name*/
-    if(pstInputDataIdx->u32SegIdx != pstProcSegIdx->u32SegIdx)
-    {
-        for(i = 0; i < m_nnie_param->pstModel->astSeg[pstProcSegIdx->u32SegIdx].u16SrcNum; i++)
-        {
-            for(j = 0; j < m_nnie_param->pstModel->astSeg[pstInputDataIdx->u32SegIdx].u16DstNum; j++)
-            {
-                if(0 == strncmp(m_nnie_param->pstModel->astSeg[pstInputDataIdx->u32SegIdx].astDstNode[j].szName,
-                                m_nnie_param->pstModel->astSeg[pstProcSegIdx->u32SegIdx].astSrcNode[i].szName,
-                                SVP_NNIE_NODE_NAME_LEN))
-                {
-                    m_nnie_param->astSegData[pstProcSegIdx->u32SegIdx].astSrc[i] =
-                            m_nnie_param->astSegData[pstInputDataIdx->u32SegIdx].astDst[j];
-                    break;
-                }
-            }
-            SAMPLE_SVP_CHECK_EXPR_RET((j == m_nnie_param->pstModel->astSeg[pstInputDataIdx->u32SegIdx].u16DstNum),
-                                      HI_FAILURE,SAMPLE_SVP_ERR_LEVEL_ERROR,"Error,can't find %d-th seg's %d-th src blob!\n",
-                                      pstProcSegIdx->u32SegIdx,i);
-        }
-    }
-
     /*NNIE_Forward*/
-
+    /*将模型拷贝进入sdc*/
     memcpy(&sdc_nnie_forward.model, m_nnie_param->pstModel, sizeof(SVP_NNIE_MODEL_S));
     sdc_nnie_forward.forward_ctrl.max_batch_num = 1;
     sdc_nnie_forward.forward_ctrl.max_bbox_num = 0;/*此处需要根据算法模型的ROI个数决定，max_bbox_num = max_roi_num(ROI个数)*/
     sdc_nnie_forward.forward_ctrl.netseg_id = m_nnie_param->astForwardCtrl[pstProcSegIdx->u32SegIdx].u32NetSegId;
-
+    /*拷贝输入输出数据,最多16个blob*/
     memcpy(sdc_nnie_forward.astSrc, m_nnie_param->astSegData[pstProcSegIdx->u32SegIdx].astSrc, 16 * sizeof(SVP_DST_BLOB_S));
     memcpy(sdc_nnie_forward.astDst, m_nnie_param->astSegData[pstProcSegIdx->u32SegIdx].astDst, 16 * sizeof(SVP_DST_BLOB_S));
-
+    /*单次前向运算*/
     s32Ret = m_algorithm_service->SDC_Nnie_Forward(&sdc_nnie_forward);
     if(s32Ret != PAS)
     {
@@ -1562,7 +1545,7 @@ int SSDModel::SDC_SVP_ForwardBGR(
         SDC_SSD_RESULT_S *pstResult
         ){
     HI_S32 s32Ret = HI_SUCCESS;
-    SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S stInputDataIdx = {0};
+    SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S stInputDataIdx = {0};/*模型的输入blob对应的数据地址*/
     SAMPLE_SVP_NNIE_PROCESS_SEG_INDEX_S stProcSegIdx = {0};
     struct timespec time1 = {0, 0};
     struct timespec time2 = {0, 0};
@@ -1573,12 +1556,14 @@ int SSDModel::SDC_SVP_ForwardBGR(
     m_nnie_cfg->pszPic = HI_NULL;
     m_nnie_cfg->pszYUV = HI_NULL;
 //    m_nnie_cfg->pszBGR = pcSrcBGR;
+    /*调出rgb数据结构体*/
     m_nnie_cfg->rgb_adds = infer_params.rgb_img;
+    /*调出保存rgb数据的指针*/
     m_nnie_cfg->pszBGR = infer_params.rgb_img->pYuvImgAddr;
 
-    /*Fill src data*/
+    /*Fill src data填充数据*/
     //  SAMPLE_SVP_TRACE_INFO("Ssd start!\n");
-    stInputDataIdx.u32SegIdx = 0;
+    stInputDataIdx.u32SegIdx = 0;/*一般来说seg都只有1个*/
     stInputDataIdx.u32Node_num = m_duration_num;
     stInputDataIdx.u32NodeIdx = 0;
     /*从data_connect获取到的数据地址中拷贝数据到模型的输入blob的数据内存地址中*/
@@ -1587,7 +1572,7 @@ int SSDModel::SDC_SVP_ForwardBGR(
     /*前向推导*/
     clock_gettime(CLOCK_BOOTTIME, &time1);
     stProcSegIdx.u32SegIdx = 0;
-    s32Ret = SAMPLE_SVP_NNIE_Forward(&stInputDataIdx,&stProcSegIdx);
+    s32Ret = SAMPLE_SVP_NNIE_Forward(&stInputDataIdx,&stProcSegIdx);/*推导的结果保存在m_nnie_param[astSegData]中*/
 
     clock_gettime(CLOCK_BOOTTIME, &time2);
     uiTimeCout = (unsigned int)(time2.tv_sec - time1.tv_sec)*1000 + (unsigned int)((time2.tv_nsec - time1.tv_nsec)/1000000);
@@ -1641,12 +1626,12 @@ HI_S32 SSDModel::SAMPLE_SVP_NNIE_FillSrcData(SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S*
     /*储存了rgb数据的VM_YUV_FRAME头指针*/
     rgb_adds = m_nnie_cfg->rgb_adds;
     /*todo 临时变量，用于读取txt格式的图片*/
-    int cur_img_idx = img_txt_idx;
+//    int cur_img_idx = img_txt_idx;
 //    if(cur_img_idx>23){
 //        exit(0);
 //    }
-    img_txt_idx++;
-    printf("cur_img_idx:%i\n",cur_img_idx);
+//    img_txt_idx++;
+//    printf("cur_img_idx:%i\n",cur_img_idx);
     /*todo ---end---*/
     for(u32NodeIdx=0;u32NodeIdx<u32NodeIdxs;u32NodeIdx++){
         /*取出图像数据的指针*/
@@ -1654,11 +1639,11 @@ HI_S32 SSDModel::SAMPLE_SVP_NNIE_FillSrcData(SAMPLE_SVP_NNIE_INPUT_DATA_INDEX_S*
         pu8BGR = (HI_U8*)(rgb_adds+u32NodeIdx)->pYuvImgAddr;
 
         /*todo 临时变量，用于读取txt格式的图片*/
-        char file_name[100];
-        sprintf(file_name,"./res/img_txts/video_img_%i.txt",cur_img_idx-23+u32NodeIdx*2);
-//        sprintf(file_name,"./video2_imgs/video_img_%i.txt",u32NodeIdx);
-        printf("loading img_txt file:%s\n",file_name);
-        SaveImgTxt::SDC_RGB_read(pu8BGR,file_name,300,304,3);
+//        char file_name[100];
+//        sprintf(file_name,"./res/img_txts/video_img_%i.txt",cur_img_idx-23+u32NodeIdx*2);
+//        sprintf(file_name,"./save_img_%i.txt",u32NodeIdx);
+//        printf("loading img_txt file:%s\n",file_name);
+//        SaveImgTxt::SDC_RGB_read(pu8BGR,file_name,300,304,3);
 //        char save_img_txt_file_path[100];
 //        sprintf(save_img_txt_file_path,"./save_img_%i.txt",u32NodeIdx);
 //        SaveImgTxt::SDC_RGB_save((char *)pu8BGR,304,300,save_img_txt_file_path);
@@ -2040,7 +2025,7 @@ HI_S32 SSDModel::SAMPLE_SVP_NNIE_Ssd_GetResult(SVP_NNIE_PARAM_S*pstNnieParam,
         aps32PermuteResult[i] = (HI_S32*)pstNnieParam->astSegData[0].astDst[i].u64VirAddr;
     }
 
-    /*priorbox*/
+    /*计算priorbox*/
     aps32PriorboxOutputData[0] = (HI_S32*)pstSoftwareParam->stPriorBoxTmpBuf.u64VirAddr;
     for (i = 1; i < SAMPLE_SVP_NNIE_SSD_PRIORBOX_NUM; i++)
     {
@@ -2067,12 +2052,12 @@ HI_S32 SSDModel::SAMPLE_SVP_NNIE_Ssd_GetResult(SVP_NNIE_PARAM_S*pstNnieParam,
 
     /*softmax*/
     ps32SoftMaxOutputData = (HI_S32*)pstSoftwareParam->stSoftMaxTmpBuf.u64VirAddr;
-    for(i = 0; i < SAMPLE_SVP_NNIE_SSD_SOFTMAX_NUM; i++)
+    for(i = 0; i < SAMPLE_SVP_NNIE_SSD_SOFTMAX_NUM; i++)/*6层feature map*/
     {
         aps32SoftMaxInputData[i] = aps32PermuteResult[i*2+1];
         au32SoftMaxWidth[i] = pstSoftwareParam->au32ConvChannel[i*2+1];
     }
-
+    /*softmax计算每个anchor的分类值*/
     (void)SVP_NNIE_Ssd_SoftmaxForward(pstSoftwareParam->u32SoftMaxInHeight,
                                       pstSoftwareParam->au32SoftMaxInChn, pstSoftwareParam->u32ConcatNum,
                                       pstSoftwareParam->au32ConvStride, au32SoftMaxWidth,
@@ -2089,15 +2074,20 @@ HI_S32 SSDModel::SAMPLE_SVP_NNIE_Ssd_GetResult(SVP_NNIE_PARAM_S*pstNnieParam,
                                            pstSoftwareParam->u32ConfThresh,pstSoftwareParam->u32ClassNum, pstSoftwareParam->u32TopK,
                                            pstSoftwareParam->u32KeepTopK, pstSoftwareParam->u32NmsThresh,pstSoftwareParam->au32DetectInputChn,
                                            aps32DetectionLocData, aps32PriorboxOutputData, ps32SoftMaxOutputData,
-                                           ps32DetectionOutTmpBuf, (HI_S32*)pstSoftwareParam->stDstScore.u64VirAddr,
-                                           (HI_S32*)pstSoftwareParam->stDstRoi.u64VirAddr,
-                                           (HI_S32*)pstSoftwareParam->stClassRoiNum.u64VirAddr);
+                                           ps32DetectionOutTmpBuf,
+                                           (HI_S32*)pstSoftwareParam->stDstScore.u64VirAddr,/*conf得分*/
+                                           (HI_S32*)pstSoftwareParam->stDstRoi.u64VirAddr,/*boxes*/
+                                           (HI_S32*)pstSoftwareParam->stClassRoiNum.u64VirAddr /*分类*/
+                                           );
 
     return s32Ret;
 }
 
-HI_S32 SSDModel::SDC_SVP_NNIE_Detection_GetResult(SVP_BLOB_S *pstDstScore,
-                                        SVP_BLOB_S *pstDstRoi, SVP_BLOB_S *pstClassRoiNum, SDC_SSD_RESULT_S *pstResult)
+HI_S32 SSDModel::SDC_SVP_NNIE_Detection_GetResult(
+                                        SVP_BLOB_S *pstDstScore,/*conf得分*/
+                                        SVP_BLOB_S *pstDstRoi,/*boxes坐标*/
+                                        SVP_BLOB_S *pstClassRoiNum,/*class分类*/
+                                        SDC_SSD_RESULT_S *pstResult)
 {
     HI_U32 i = 0, j = 0;
     HI_U32 u32RoiNumBias = 0;
@@ -2110,20 +2100,19 @@ HI_S32 SSDModel::SDC_SVP_NNIE_Detection_GetResult(SVP_BLOB_S *pstDstScore,
     HI_U32 u32ClassNum = pstClassRoiNum->unShape.stWhc.u32Width;
     HI_S32 s32XMin = 0,s32YMin= 0,s32XMax = 0,s32YMax = 0;
 
-    HI_S32 MaxObjectNum = pstResult->numOfObject;
+    DEBUG_LOG("numOfObject: %d",pstResult->numOfObject);
     pstResult->numOfObject = 0;
 
     u32RoiNumBias += ps32ClassRoiNum[0];
-    for (i = 1; i < u32ClassNum; i++)
+    for (i = 1; i < u32ClassNum; i++)/*根据分类规整数据,0是北京类所以跳过*/
     {
         u32ScoreBias = u32RoiNumBias;
         u32BboxBias = u32RoiNumBias * SAMPLE_SVP_NNIE_COORDI_NUM;
-        /*if the confidence score greater than result threshold, the result will be printed*/
-        if((HI_FLOAT)ps32Score[u32ScoreBias] / SAMPLE_SVP_NNIE_QUANT_BASE >=
-           pstResult->thresh && ps32ClassRoiNum[i]!=0)
-        {
-            //           SAMPLE_SVP_TRACE_INFO("==== The %dth class box info====\n", i);
-        }
+        /*todo test if the confidence score greater than result threshold, the result will be printed*/
+//        if((HI_FLOAT)ps32Score[u32ScoreBias] / SAMPLE_SVP_NNIE_QUANT_BASE >= pstResult->thresh && ps32ClassRoiNum[i]!=0)
+//        {
+//                       SAMPLE_SVP_TRACE_INFO("==== The %dth class box info====\n", i);
+//        }
         for (j = 0; j < (HI_U32)ps32ClassRoiNum[i]; j++)
         {
             f32Score = (HI_FLOAT)ps32Score[u32ScoreBias + j] / SAMPLE_SVP_NNIE_QUANT_BASE;
@@ -2135,7 +2124,7 @@ HI_S32 SSDModel::SDC_SVP_NNIE_Detection_GetResult(SVP_BLOB_S *pstDstScore,
             s32YMin = ps32Roi[u32BboxBias + j*SAMPLE_SVP_NNIE_COORDI_NUM + 1];
             s32XMax = ps32Roi[u32BboxBias + j*SAMPLE_SVP_NNIE_COORDI_NUM + 2];
             s32YMax = ps32Roi[u32BboxBias + j*SAMPLE_SVP_NNIE_COORDI_NUM + 3];
-            //SAMPLE_SVP_TRACE_INFO("%d %d %d %d %f\n", s32XMin, s32YMin, s32XMax, s32YMax, f32Score);
+            SAMPLE_SVP_TRACE_INFO("%d %d %d %d %f\n", s32XMin, s32YMin, s32XMax, s32YMax, f32Score);
             pstResult->pObjInfo[pstResult->numOfObject].clazz = i;
             pstResult->pObjInfo[pstResult->numOfObject].confidence = f32Score;
             pstResult->pObjInfo[pstResult->numOfObject].x_left = s32XMin;
@@ -2145,7 +2134,7 @@ HI_S32 SSDModel::SDC_SVP_NNIE_Detection_GetResult(SVP_BLOB_S *pstDstScore,
             pstResult->pObjInfo[pstResult->numOfObject].w = s32XMax - s32XMin;
             pstResult->pObjInfo[pstResult->numOfObject].h = s32YMax - s32YMin;
             pstResult->numOfObject += 1;
-            if(pstResult->numOfObject == MaxObjectNum)
+            if(pstResult->numOfObject == m_max_obj_num)
                 return HI_SUCCESS;
         }
         u32RoiNumBias += ps32ClassRoiNum[i];
@@ -2177,10 +2166,11 @@ int SSDModel::infer(){
     memset_s(infer_params.astMetaInfo,sizeof(META_INFO_S) * 10, 0, sizeof(META_INFO_S) * 10);
 
     /*todo 临时变量*/
-    char label_file_name[100];
-    sprintf(label_file_name,"./res/label_files/video_img_%i.txt",img_txt_idx-1);
-    printf("save label file:%s\n",label_file_name);
-    FILE *label_file = fopen(label_file_name,"w");
+    DEBUG_LOG("infer object num: %d",pstResult->numOfObject);
+//    char label_file_name[100];
+//    sprintf(label_file_name,"./res/label_files/video_img_%i.txt",img_txt_idx-1);
+//    printf("save label file:%s\n",label_file_name);
+//    FILE *label_file = fopen(label_file_name,"w");
     /*todo ---end---*/
 
     for(i = 0; i < pstResult->numOfObject; i++)
@@ -2192,29 +2182,30 @@ int SSDModel::infer(){
             if(pstResult->pObjInfo[i].w < 0) pstResult->pObjInfo[i].w = 0;
             if(pstResult->pObjInfo[i].h < 0) pstResult->pObjInfo[i].h = 0;
 
-//            printf("Object[%d] class[%u] confidece[%f] {%03d, %03d, %03d, %03d, %03d, %03d}\n",
-//                   i,
-//                   pstResult->pObjInfo[i].clazz,
-//                   pstResult->pObjInfo[i].confidence,
-//                   pstResult->pObjInfo[i].x_left,
-//                   pstResult->pObjInfo[i].y_top,
-//                   pstResult->pObjInfo[i].x_right,
-//                   pstResult->pObjInfo[i].y_bottom,
-//                   pstResult->pObjInfo[i].w,
-//                   pstResult->pObjInfo[i].h);
-            char box_str[200];
-            sprintf(box_str,"Object[%d] class[%u] confidece[%f] {%03d, %03d, %03d, %03d, %03d, %03d}\n",
-                     i,
-                     pstResult->pObjInfo[i].clazz,
-                     pstResult->pObjInfo[i].confidence,
-                     pstResult->pObjInfo[i].x_left,
-                     pstResult->pObjInfo[i].y_top,
-                     pstResult->pObjInfo[i].x_right,
-                     pstResult->pObjInfo[i].y_bottom,
-                     pstResult->pObjInfo[i].w,
-                     pstResult->pObjInfo[i].h);
-            printf("%s",box_str);
-            fputs(box_str,label_file);
+            printf("Object[%d] class[%u] confidece[%f] {%03d, %03d, %03d, %03d, %03d, %03d}\n",
+                   i,
+                   pstResult->pObjInfo[i].clazz,
+                   pstResult->pObjInfo[i].confidence,
+                   pstResult->pObjInfo[i].x_left,
+                   pstResult->pObjInfo[i].y_top,
+                   pstResult->pObjInfo[i].x_right,
+                   pstResult->pObjInfo[i].y_bottom,
+                   pstResult->pObjInfo[i].w,
+                   pstResult->pObjInfo[i].h);
+            //todo
+//            char box_str[200];
+//            sprintf(box_str,"Object[%d] class[%u] confidece[%f] {%03d, %03d, %03d, %03d, %03d, %03d}\n",
+//                     i,
+//                     pstResult->pObjInfo[i].clazz,
+//                     pstResult->pObjInfo[i].confidence,
+//                     pstResult->pObjInfo[i].x_left,
+//                     pstResult->pObjInfo[i].y_top,
+//                     pstResult->pObjInfo[i].x_right,
+//                     pstResult->pObjInfo[i].y_bottom,
+//                     pstResult->pObjInfo[i].w,
+//                     pstResult->pObjInfo[i].h);
+//            printf("%s",box_str);
+//            fputs(box_str,label_file);
 
 
 
@@ -2230,7 +2221,7 @@ int SSDModel::infer(){
         }
     }
     /*todo 临时变量*/
-    fclose(label_file);
+//    fclose(label_file);
 
 
     return idx;
@@ -2512,7 +2503,6 @@ HI_S32 SSDModel::SVP_NNIE_Overlap(HI_S32 s32XMin1, HI_S32 s32YMin1, HI_S32 s32XM
 
 HI_S32 SSDModel::SVP_NNIE_NonMaxSuppression(HI_S32 *ps32Proposals, HI_U32 u32AnchorsNum, HI_U32 u32NmsThresh,
                                             HI_U32 u32MaxRoiNum) {
-
     {
         HI_S32 s32XMin1 = 0;
         HI_S32 s32YMin1 = 0;
@@ -2531,13 +2521,13 @@ HI_S32 SSDModel::SVP_NNIE_NonMaxSuppression(HI_S32 *ps32Proposals, HI_U32 u32Anc
 //    HI_BOOL bNoOverlap  = HI_TRUE;
         for (i = 0; i < u32AnchorsNum && u32Num < u32MaxRoiNum; i++)
         {
-            if( ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+5] == 0 )
+            if( ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+5] == 0 )/*第i个anchor*/
             {
                 u32Num++;
-                s32XMin1 =  ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i];
-                s32YMin1 =  ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+1];
-                s32XMax1 =  ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+2];
-                s32YMax1 =  ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+3];
+                s32XMin1 =  ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i];/*x1*/
+                s32YMin1 =  ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+1];/*y1*/
+                s32XMax1 =  ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+2];/*x2*/
+                s32YMax1 =  ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+3];/*y2*/
                 for(j= i+1;j< u32AnchorsNum; j++)
                 {
                     if( ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+5] == 0 )
@@ -2547,7 +2537,7 @@ HI_S32 SSDModel::SVP_NNIE_NonMaxSuppression(HI_S32 *ps32Proposals, HI_U32 u32Anc
                         s32XMax2 = ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+2];
                         s32YMax2 = ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+3];
 
-                        bNoOverlap = (s32XMin2>s32XMax1)||(s32XMax2<s32XMin1)||(s32YMin2>s32YMax1)||(s32YMax2<s32YMin1);
+                        bNoOverlap = (s32XMin2>s32XMax1)||(s32XMax2<s32XMin1)||(s32YMin2>s32YMax1)||(s32YMax2<s32YMin1);/*是否重叠*/
                         if(bNoOverlap)
                         {
                             continue;
@@ -2557,11 +2547,11 @@ HI_S32 SSDModel::SVP_NNIE_NonMaxSuppression(HI_S32 *ps32Proposals, HI_U32 u32Anc
                         {
                             if( ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+4] >= ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+4] )
                             {
-                                ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+5] = 1;
+                                ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*j+5] = 1;/*标记是否要删除*/
                             }
                             else
                             {
-                                ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+5] = 1;
+                                ps32Proposals[SAMPLE_SVP_NNIE_PROPOSAL_WIDTH*i+5] = 1;/*标记是否要删除*/
                             }
                         }
                     }
