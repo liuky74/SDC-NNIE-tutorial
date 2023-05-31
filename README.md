@@ -3,7 +3,7 @@
 # NNIE_tutorial
 根据自身项目经验,结合华为的官方文档和样例写的教程,目前第三Part完整的SSD模型样例已经更新完,yolo的部分会逐步更新.
 
-###注意
+### 注意
 
 2020-12-21:感谢来自华为得认可(https://github.com/liuky74/SDC-NNIE-tutorial/issues/1) ,如果各位拿到的demo已经是C++版本的了,那么本项目仅能作为参考
 
